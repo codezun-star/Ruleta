@@ -5,10 +5,6 @@
  */
 export const BRAND = {
   name: 'Kuji',
-  /** くじ — "el papelito del sorteo". Decorativo, nunca sustituye al texto. */
-  nameJa: 'くじ',
-  /** 福 — "fortuna". Va en el eje de la ruleta y en el favicon. */
-  glyph: '福',
   domain: 'ruleta.codezun.com',
   mailbox: 'hola'
 } as const;
@@ -48,11 +44,3 @@ export const EMAIL_FROM =
 
 export const EMAIL_REPLY_TO =
   env(process.env.EMAIL_REPLY_TO) ?? `${BRAND.mailbox}@${BRAND.domain}`;
-
-/**
- * Los únicos glifos japoneses que usamos como elemento gráfico. Se piden a
- * Google Fonts con el parámetro `text`, así que el archivo pesa unos pocos KB
- * en lugar de los megas del subset japonés completo.
- */
-export const JA_GLYPHS =
-  '福引抽選大当たりお楽しみに運試し縁起祭くじ秘密交換贈一二三四五六七八九十';

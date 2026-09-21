@@ -15,5 +15,5 @@ export async function generateMetadata({
 export default async function SecretSantaPage({params}: {params: Promise<{locale: string}>}) {
   const {locale} = await params;
   setRequestLocale(locale);
-  return <WizardShell namespace="secretSanta" numeral="二" />;
+  return <WizardShell namespace="secretSanta" step={2} />;
 }

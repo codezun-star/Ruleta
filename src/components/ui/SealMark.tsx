@@ -1,8 +1,8 @@
 /**
- * Logotipo: sello hanko circular con una ruleta estilizada dentro.
- * Sin texto, para que no dependa de que una fuente haya cargado.
+ * Logotipo: sello circular con una ruleta estilizada dentro. Sin texto, para
+ * que no dependa de que una fuente haya cargado.
  */
-export function HankoMark({size = 32, className}: {size?: number; className?: string}) {
+export function SealMark({size = 32, className}: {size?: number; className?: string}) {
   return (
     <svg
       viewBox="0 0 120 120"

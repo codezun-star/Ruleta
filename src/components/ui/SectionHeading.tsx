@@ -2,17 +2,17 @@ import type {ReactNode} from 'react';
 import {cn} from '@/lib/cn';
 
 /**
- * Cabecera de sección: numeral japonés dentro de un sello rojo, rótulo en
- * versalitas y titular. El número codifica el orden real de lectura.
+ * Cabecera de sección: número dentro de un sello rojo, rótulo en versalitas y
+ * titular. El número codifica el orden real de lectura de la página.
  */
 export function SectionHeading({
-  numeral,
+  step,
   eyebrow,
   title,
   lede,
   className
 }: {
-  numeral?: string;
+  step?: number;
   eyebrow: string;
   title: ReactNode;
   lede?: ReactNode;
@@ -21,13 +21,12 @@ export function SectionHeading({
   return (
     <div className={cn('max-w-[62ch]', className)}>
       <p className="flex flex-wrap items-center gap-2.5 text-[0.72rem] font-bold tracking-[0.22em] text-vermilion-2 uppercase">
-        {numeral ? (
+        {step ? (
           <span
             aria-hidden="true"
-            className="grid size-6 shrink-0 place-items-center rounded-full bg-vermilion font-ja text-[0.8rem] text-on-vermilion"
-            lang="ja"
+            className="grid size-6 shrink-0 place-items-center rounded-full bg-vermilion font-head text-[0.7rem] font-black text-on-vermilion"
           >
-            {numeral}
+            {String(step).padStart(2, '0')}
           </span>
         ) : null}
         {eyebrow}

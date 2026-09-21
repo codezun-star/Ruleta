@@ -1,7 +1,9 @@
 @import 'tailwindcss';
 
 /*
- * Sistema de diseño "Showa Matsuri".
+ * Sistema de diseño "Feria": cartelería de rifa y tómbola latinoamericana.
+ * Tintas planas de imprenta offset, sombras duras desplazadas y trama de
+ * puntos en lugar de degradados.
  * Las tintas se declaran como propiedades personalizadas y se redefinen para
  * el modo noche; `@theme inline` las expone a Tailwind sin congelar su valor,
  * así que `bg-paper` cambia de color al cambiar de tema sin recompilar nada.
@@ -35,8 +37,9 @@
   --on-vermilion: #fff8ec; /* 4.9:1 sobre bermellón */
   --on-wood: #1b2a41; /* 4.6:1 sobre madera */
   --shadow-color: #1b2a41;
-  --lantern: #f2c45a;
-  --lantern-off: #d9c9a6;
+  /* Bombillas de la tira de luces de la ruleta. */
+  --bulb-on: #f2c45a;
+  --bulb-off: #cbb68d;
 
   --hairline: rgb(27 42 65 / 0.24);
   --halftone: rgb(27 42 65 / 0.17);
@@ -64,8 +67,8 @@
     --on-vermilion: #22120e;
     --on-wood: #1a1206;
     --shadow-color: #05080e;
-    --lantern: #ffd277;
-    --lantern-off: #3a4a5e;
+    --bulb-on: #ffd277;
+    --bulb-off: #3a4a5e;
     --hairline: rgb(242 231 209 / 0.26);
     --halftone: rgb(242 231 209 / 0.13);
     --grain-opacity: 0.28;
@@ -91,8 +94,8 @@
   --on-vermilion: #22120e;
   --on-wood: #1a1206;
   --shadow-color: #05080e;
-  --lantern: #ffd277;
-  --lantern-off: #3a4a5e;
+  --bulb-on: #ffd277;
+  --bulb-off: #3a4a5e;
   --hairline: rgb(242 231 209 / 0.26);
   --halftone: rgb(242 231 209 / 0.13);
   --grain-opacity: 0.28;
@@ -117,15 +120,13 @@
   --color-wood: var(--wood);
   --color-on-vermilion: var(--on-vermilion);
   --color-on-wood: var(--on-wood);
-  --color-lantern: var(--lantern);
-  --color-lantern-off: var(--lantern-off);
+  --color-bulb-on: var(--bulb-on);
+  --color-bulb-off: var(--bulb-off);
   --color-hairline: var(--hairline);
 
-  --font-display: var(--font-shippori), Georgia, 'Times New Roman', serif;
+  --font-display: var(--font-bevan), Georgia, 'Times New Roman', serif;
   --font-head: var(--font-fraunces), Georgia, 'Times New Roman', serif;
-  --font-sans: var(--font-zen), ui-sans-serif, system-ui, sans-serif;
-  /* Subset por `text=`: solo los glifos de JA_GLYPHS. */
-  --font-ja: 'Shippori Mincho B1', var(--font-shippori), Georgia, serif;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
 
   --text-display: clamp(2.6rem, 8vw, 4.75rem);
   --text-display--line-height: 0.95;
@@ -136,7 +137,6 @@
   --shadow-hard: 5px 5px 0 var(--shadow-color);
   --shadow-hard-lg: 8px 8px 0 var(--shadow-color);
 
-  --radius-hanko: 9999px;
 }
 
 @layer base {

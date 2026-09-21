@@ -1,6 +1,6 @@
-import {Fraunces, Shippori_Mincho_B1, Zen_Kaku_Gothic_New} from 'next/font/google';
+import {Bevan, DM_Sans, Fraunces} from 'next/font/google';
 
-/** Titulares latinos: serif retro de contraste suave, eje óptico variable. */
+/** Titulares: serif retro de contraste suave y eje óptico variable. */
 export const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-fraunces',
@@ -8,22 +8,21 @@ export const fraunces = Fraunces({
   fallback: ['Georgia', 'Times New Roman', 'serif']
 });
 
-/** Display: mincho con remates marcados, sabor a imprenta de los 70. */
-export const shippori = Shippori_Mincho_B1({
+/** Voz de cartel: slab pesada de imprenta de feria. Para botones y rótulos. */
+export const bevan = Bevan({
   subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-shippori',
+  weight: ['400'],
+  variable: '--font-bevan',
   display: 'swap',
   fallback: ['Georgia', 'serif']
 });
 
-/** Interfaz y párrafos: sans humanista con métricas compartidas ES/EN/JA. */
-export const zenKaku = Zen_Kaku_Gothic_New({
+/** Interfaz y párrafos: sans limpia y cálida, buena para el español. */
+export const dmSans = DM_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-zen',
+  variable: '--font-dm-sans',
   display: 'swap',
   fallback: ['ui-sans-serif', 'system-ui', 'sans-serif']
 });
 
-export const fontVariables = `${fraunces.variable} ${shippori.variable} ${zenKaku.variable}`;
+export const fontVariables = `${fraunces.variable} ${bevan.variable} ${dmSans.variable}`;

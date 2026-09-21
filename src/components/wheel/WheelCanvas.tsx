@@ -1,13 +1,14 @@
 'use client';
 
 import {useEffect, useRef} from 'react';
-import {DESIGN, drawWheel} from './drawWheel';
-import {readWheelFonts, readWheelPalette, type WheelFonts, type WheelPalette} from './wheelPalette';
+import {BULB_COUNT, DESIGN, drawWheel} from './drawWheel';
+import {readWheelLabelFont, readWheelPalette, type WheelPalette} from './wheelPalette';
 import {prefersReducedMotion} from '@/lib/prefersReducedMotion';
-import {BRAND} from '@/config/brand';
 
 /** Vueltas por minuto de la ruleta en reposo de la portada. */
 const AMBIENT_RPM = 1.4;
+/** Milisegundos que tarda la luz en saltar a la bombilla siguiente. */
+const CHASE_MS = 110;
 
 /**
  * Ruleta de portada. Dibuja en canvas fuera del ciclo de render de React: el
@@ -31,8 +32,7 @@ export function WheelCanvas({
     if (!ctx) return;
 
     let palette: WheelPalette = readWheelPalette();
-    let fonts: WheelFonts = readWheelFonts();
-    let glyphReady = false;
+    let labelFont = readWheelLabelFont();
     let rotation = 0;
     let frame = 0;
     let last = performance.now();
@@ -53,15 +53,17 @@ export function WheelCanvas({
       );
     };
 
+    // Sin animación la tira se queda encendida entera: apagada parecería rota.
+    const animate = ambient && !prefersReducedMotion();
+
     const paint = () => {
       drawWheel(ctx, {
         labels,
         rotation,
         palette,
-        fonts,
-        glyph: BRAND.glyph,
-        glyphReady,
-        allLanternsLit: !ambient
+        labelFont,
+        litBulb: animate ? Math.floor(performance.now() / CHASE_MS) % BULB_COUNT : -1,
+        allBulbsLit: !animate
       });
     };
 
@@ -80,11 +82,10 @@ export function WheelCanvas({
 
     restart();
 
-    // El glifo del eje solo se dibuja cuando su fuente ya está disponible.
+    // El canvas mide el rótulo al dibujar: hay que repintar cuando la fuente llega.
     document.fonts?.ready.then(() => {
       if (disposed) return;
-      glyphReady = true;
-      fonts = readWheelFonts();
+      labelFont = readWheelLabelFont();
       paint();
     });
 
@@ -101,7 +102,7 @@ export function WheelCanvas({
       attributeFilter: ['data-theme']
     });
 
-    if (ambient && !prefersReducedMotion()) {
+    if (animate) {
       frame = requestAnimationFrame(render);
     }
 

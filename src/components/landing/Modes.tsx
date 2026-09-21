@@ -14,7 +14,7 @@ export function Modes() {
   return (
     <section id="modos" className="scroll-mt-16 py-14 sm:py-20">
       <div className="mx-auto w-full max-w-6xl px-5">
-        <SectionHeading numeral="一" eyebrow={t('eyebrow')} title={t('title')} lede={t('lede')} />
+        <SectionHeading step={1} eyebrow={t('eyebrow')} title={t('title')} lede={t('lede')} />
 
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {MODES.map((mode) => (

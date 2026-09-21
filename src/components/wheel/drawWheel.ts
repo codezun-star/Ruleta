@@ -1,4 +1,4 @@
-import type {WheelFonts, WheelPalette} from './wheelPalette';
+import type {WheelPalette} from './wheelPalette';
 
 /** Espacio de diseño fijo; el dibujo se escala al tamaño real del canvas. */
 export const DESIGN = {width: 460, height: 470, cx: 230, cy: 240} as const;
@@ -7,8 +7,9 @@ const SEGMENT_RADIUS = 150;
 const RIM_RADIUS = 160;
 const RIM_WIDTH = 20;
 const OUTER_RADIUS = 170.5;
-const LANTERN_RADIUS = 195;
-const LANTERN_COUNT = 12;
+const BULB_RADIUS = 183;
+/** Bombillas de la tira. Se exporta porque el bucle calcula cuál va encendida. */
+export const BULB_COUNT = 16;
 const RIVET_COUNT = 24;
 const HUB_RADIUS = 34;
 /** El rótulo vive entre el cubo y el aro: nunca debe pisar el esmalte rojo. */
@@ -33,18 +34,16 @@ export type DrawWheelOptions = {
   labels: string[];
   rotation: number;
   palette: WheelPalette;
-  fonts: WheelFonts;
-  /** Índice del farol encendido a la cabeza de la secuencia. -1 los apaga. */
-  litLantern?: number;
-  /** Todos los faroles encendidos a la vez, al terminar el giro. */
-  allLanternsLit?: boolean;
+  /** Fuente ya resuelta del rótulo de cada segmento. */
+  labelFont: string;
+  /** Índice de la bombilla a la cabeza de la secuencia. -1 las apaga. */
+  litBulb?: number;
+  /** Toda la tira encendida a la vez, al terminar el giro. */
+  allBulbsLit?: boolean;
   /** Segmento ganador: se mantiene a plena tinta y el resto se atenúa. */
   highlight?: number | null;
   /** Grados que el puntero ha rebotado al golpear el clavo del segmento. */
   pointerAngle?: number;
-  /** `true` cuando la fuente del glifo del eje ya está disponible. */
-  glyphReady?: boolean;
-  glyph?: string;
 };
 
 function polar(radius: number, degrees: number): [number, number] {
@@ -58,7 +57,7 @@ function polar(radius: number, degrees: number): [number, number] {
  * `requestAnimationFrame` sin volver a renderizar React.
  */
 export function drawWheel(ctx: CanvasRenderingContext2D, options: DrawWheelOptions): void {
-  const {labels, rotation, palette, fonts, highlight = null} = options;
+  const {labels, rotation, palette, labelFont, highlight = null} = options;
   const count = labels.length;
   if (count === 0) return;
   const step = 360 / count;
@@ -102,7 +101,7 @@ export function drawWheel(ctx: CanvasRenderingContext2D, options: DrawWheelOptio
     ctx.translate(cx, cy);
     ctx.rotate(((flip ? mid + 180 : mid) * Math.PI) / 180);
     ctx.fillStyle = palette[ink.text];
-    ctx.font = fonts.label;
+    ctx.font = labelFont;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(label, 0, flip ? LABEL_RADIUS : -LABEL_RADIUS, LABEL_MAX_WIDTH);
@@ -138,54 +137,58 @@ export function drawWheel(ctx: CanvasRenderingContext2D, options: DrawWheelOptio
   ctx.stroke();
   ctx.restore();
 
-  drawLanterns(ctx, options);
+  drawBulbs(ctx, options);
   drawHub(ctx, options);
   drawPointer(ctx, options);
 }
 
-function drawLanterns(ctx: CanvasRenderingContext2D, options: DrawWheelOptions): void {
-  const {palette, litLantern = -1, allLanternsLit = false} = options;
-  for (let i = 0; i < LANTERN_COUNT; i++) {
-    const [x, y] = polar(LANTERN_RADIUS, (i * 360) / LANTERN_COUNT + 15);
-    const distance = litLantern < 0 ? Infinity : (i - litLantern + LANTERN_COUNT) % LANTERN_COUNT;
-    const lit = allLanternsLit || distance <= 2;
+/** Tira de luces de feria: un cordel con bombillas que se encienden en secuencia. */
+function drawBulbs(ctx: CanvasRenderingContext2D, options: DrawWheelOptions): void {
+  const {palette, litBulb = -1, allBulbsLit = false} = options;
+
+  ctx.beginPath();
+  ctx.arc(DESIGN.cx, DESIGN.cy, BULB_RADIUS, 0, Math.PI * 2);
+  ctx.strokeStyle = palette.ink;
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  for (let i = 0; i < BULB_COUNT; i++) {
+    const angle = (i * 360) / BULB_COUNT;
+    const [x, y] = polar(BULB_RADIUS, angle);
+    const distance = litBulb < 0 ? Infinity : (i - litBulb + BULB_COUNT) % BULB_COUNT;
+    const lit = allBulbsLit || distance <= 2;
 
     ctx.save();
     ctx.translate(x, y);
-    ctx.strokeStyle = palette.ink;
-    ctx.lineWidth = 1.6;
-
-    ctx.beginPath();
-    ctx.moveTo(0, -17);
-    ctx.lineTo(0, -13);
-    ctx.stroke();
+    // Tras rotar, el eje -y local apunta hacia afuera: el casquillo va al otro lado.
+    ctx.rotate((angle * Math.PI) / 180);
 
     ctx.fillStyle = palette.ink;
-    ctx.fillRect(-5, -14, 10, 3);
-    ctx.fillRect(-3.5, 11, 7, 3);
+    ctx.fillRect(-4.5, 6, 9, 4.5);
 
     ctx.beginPath();
-    ctx.ellipse(0, 0, 8.5, 11, 0, 0, Math.PI * 2);
-    ctx.fillStyle = lit ? palette.lantern : palette.lanternOff;
+    ctx.arc(0, 0, 7.5, 0, Math.PI * 2);
+    ctx.fillStyle = lit ? palette.bulbOn : palette.bulbOff;
     ctx.fill();
+    ctx.strokeStyle = palette.ink;
+    ctx.lineWidth = 1.6;
     ctx.stroke();
 
-    // Varillas del farol.
-    ctx.globalAlpha = 0.45;
-    ctx.beginPath();
-    ctx.moveTo(-8, -4);
-    ctx.lineTo(8, -4);
-    ctx.moveTo(-8, 4);
-    ctx.lineTo(8, 4);
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    ctx.globalAlpha = 1;
+    if (lit) {
+      ctx.beginPath();
+      ctx.arc(-2.4, -2.4, 2.2, 0, Math.PI * 2);
+      ctx.fillStyle = palette.paper;
+      ctx.globalAlpha = 0.65;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
     ctx.restore();
   }
 }
 
+/** Eje de la ruleta: un sello rojo con el buje troquelado. */
 function drawHub(ctx: CanvasRenderingContext2D, options: DrawWheelOptions): void {
-  const {palette, fonts, glyph, glyphReady} = options;
+  const {palette} = options;
   const {cx, cy} = DESIGN;
 
   ctx.fillStyle = palette.shadow;
@@ -201,24 +204,24 @@ function drawHub(ctx: CanvasRenderingContext2D, options: DrawWheelOptions): void
   ctx.lineWidth = 2.5;
   ctx.stroke();
 
-  if (glyph && glyphReady) {
-    ctx.fillStyle = palette.onVermilion;
-    ctx.font = fonts.glyph;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(glyph, cx, cy + 1);
-  } else {
-    // Mientras la fuente no esté, un eje geométrico en vez de un hueco.
-    ctx.strokeStyle = palette.onVermilion;
-    ctx.lineWidth = 3;
+  ctx.strokeStyle = palette.onVermilion;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 19, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Cuatro remaches del buje.
+  ctx.fillStyle = palette.onVermilion;
+  for (let i = 0; i < 4; i++) {
+    const [x, y] = polar(19, i * 90 + 45);
     ctx.beginPath();
-    ctx.arc(cx, cy, 17, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.fillStyle = palette.onVermilion;
-    ctx.beginPath();
-    ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+    ctx.arc(x, y, 2.6, 0, Math.PI * 2);
     ctx.fill();
   }
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, 7, 0, Math.PI * 2);
+  ctx.fill();
 }
 
 function drawPointer(ctx: CanvasRenderingContext2D, options: DrawWheelOptions): void {

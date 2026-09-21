@@ -101,8 +101,7 @@
   },
   "footer": {
     "tagline": "Sorteos y amigo secreto con ruleta",
-    "retention": "Los correos de los participantes se borran a los 30 días.",
-    "enjoy": "que lo disfrutes"
+    "retention": "Los correos de los participantes se borran a los 30 días."
   },
   "wizard": {
     "participants": "Participantes",

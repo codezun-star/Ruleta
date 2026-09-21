@@ -6,8 +6,8 @@ export type WheelPalette = {
   matcha: string;
   sakura: string;
   onVermilion: string;
-  lantern: string;
-  lanternOff: string;
+  bulbOn: string;
+  bulbOff: string;
   shadow: string;
 };
 
@@ -19,8 +19,8 @@ const TOKENS: Record<keyof WheelPalette, string> = {
   matcha: '--matcha',
   sakura: '--sakura',
   onVermilion: '--on-vermilion',
-  lantern: '--lantern',
-  lanternOff: '--lantern-off',
+  bulbOn: '--bulb-on',
+  bulbOff: '--bulb-off',
   shadow: '--shadow-color'
 };
 
@@ -32,8 +32,8 @@ const FALLBACK: WheelPalette = {
   matcha: '#7a8f5a',
   sakura: '#e8a9a0',
   onVermilion: '#fff8ec',
-  lantern: '#f2c45a',
-  lanternOff: '#d9c9a6',
+  bulbOn: '#f2c45a',
+  bulbOff: '#cbb68d',
   shadow: '#1b2a41'
 };
 
@@ -51,13 +51,6 @@ export function readWheelPalette(): WheelPalette {
   return Object.fromEntries(entries) as WheelPalette;
 }
 
-export type WheelFonts = {
-  /** Rótulo de cada segmento. */
-  label: string;
-  /** Glifo del eje. */
-  glyph: string;
-};
-
 const FALLBACK_STACK = "Georgia, 'Times New Roman', serif";
 
 /**
@@ -65,14 +58,8 @@ const FALLBACK_STACK = "Georgia, 'Times New Roman', serif";
  * canvas ignora la asignación en silencio y sigue con la fuente anterior. Por
  * eso resolvemos aquí el nombre real que genera `next/font`.
  */
-export function readWheelFonts(): WheelFonts {
-  const glyph = `30px 'Shippori Mincho B1', ${FALLBACK_STACK}`;
-  if (typeof window === 'undefined') {
-    return {label: `700 19px ${FALLBACK_STACK}`, glyph};
-  }
+export function readWheelLabelFont(): string {
+  if (typeof window === 'undefined') return `700 19px ${FALLBACK_STACK}`;
   const family = getComputedStyle(document.documentElement).getPropertyValue('--font-fraunces').trim();
-  return {
-    label: `700 19px ${family ? `${family}, ` : ''}${FALLBACK_STACK}`,
-    glyph
-  };
+  return `700 19px ${family ? `${family}, ` : ''}${FALLBACK_STACK}`;
 }

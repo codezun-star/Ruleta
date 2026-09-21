@@ -63,12 +63,24 @@ El tema tiene tres estados: sistema (sin marcar), claro y oscuro. Un script
 síncrono en `<head>` fija `data-theme` antes del primer pintado para que no
 parpadee.
 
+### Dirección visual
+
+**Feria**: cartelería de rifa y tómbola latinoamericana. Tintas planas de
+imprenta offset, sombras duras desplazadas, trama de puntos en lugar de
+degradados, papel picado y tira de bombillas. El moodboard de la Fase 0
+(`docs/moodboard.html`) partía de una referencia japonesa que se descartó: la
+paleta y el lenguaje de impresión siguen valiendo, los signos gráficos no.
+
 ### Tipografía
 
-`next/font` autoaloja las tres familias latinas (Fraunces, Shippori Mincho B1 y
-Zen Kaku Gothic New). Los glifos japoneses decorativos se piden aparte a Google
-Fonts con el parámetro `text=` limitado a `JA_GLYPHS`: unos pocos KB en vez de
-los megas del subset japonés completo.
+`next/font` autoaloja las tres familias, así que no hay ni una petición a
+Google Fonts en tiempo de ejecución:
+
+| Rol | Familia | Dónde |
+|---|---|---|
+| Titulares | Fraunces | `font-head` — h1, h2, números de sección |
+| Cartel | Bevan | `font-display` — botones y rótulos de sello |
+| Interfaz | DM Sans | `font-sans` — párrafos y formularios |
 
 ### La ruleta
 
@@ -76,8 +88,8 @@ Se dibuja en Canvas 2D (`src/components/wheel/`) fuera del ciclo de render de
 React: el bucle de animación no provoca re-renders. Dos detalles que conviene
 recordar al tocarla:
 
-- `ctx.font` **no** resuelve `var(--font-*)`. Las familias se resuelven en
-  `readWheelFonts()` antes de pasarlas al canvas.
+- `ctx.font` **no** resuelve `var(--font-*)`. La familia se resuelve en
+  `readWheelLabelFont()` antes de pasarla al canvas.
 - El canvas tampoco cascadea: al cambiar `data-theme` hay que releer las tintas.
   Lo hace un `MutationObserver`.
 

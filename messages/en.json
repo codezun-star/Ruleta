@@ -101,8 +101,7 @@
   },
   "footer": {
     "tagline": "Raffles and Secret Santa with a spinning wheel",
-    "retention": "Participant emails are deleted after 30 days.",
-    "enjoy": "enjoy it"
+    "retention": "Participant emails are deleted after 30 days."
   },
   "wizard": {
     "participants": "People",

@@ -1,7 +1,7 @@
 import {useTranslations} from 'next-intl';
 import {Link} from '@/i18n/navigation';
 import {BRAND} from '@/config/brand';
-import {HankoMark} from '@/components/ui/HankoMark';
+import {SealMark} from '@/components/ui/SealMark';
 import {LocaleSwitcher} from './LocaleSwitcher';
 import {ThemeToggle} from './ThemeToggle';
 
@@ -12,7 +12,7 @@ export function Header() {
     <header className="sticky z-50 border-b-2 border-ink bg-paper-2" style={{top: 'env(safe-area-inset-top, 0px)'}}>
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-4 px-5">
         <Link href="/" className="flex shrink-0 items-center gap-2.5 font-head text-lg font-black tracking-tight">
-          <HankoMark size={28} />
+          <SealMark size={28} />
           {BRAND.name}
         </Link>
 

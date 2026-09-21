@@ -7,14 +7,14 @@ import {WizardSteps} from './WizardSteps';
  * Armazón de las dos pantallas de configuración. El contenido del panel lo
  * sustituye el asistente de tres pasos en la fase siguiente.
  */
-export function WizardShell({namespace, numeral}: {namespace: 'raffle' | 'secretSanta'; numeral: string}) {
+export function WizardShell({namespace, step}: {namespace: 'raffle' | 'secretSanta'; step: number}) {
   const t = useTranslations(namespace);
   const wip = useTranslations('wip');
 
   return (
     <section className="py-12 sm:py-16">
       <div className="mx-auto w-full max-w-4xl px-5">
-        <SectionHeading numeral={numeral} eyebrow={t('title')} title={t('title')} lede={t('lede')} />
+        <SectionHeading step={step} eyebrow={t('title')} title={t('title')} lede={t('lede')} />
 
         <div className="mt-8">
           <WizardSteps current={1} />

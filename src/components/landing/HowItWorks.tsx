@@ -9,7 +9,7 @@ export function HowItWorks() {
   return (
     <section id="como-funciona" className="scroll-mt-16 border-y-2 border-ink bg-paper-2 py-14 sm:py-20">
       <div className="mx-auto w-full max-w-6xl px-5">
-        <SectionHeading numeral="二" eyebrow={t('eyebrow')} title={t('title')} />
+        <SectionHeading step={2} eyebrow={t('eyebrow')} title={t('title')} />
 
         <ol className="mt-8 grid gap-5 md:grid-cols-3">
           {STEPS.map((step) => (
