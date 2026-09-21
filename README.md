@@ -1,0 +1,100 @@
+# Kuji
+
+Sorteos y amigo secreto con una ruleta giratoria. Los resultados salen por
+correo a cada participante y, en el amigo secreto, ni el organizador puede ver
+las asignaciones.
+
+**Producción:** https://ruleta.codezun.com · **Idiomas:** español (por defecto) e inglés
+
+---
+
+## Estado
+
+| Fase | Contenido | Estado |
+|---|---|---|
+| 0 | Moodboard y dirección visual | ✅ `docs/moodboard.html` |
+| 1 | Setup, sistema de diseño, i18n, layout, landing | ✅ |
+| 2 | Ruleta: física, sonido, confeti, sello | ⏳ |
+| 3 | Asistente de configuración y validaciones | ⏳ |
+| 4 | Algoritmo de asignación y tests | ⏳ |
+| 5 | Base de datos y envío de correos | ⏳ |
+| 6 | Seguridad, rate limit, captcha, legales, cron | ⏳ |
+| 7 | Pulido, accesibilidad, SEO y despliegue | ⏳ |
+
+## Arrancar en local
+
+```bash
+npm install
+cp .env.example .env.local   # para la Fase 1 basta con NEXT_PUBLIC_SITE_URL
+npm run dev
+```
+
+Abre http://localhost:3000 — redirige a `/es` o `/en` según tu navegador.
+
+| Comando | Qué hace |
+|---|---|
+| `npm run dev` | Servidor de desarrollo |
+| `npm run build` | Compilación de producción |
+| `npm run start` | Sirve la compilación |
+| `npm run typecheck` | TypeScript sin emitir |
+
+## Cómo está montado
+
+```
+src/config/brand.ts    <- única fuente del nombre de marca, dominio y remitente
+src/styles/globals.css <- tintas, tipografía y sombras; todo lo demás las usa
+src/i18n/              <- rutas /es y /en, detección por Accept-Language
+src/proxy.ts           <- middleware de next-intl
+src/components/        <- ui · layout · landing · wheel · wizard · icons
+messages/              <- es.json y en.json; nada de texto escrito en el código
+```
+
+El árbol completo y las decisiones técnicas están en
+[`docs/estructura-propuesta.md`](docs/estructura-propuesta.md).
+
+### Sistema de diseño
+
+Las tintas se declaran como propiedades CSS en `:root` y se redefinen para el
+modo noche. `@theme inline` las expone a Tailwind, así que `bg-paper` cambia de
+color al cambiar de tema sin recompilar nada. **Ningún componente escribe un
+color a mano.**
+
+El tema tiene tres estados: sistema (sin marcar), claro y oscuro. Un script
+síncrono en `<head>` fija `data-theme` antes del primer pintado para que no
+parpadee.
+
+### Tipografía
+
+`next/font` autoaloja las tres familias latinas (Fraunces, Shippori Mincho B1 y
+Zen Kaku Gothic New). Los glifos japoneses decorativos se piden aparte a Google
+Fonts con el parámetro `text=` limitado a `JA_GLYPHS`: unos pocos KB en vez de
+los megas del subset japonés completo.
+
+### La ruleta
+
+Se dibuja en Canvas 2D (`src/components/wheel/`) fuera del ciclo de render de
+React: el bucle de animación no provoca re-renders. Dos detalles que conviene
+recordar al tocarla:
+
+- `ctx.font` **no** resuelve `var(--font-*)`. Las familias se resuelven en
+  `readWheelFonts()` antes de pasarlas al canvas.
+- El canvas tampoco cascadea: al cambiar `data-theme` hay que releer las tintas.
+  Lo hace un `MutationObserver`.
+
+### Accesibilidad
+
+Contraste verificado sobre papel crema:
+
+| Uso | Ratio | Regla |
+|---|---|---|
+| Índigo sobre papel | 11.7:1 | Texto general |
+| Índigo sobre mostaza | 6.6:1 | El botón mostaza siempre lleva texto índigo |
+| `#FFF8EC` sobre bermellón | 4.9:1 | Texto sobre botón rojo |
+| Bermellón `#C8382B` sobre papel | 4.2:1 | **Solo ≥24px.** Para texto normal, `#A82D22` |
+| Índigo sobre matcha | 4.1:1 | Solo texto grande; matcha es color de superficie |
+
+`prefers-reduced-motion` detiene el giro de la ruleta y las transiciones.
+
+## Licencia
+
+Privado.

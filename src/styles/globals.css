@@ -1,0 +1,231 @@
+@import 'tailwindcss';
+
+/*
+ * Sistema de diseño "Showa Matsuri".
+ * Las tintas se declaran como propiedades personalizadas y se redefinen para
+ * el modo noche; `@theme inline` las expone a Tailwind sin congelar su valor,
+ * así que `bg-paper` cambia de color al cambiar de tema sin recompilar nada.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Papel envejecido: la superficie. Lleva grano encima, nunca es blanco puro. */
+  --paper: #f1e6cf;
+  --paper-hi: #fbf3e2;
+  --paper-2: #e7d9bc;
+  --paper-3: #dac8a3;
+
+  /* Índigo: la tinta. Texto, bordes y sombras duras. Nunca negro puro. */
+  --ink: #1b2a41;
+  --ink-2: #33455e; /* texto atenuado: 7.9:1 sobre papel */
+  --ink-3: #6a7a90; /* solo placeholders y líneas: 3.5:1 */
+
+  /* Bermellón hanko: sellos, botón principal, puntero. */
+  --vermilion: #c8382b; /* 4.2:1 sobre papel → solo texto grande */
+  --vermilion-2: #a82d22; /* 5.5:1 → enlaces y texto pequeño */
+
+  /* Tintas secundarias de la imprenta de cuatro colores. */
+  --mustard: #e0a526;
+  --matcha: #7a8f5a; /* color de superficie, no fondo de párrafo */
+  --matcha-deep: #55673a; /* 5.0:1 sobre papel */
+  --sakura: #e8a9a0;
+  --wood: #c8a06a;
+
+  --on-vermilion: #fff8ec; /* 4.9:1 sobre bermellón */
+  --on-wood: #1b2a41; /* 4.6:1 sobre madera */
+  --shadow-color: #1b2a41;
+  --lantern: #f2c45a;
+  --lantern-off: #d9c9a6;
+
+  --hairline: rgb(27 42 65 / 0.24);
+  --halftone: rgb(27 42 65 / 0.17);
+  --grain-opacity: 0.4;
+}
+
+/* Noche de festival: índigo profundo con faroles encendidos. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --paper: #131e2c;
+    --paper-hi: #1c2a3c;
+    --paper-2: #0d161f;
+    --paper-3: #26374c;
+    --ink: #f2e7d1;
+    --ink-2: #cdc0a6;
+    --ink-3: #93a2b5;
+    --vermilion: #e2543f;
+    --vermilion-2: #f4755c;
+    --mustard: #f0be55;
+    --matcha: #9bb173;
+    --matcha-deep: #b9cc96;
+    --sakura: #e9afa6;
+    --wood: #b4894f;
+    --on-vermilion: #22120e;
+    --on-wood: #1a1206;
+    --shadow-color: #05080e;
+    --lantern: #ffd277;
+    --lantern-off: #3a4a5e;
+    --hairline: rgb(242 231 209 / 0.26);
+    --halftone: rgb(242 231 209 / 0.13);
+    --grain-opacity: 0.28;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #131e2c;
+  --paper-hi: #1c2a3c;
+  --paper-2: #0d161f;
+  --paper-3: #26374c;
+  --ink: #f2e7d1;
+  --ink-2: #cdc0a6;
+  --ink-3: #93a2b5;
+  --vermilion: #e2543f;
+  --vermilion-2: #f4755c;
+  --mustard: #f0be55;
+  --matcha: #9bb173;
+  --matcha-deep: #b9cc96;
+  --sakura: #e9afa6;
+  --wood: #b4894f;
+  --on-vermilion: #22120e;
+  --on-wood: #1a1206;
+  --shadow-color: #05080e;
+  --lantern: #ffd277;
+  --lantern-off: #3a4a5e;
+  --hairline: rgb(242 231 209 / 0.26);
+  --halftone: rgb(242 231 209 / 0.13);
+  --grain-opacity: 0.28;
+}
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-hi: var(--paper-hi);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-vermilion: var(--vermilion);
+  --color-vermilion-2: var(--vermilion-2);
+  --color-mustard: var(--mustard);
+  --color-matcha: var(--matcha);
+  --color-matcha-deep: var(--matcha-deep);
+  --color-sakura: var(--sakura);
+  --color-wood: var(--wood);
+  --color-on-vermilion: var(--on-vermilion);
+  --color-on-wood: var(--on-wood);
+  --color-lantern: var(--lantern);
+  --color-lantern-off: var(--lantern-off);
+  --color-hairline: var(--hairline);
+
+  --font-display: var(--font-shippori), Georgia, 'Times New Roman', serif;
+  --font-head: var(--font-fraunces), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-zen), ui-sans-serif, system-ui, sans-serif;
+  /* Subset por `text=`: solo los glifos de JA_GLYPHS. */
+  --font-ja: 'Shippori Mincho B1', var(--font-shippori), Georgia, serif;
+
+  --text-display: clamp(2.6rem, 8vw, 4.75rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.03em;
+
+  /* Sombras de imprenta: desplazadas y duras, nunca difuminadas. */
+  --shadow-hard-sm: 3px 3px 0 var(--shadow-color);
+  --shadow-hard: 5px 5px 0 var(--shadow-color);
+  --shadow-hard-lg: 8px 8px 0 var(--shadow-color);
+
+  --radius-hanko: 9999px;
+}
+
+@layer base {
+  * {
+    border-color: var(--hairline);
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--vermilion);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--mustard);
+    color: var(--ink);
+  }
+}
+
+@layer components {
+  /* Grano de papel sobre toda la página: un solo SVG en línea, cero peticiones. */
+  .paper-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  }
+
+  :root[data-theme='dark'] .paper-grain {
+    mix-blend-mode: screen;
+  }
+
+  /* Volumen por trama de puntos, nunca por degradado. */
+  .halftone {
+    background-image: radial-gradient(var(--halftone) 1.4px, transparent 1.5px);
+    background-size: 6px 6px;
+  }
+
+  /* Marco de doble línea de papelería impresa. */
+  .double-frame {
+    border: 2px solid var(--ink);
+    box-shadow:
+      inset 0 0 0 3px var(--surface, var(--paper-hi)),
+      inset 0 0 0 4px var(--ink),
+      var(--shadow-hard);
+  }
+
+  .double-frame-flat {
+    border: 2px solid var(--ink);
+    box-shadow:
+      inset 0 0 0 3px var(--surface, var(--paper-hi)),
+      inset 0 0 0 4px var(--ink);
+  }
+
+  /* Etiqueta tipo sello de inspección: dos esquinas recortadas. */
+  .clipped-tag {
+    clip-path: polygon(
+      7px 0,
+      100% 0,
+      100% calc(100% - 7px),
+      calc(100% - 7px) 100%,
+      0 100%,
+      0 7px
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

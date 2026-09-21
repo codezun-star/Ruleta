@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "Raffles and Secret Santa with a spinning wheel",
+    "description": "Build your list, spin the wheel and let chance decide. Everyone gets their own result by email, and nobody can peek at the Secret Santa assignments.",
+    "ogAlt": "Festival poster showing a raffle wheel"
+  },
+  "nav": {
+    "raffle": "Raffle",
+    "secretSanta": "Secret Santa",
+    "how": "How it works",
+    "skipToContent": "Skip to content"
+  },
+  "common": {
+    "locale": {
+      "label": "Language",
+      "es": "ES",
+      "en": "EN"
+    },
+    "theme": {
+      "toDark": "Night",
+      "toLight": "Day"
+    }
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Raffles · Secret Santa",
+      "titleLine1": "Let the draw",
+      "titleLine2": "begin",
+      "lede": "Build your list, spin the wheel and let chance decide. Results go out by email to each person, and with Secret Santa not even you can see who got whom.",
+      "primaryCta": "Run a raffle",
+      "secondaryCta": "Secret Santa",
+      "wheelLabel": "Demo wheel spinning with eight sample names",
+      "note": "Free, no account, nothing to install."
+    },
+    "modes": {
+      "eyebrow": "Two modes",
+      "title": "One winner, or a whole gift exchange?",
+      "lede": "The same wheel, two different ceremonies.",
+      "raffle": {
+        "title": "Simple raffle",
+        "body": "One list, one prize, one or more winners. Made for office raffles, giveaways and settling whose turn it is.",
+        "point1": "Pick how many winners come out",
+        "point2": "Email is optional: it also works live on a screen",
+        "point3": "Every draw leaves a verifiable ID",
+        "cta": "Start a raffle"
+      },
+      "secretSanta": {
+        "title": "Secret Santa",
+        "body": "Each person gets an email telling them who they are buying for, with the budget, the date and the place of the exchange.",
+        "point1": "Nobody ever draws their own name",
+        "point2": "You can stop couples from getting each other",
+        "point3": "The organiser never sees a single assignment",
+        "cta": "Set up the exchange"
+      }
+    },
+    "how": {
+      "eyebrow": "How it works",
+      "title": "Three steps, then spin",
+      "step1": {
+        "title": "Build the list",
+        "body": "Names and emails. We flag duplicates and addresses that look mistyped."
+      },
+      "step2": {
+        "title": "Add the details",
+        "body": "A prize, or a suggested budget, date and place for the exchange. You can leave a note for the group."
+      },
+      "step3": {
+        "title": "Spin and send",
+        "body": "The wheel runs the ceremony and the emails go out on their own. If one bounces, retry just that one."
+      }
+    },
+    "fairness": {
+      "eyebrow": "Real randomness",
+      "title": "The animation decides nothing",
+      "lede": "It is the classic trick with wheels on the web: the spin looks lovely but the result was written in advance, or worse, the browser's physics picked it.",
+      "point1": {
+        "title": "The server decides",
+        "body": "The winner comes from a cryptographic generator on the server. The animation is calculated afterwards to land exactly on that segment."
+      },
+      "point2": {
+        "title": "No modulo bias",
+        "body": "Numbers that would fall outside the range are thrown away and drawn again, so no participant ends up with better odds than another."
+      },
+      "point3": {
+        "title": "Verifiable ID",
+        "body": "Every draw stores a hash of its seed and timestamp. We hand you that identifier so you can show the draw was not re-run until the right name came up."
+      }
+    },
+    "privacy": {
+      "eyebrow": "Your data",
+      "title": "Only what the draw needs",
+      "point1": "We only ask for a name and an email. No accounts, no passwords.",
+      "point2": "Secret Santa assignments are stored encrypted and deleted once the emails are out.",
+      "point3": "Participant emails are deleted automatically after 30 days."
+    },
+    "finalCta": {
+      "title": "Fate has spoken",
+      "body": "Well, almost: you still have to build the list.",
+      "button": "Run a raffle"
+    }
+  },
+  "footer": {
+    "tagline": "Raffles and Secret Santa with a spinning wheel",
+    "retention": "Participant emails are deleted after 30 days.",
+    "enjoy": "enjoy it"
+  },
+  "wizard": {
+    "participants": "People",
+    "details": "Details",
+    "review": "Review"
+  },
+  "raffle": {
+    "title": "Simple raffle",
+    "lede": "Build the list, decide how many winners come out and spin. The result keeps a verifiable ID."
+  },
+  "secretSanta": {
+    "title": "Secret Santa",
+    "lede": "Everyone gets an email with who they are buying for. You organise the exchange without finding out a thing."
+  },
+  "wip": {
+    "badge": "Under construction",
+    "title": "The form goes here",
+    "body": "The three-step wizard lands in the next phase. For now this screen wires up navigation, language and the design system."
+  }
+}

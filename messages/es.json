@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "Sorteos y amigo secreto con ruleta",
+    "description": "Arma tu lista, gira la ruleta y deja que el azar decida. Cada quien recibe su resultado por correo y nadie puede espiar las asignaciones del amigo secreto.",
+    "ogAlt": "Cartel de festival con una ruleta de sorteos"
+  },
+  "nav": {
+    "raffle": "Sorteo",
+    "secretSanta": "Amigo secreto",
+    "how": "Cómo funciona",
+    "skipToContent": "Saltar al contenido"
+  },
+  "common": {
+    "locale": {
+      "label": "Idioma",
+      "es": "ES",
+      "en": "EN"
+    },
+    "theme": {
+      "toDark": "Noche",
+      "toLight": "Día"
+    }
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Sorteos · Amigo secreto",
+      "titleLine1": "Que empiece",
+      "titleLine2": "el sorteo",
+      "lede": "Arma tu lista, gira la ruleta y deja que el azar decida. Los resultados llegan por correo a cada quien, y en el amigo secreto ni siquiera tú puedes ver quién le tocó a quién.",
+      "primaryCta": "Hacer un sorteo",
+      "secondaryCta": "Amigo secreto",
+      "wheelLabel": "Ruleta de demostración girando con ocho nombres de ejemplo",
+      "note": "Gratis, sin cuenta y sin instalar nada."
+    },
+    "modes": {
+      "eyebrow": "Dos modos",
+      "title": "¿Un ganador o un intercambio completo?",
+      "lede": "La misma ruleta, dos ceremonias distintas.",
+      "raffle": {
+        "title": "Sorteo simple",
+        "body": "Una lista, un premio y uno o varios ganadores. Ideal para rifas de oficina, giveaways y repartir el turno de algo.",
+        "point1": "Elige cuántos ganadores salen",
+        "point2": "El correo es opcional: sirve también en vivo",
+        "point3": "Cada sorteo deja un ID verificable",
+        "cta": "Empezar un sorteo"
+      },
+      "secretSanta": {
+        "title": "Amigo secreto",
+        "body": "Cada participante recibe por correo a quién le regala, con el monto, la fecha y el lugar del intercambio.",
+        "point1": "Nadie se saca a sí mismo, nunca",
+        "point2": "Puedes excluir parejas para que no se toquen",
+        "point3": "El organizador no ve ninguna asignación",
+        "cta": "Organizar el intercambio"
+      }
+    },
+    "how": {
+      "eyebrow": "Cómo funciona",
+      "title": "Tres pasos y a girar",
+      "step1": {
+        "title": "Arma la lista",
+        "body": "Nombres y correos. Te avisamos si hay repetidos o si una dirección está mal escrita."
+      },
+      "step2": {
+        "title": "Pon los detalles",
+        "body": "Premio, o bien monto sugerido, fecha y lugar del intercambio. Puedes dejar un mensaje para el grupo."
+      },
+      "step3": {
+        "title": "Gira y reparte",
+        "body": "La ruleta hace la ceremonia y los correos salen solos. Si alguno rebota, lo reintentas con un clic."
+      }
+    },
+    "fairness": {
+      "eyebrow": "Azar de verdad",
+      "title": "La animación no decide nada",
+      "lede": "Es la trampa clásica de las ruletas en la web: el giro se ve bonito pero el resultado ya venía escrito, o peor, lo decide la física del navegador.",
+      "point1": {
+        "title": "Lo decide el servidor",
+        "body": "El ganador sale de un generador criptográfico en el servidor. La animación se calcula después para terminar exactamente en ese segmento."
+      },
+      "point2": {
+        "title": "Sin sesgo de módulo",
+        "body": "Los números que caerían fuera del rango se descartan y se vuelve a tirar, así ningún participante tiene más posibilidades que otro."
+      },
+      "point3": {
+        "title": "ID verificable",
+        "body": "Cada sorteo guarda un hash de su semilla y su hora. Te damos ese identificador para que puedas demostrar que no se repitió el sorteo hasta que saliera quien tú querías."
+      }
+    },
+    "privacy": {
+      "eyebrow": "Tus datos",
+      "title": "Lo justo y nada más",
+      "point1": "Solo pedimos nombre y correo. Nada de cuentas ni contraseñas.",
+      "point2": "Las asignaciones del amigo secreto se guardan cifradas y se borran al terminar los envíos.",
+      "point3": "Los correos de los participantes se eliminan automáticamente a los 30 días."
+    },
+    "finalCta": {
+      "title": "El destino ha hablado",
+      "body": "Bueno, casi: falta que armes la lista.",
+      "button": "Hacer un sorteo"
+    }
+  },
+  "footer": {
+    "tagline": "Sorteos y amigo secreto con ruleta",
+    "retention": "Los correos de los participantes se borran a los 30 días.",
+    "enjoy": "que lo disfrutes"
+  },
+  "wizard": {
+    "participants": "Participantes",
+    "details": "Detalles",
+    "review": "Revisión"
+  },
+  "raffle": {
+    "title": "Sorteo simple",
+    "lede": "Arma la lista, decide cuántos ganadores salen y gira. El resultado queda con un ID verificable."
+  },
+  "secretSanta": {
+    "title": "Amigo secreto",
+    "lede": "Cada quien recibe por correo a quién le regala. Tú organizas el intercambio sin enterarte de nada."
+  },
+  "wip": {
+    "badge": "En construcción",
+    "title": "Aquí va el formulario",
+    "body": "El asistente de tres pasos llega en la siguiente fase. Por ahora esta pantalla monta la navegación, el idioma y el sistema de diseño."
+  }
+}
