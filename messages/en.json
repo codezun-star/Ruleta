@@ -109,20 +109,36 @@
   "wizard": {
     "participants": "People",
     "details": "Details",
-    "review": "Review"
+    "review": "Review",
+    "back": "Back",
+    "next": "Continue",
+    "count": "{count} of {max}",
+    "addPerson": "Add person",
+    "removePerson": "Remove {name}",
+    "unnamed": "this person",
+    "namePlaceholder": "Name",
+    "emailPlaceholder": "name@example.com",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "emailOptional": "Email (optional)",
+    "paste": "Paste a list",
+    "pasteHint": "One person per line. The email can follow a comma, a semicolon, or sit in < >.",
+    "pastePlaceholder": "Ana Robles, ana@example.com\nKenji Morales <kenji@example.com>\nMarisol Cadena",
+    "pasteAdd": "Add to the list",
+    "pasteCancel": "Cancel",
+    "clearEmpty": "Remove empty rows",
+    "draftRestored": "We brought back your list from last time.",
+    "discardDraft": "Start over"
   },
   "raffle": {
     "title": "Simple raffle",
-    "lede": "Build the list, decide how many winners come out and spin. The result keeps a verifiable ID."
+    "lede": "Build the list, decide how many winners come out and spin. The result keeps a verifiable ID.",
+    "heading": "Set up your raffle"
   },
   "secretSanta": {
     "title": "Secret Santa",
-    "lede": "Everyone gets an email with who they are buying for. You organise the exchange without finding out a thing."
-  },
-  "wip": {
-    "badge": "Under construction",
-    "title": "The form goes here",
-    "body": "The three-step wizard lands in the next phase. For now this screen wires up navigation, language and the design system."
+    "lede": "Everyone gets an email with who they are buying for. You organise the exchange without finding out a thing.",
+    "heading": "Set up the exchange"
   },
   "wheel": {
     "canvas": "Raffle wheel showing the participants' names",
@@ -131,5 +147,83 @@
     "again": "Spin again",
     "caption": "The winner is",
     "seal": "WON!"
+  },
+  "validation": {
+    "nameRequired": "This one needs a name.",
+    "nameTooLong": "That name is too long.",
+    "emailInvalid": "That email doesn't look right.",
+    "emailRequired": "Secret Santa needs everyone's email: that's where the result goes.",
+    "duplicateEmail": "That email is already on the list.",
+    "duplicateName": "Someone already has that name. Add a surname to tell them apart.",
+    "tooFewParticipants": "You need at least {min} people.",
+    "tooManyParticipants": "The limit is {max} people.",
+    "prizeRequired": "Tell us what's being raffled.",
+    "prizeTooLong": "That prize description is too long.",
+    "winnersRange": "At least one winner, and no more than there are people.",
+    "budgetPositive": "The budget has to be above zero.",
+    "dateInvalid": "That date isn't valid.",
+    "placeTooLong": "That place is too long.",
+    "messageTooLong": "That message is too long.",
+    "exclusionSamePerson": "You can't exclude someone from themselves.",
+    "exclusionDuplicate": "That pair is already excluded.",
+    "exclusionImpossible": "These exclusions make the draw impossible: {names} has nobody left to give to."
+  },
+  "raffleForm": {
+    "prize": "What's being raffled?",
+    "prizePlaceholder": "A box of chocolates",
+    "winners": "How many winners?",
+    "winnersHint": "They come out one at a time and nobody repeats.",
+    "notify": "Who gets an email?",
+    "notifyWinners": "Winners only",
+    "notifyAll": "Everyone on the list",
+    "notifyNone": "Nobody — we'll watch it on screen",
+    "organizer": "Your email",
+    "organizerHint": "So we can send you the summary. You can leave it empty."
+  },
+  "secretSantaForm": {
+    "budget": "Suggested budget",
+    "budgetPlaceholder": "25",
+    "currency": "Currency",
+    "date": "Exchange date",
+    "place": "Place",
+    "placePlaceholder": "Ana's place",
+    "message": "Note for the group",
+    "messagePlaceholder": "No socks, please.",
+    "organizer": "Your email",
+    "organizerHint": "We'll send you the confirmation, without revealing a single assignment.",
+    "exclusions": "Exclusions",
+    "exclusionsHint": "Pairs that shouldn't get each other. Optional.",
+    "exclusionAdd": "Exclude this pair",
+    "exclusionRemove": "Remove the exclusion between {a} and {b}",
+    "exclusionPair": "{a} and {b} won't get each other",
+    "exclusionEmpty": "No exclusions.",
+    "pickPerson": "Pick someone"
+  },
+  "review": {
+    "title": "Check it before you spin",
+    "people": "People",
+    "prize": "Prize",
+    "winners": "Winners",
+    "notify": "Emails",
+    "budget": "Suggested budget",
+    "date": "Date",
+    "place": "Place",
+    "message": "Note",
+    "exclusions": "Exclusions",
+    "organizer": "Your email",
+    "none": "Not set",
+    "noEmail": "no email",
+    "privacy": "Once you spin, each person only gets their own result. Not even you will see who got whom.",
+    "start": "Spin the wheel",
+    "soon": "The Secret Santa draw switches on in the next phase, along with the algorithm that guarantees nobody draws their own name."
+  },
+  "draw": {
+    "round": "Winner {current} of {total}",
+    "winners": "Winners",
+    "finished": "Draw finished",
+    "restart": "Start another draw",
+    "id": "Draw ID",
+    "idHint": "Keep it: it proves the draw was the draw.",
+    "emailsSoon": "Sending emails lands in Phase 5. For now the result lives on this screen."
   }
 }

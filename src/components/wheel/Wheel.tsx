@@ -25,16 +25,21 @@ type Status = 'idle' | 'spinning' | 'done';
 export function Wheel({
   labels,
   ambient = true,
+  disabled = false,
   /**
    * Quién decide el ganador. En la demo lo sortea el cliente; a partir de la
    * Fase 5 lo devuelve el servidor y la animación se limita a llevar el
    * puntero hasta ahí.
    */
-  resolveWinner
+  resolveWinner,
+  onResult
 }: {
+  /** Referencia estable: al cambiar se reconstruye el bucle de la ruleta. */
   labels: string[];
   ambient?: boolean;
+  disabled?: boolean;
   resolveWinner?: () => Promise<number> | number;
+  onResult?: (index: number) => void;
 }) {
   const t = useTranslations('wheel');
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -51,12 +56,16 @@ export function Wheel({
   const [status, setStatus] = useState<Status>('idle');
   const [winner, setWinner] = useState<number | null>(null);
 
+  const resultRef = useRef(onResult);
+  resultRef.current = onResult;
+
   finishRef.current = (index: number) => {
     setWinner(index);
     setStatus('done');
     if (!prefersReducedMotion() && paletteRef.current) {
       confettiEngineRef.current?.burst(paletteRef.current);
     }
+    resultRef.current?.(index);
   };
 
   useEffect(() => {
@@ -271,7 +280,7 @@ export function Wheel({
         />
       </div>
 
-      <StampButton onClick={spin} disabled={status === 'spinning'}>
+      <StampButton onClick={spin} disabled={disabled || status === 'spinning'}>
         {status === 'spinning' ? t('spinning') : status === 'done' ? t('again') : t('spin')}
       </StampButton>
 

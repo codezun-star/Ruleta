@@ -15,7 +15,7 @@ las asignaciones.
 | 0 | Moodboard y dirección visual | ✅ `docs/moodboard.html` |
 | 1 | Setup, sistema de diseño, i18n, layout, landing | ✅ |
 | 2 | Ruleta: física, sonido, confeti, sello | ✅ |
-| 3 | Asistente de configuración y validaciones | ⏳ |
+| 3 | Asistente de configuración y validaciones | ✅ |
 | 4 | Algoritmo de asignación y tests | ⏳ |
 | 5 | Base de datos y envío de correos | ⏳ |
 | 6 | Seguridad, rate limit, captcha, legales, cron | ⏳ |
@@ -113,6 +113,20 @@ Dos detalles que conviene recordar al tocarla:
   `readWheelLabelFont()` antes de pasarla al canvas.
 - El canvas tampoco cascadea: al cambiar `data-theme` hay que releer las tintas.
   Lo hace un `MutationObserver`.
+
+### Validación
+
+Los esquemas de Zod viven en `src/lib/validation/` y **los mensajes son claves
+de traducción, no texto**: el mismo esquema corre en el navegador y en el
+servidor, y cada lado las resuelve en su idioma. `validateParticipants()`
+devuelve todos los problemas a la vez, no solo el primero, para poder marcar
+cada fila en su sitio.
+
+Los errores de "esto está vacío" solo aparecen al intentar avanzar; los de
+formato (correo mal escrito, duplicado) aparecen en cuanto hay algo escrito.
+
+El asistente guarda el borrador en `localStorage` por modo, y lo recupera
+después de montar —nunca durante el render— para no descuadrar la hidratación.
 
 ### Accesibilidad
 

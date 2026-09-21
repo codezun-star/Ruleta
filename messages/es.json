@@ -109,20 +109,36 @@
   "wizard": {
     "participants": "Participantes",
     "details": "Detalles",
-    "review": "Revisión"
+    "review": "Revisión",
+    "back": "Atrás",
+    "next": "Continuar",
+    "count": "{count} de {max}",
+    "addPerson": "Añadir persona",
+    "removePerson": "Quitar a {name}",
+    "unnamed": "esta persona",
+    "namePlaceholder": "Nombre",
+    "emailPlaceholder": "correo@ejemplo.com",
+    "nameLabel": "Nombre",
+    "emailLabel": "Correo",
+    "emailOptional": "Correo (opcional)",
+    "paste": "Pegar una lista",
+    "pasteHint": "Una persona por línea. El correo puede ir después de una coma, un punto y coma o entre < >.",
+    "pastePlaceholder": "Ana Robles, ana@ejemplo.com\nKenji Morales <kenji@ejemplo.com>\nMarisol Cadena",
+    "pasteAdd": "Añadir a la lista",
+    "pasteCancel": "Cancelar",
+    "clearEmpty": "Quitar filas vacías",
+    "draftRestored": "Recuperamos tu lista de la última vez.",
+    "discardDraft": "Empezar de cero"
   },
   "raffle": {
     "title": "Sorteo simple",
-    "lede": "Arma la lista, decide cuántos ganadores salen y gira. El resultado queda con un ID verificable."
+    "lede": "Arma la lista, decide cuántos ganadores salen y gira. El resultado queda con un ID verificable.",
+    "heading": "Arma tu sorteo"
   },
   "secretSanta": {
     "title": "Amigo secreto",
-    "lede": "Cada quien recibe por correo a quién le regala. Tú organizas el intercambio sin enterarte de nada."
-  },
-  "wip": {
-    "badge": "En construcción",
-    "title": "Aquí va el formulario",
-    "body": "El asistente de tres pasos llega en la siguiente fase. Por ahora esta pantalla monta la navegación, el idioma y el sistema de diseño."
+    "lede": "Cada quien recibe por correo a quién le regala. Tú organizas el intercambio sin enterarte de nada.",
+    "heading": "Organiza el intercambio"
   },
   "wheel": {
     "canvas": "Ruleta de sorteo con los nombres de los participantes",
@@ -131,5 +147,83 @@
     "again": "Girar otra vez",
     "caption": "El ganador es",
     "seal": "¡GANÓ!"
+  },
+  "validation": {
+    "nameRequired": "Falta el nombre.",
+    "nameTooLong": "El nombre es demasiado largo.",
+    "emailInvalid": "Ese correo no tiene buena pinta.",
+    "emailRequired": "En el amigo secreto el correo es obligatorio: es por donde llega el resultado.",
+    "duplicateEmail": "Ese correo ya está en la lista.",
+    "duplicateName": "Ya hay alguien con ese nombre. Añade un apellido para distinguirlos.",
+    "tooFewParticipants": "Necesitas al menos {min} personas.",
+    "tooManyParticipants": "El máximo son {max} personas.",
+    "prizeRequired": "Dinos qué se sortea.",
+    "prizeTooLong": "El premio es demasiado largo.",
+    "winnersRange": "Tiene que salir al menos un ganador y no más que participantes hay.",
+    "budgetPositive": "El monto tiene que ser mayor que cero.",
+    "dateInvalid": "Esa fecha no es válida.",
+    "placeTooLong": "El lugar es demasiado largo.",
+    "messageTooLong": "El mensaje es demasiado largo.",
+    "exclusionSamePerson": "No puedes excluir a alguien de sí mismo.",
+    "exclusionDuplicate": "Esa pareja ya está excluida.",
+    "exclusionImpossible": "Con estas exclusiones el sorteo es imposible: {names} se queda sin nadie a quien regalar."
+  },
+  "raffleForm": {
+    "prize": "¿Qué se sortea?",
+    "prizePlaceholder": "Una caja de chocolates",
+    "winners": "¿Cuántos ganadores?",
+    "winnersHint": "Se sortean uno por uno y nadie repite.",
+    "notify": "¿A quién le avisamos por correo?",
+    "notifyWinners": "Solo a los ganadores",
+    "notifyAll": "A todos los participantes",
+    "notifyNone": "A nadie: lo vemos en pantalla",
+    "organizer": "Tu correo",
+    "organizerHint": "Para mandarte el resumen del sorteo. Puedes dejarlo vacío."
+  },
+  "secretSantaForm": {
+    "budget": "Monto sugerido",
+    "budgetPlaceholder": "25000",
+    "currency": "Moneda",
+    "date": "Fecha del intercambio",
+    "place": "Lugar",
+    "placePlaceholder": "Casa de Ana",
+    "message": "Mensaje para el grupo",
+    "messagePlaceholder": "Nada de calcetines, por favor.",
+    "organizer": "Tu correo",
+    "organizerHint": "Te mandamos la confirmación, sin revelar ninguna asignación.",
+    "exclusions": "Exclusiones",
+    "exclusionsHint": "Parejas que no deben tocarse entre sí. Opcional.",
+    "exclusionAdd": "Excluir esta pareja",
+    "exclusionRemove": "Quitar la exclusión entre {a} y {b}",
+    "exclusionPair": "{a} y {b} no se tocan",
+    "exclusionEmpty": "Sin exclusiones.",
+    "pickPerson": "Elige a alguien"
+  },
+  "review": {
+    "title": "Revisa antes de girar",
+    "people": "Participantes",
+    "prize": "Premio",
+    "winners": "Ganadores",
+    "notify": "Avisos",
+    "budget": "Monto sugerido",
+    "date": "Fecha",
+    "place": "Lugar",
+    "message": "Mensaje",
+    "exclusions": "Exclusiones",
+    "organizer": "Tu correo",
+    "none": "Sin definir",
+    "noEmail": "sin correo",
+    "privacy": "Cuando gires, cada quien recibirá solo su propio resultado. Ni tú vas a poder ver quién le tocó a quién.",
+    "start": "Girar la ruleta",
+    "soon": "El sorteo del amigo secreto se activa en la fase siguiente, junto con el algoritmo que garantiza que nadie se saque a sí mismo."
+  },
+  "draw": {
+    "round": "Ganador {current} de {total}",
+    "winners": "Ganadores",
+    "finished": "Sorteo terminado",
+    "restart": "Empezar otro sorteo",
+    "id": "ID de sorteo",
+    "idHint": "Guárdalo: sirve para demostrar que el sorteo fue el que fue.",
+    "emailsSoon": "El envío de correos llega en la Fase 5. Por ahora el resultado vive en esta pantalla."
   }
 }

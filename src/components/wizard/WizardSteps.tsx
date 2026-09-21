@@ -8,13 +8,13 @@ export function WizardSteps({current}: {current: 1 | 2 | 3}) {
   const t = useTranslations('wizard');
 
   return (
-    <ol className="flex flex-wrap items-center gap-y-2">
+    <ol className="flex flex-wrap items-center gap-x-4 gap-y-2">
       {STEPS.map((step, index) => {
         const number = index + 1;
         const done = number <= current;
         return (
           <li key={step} className="flex items-center">
-            {index > 0 ? <span aria-hidden="true" className="mx-3 h-0.5 w-5 bg-ink sm:w-9" /> : null}
+            {index > 0 ? <span aria-hidden="true" className="mx-3 hidden h-0.5 w-5 bg-ink sm:block sm:w-9" /> : null}
             <span className="flex items-center gap-2.5" aria-current={number === current ? 'step' : undefined}>
               <span
                 aria-hidden="true"
