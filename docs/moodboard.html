@@ -1,0 +1,1304 @@
+<title>Fukubiki Showa</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Shippori+Mincho+B1:wght@400;700&family=Zen+Antique&family=Yuji+Syuku&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Sans:wght@400;500;700&display=swap">
+
+<style>
+/* ── TOKENS ─────────────────────────────────────────────────────────── */
+:root{
+  color-scheme: light;
+
+  /* Papel y tintas */
+  --paper:        #F1E6CF;
+  --paper-hi:     #FBF3E2;
+  --paper-2:      #E7D9BC;
+  --paper-3:      #DAC8A3;
+  --ink:          #1B2A41;
+  --ink-2:        #33455E;
+  --ink-3:        #6A7A90;
+  --vermilion:    #C8382B;
+  --vermilion-2:  #A82D22;
+  --mustard:      #E0A526;
+  --matcha:       #7A8F5A;
+  --matcha-deep:  #55673A;
+  --sakura:       #E8A9A0;
+  --on-vermilion: #FFF8EC;
+  --lantern:      #F2C45A;
+  --lantern-off:  #D9C9A6;
+  --wood:         #C8A06A;
+
+  --hairline:  rgba(27,42,65,.24);
+  --halftone:  rgba(27,42,65,.17);
+  --grain-op:  .42;
+  --shadow-hard: 6px 6px 0 var(--ink);
+  --shadow-soft: 3px 3px 0 var(--ink);
+  --card: var(--paper-hi);
+
+  /* Tipografía */
+  --font-display: 'Dela Gothic One','Shippori Mincho B1',Georgia,serif;
+  --font-mincho:  'Shippori Mincho B1','Yu Mincho',Georgia,serif;
+  --font-antique: 'Zen Antique','Shippori Mincho B1',Georgia,serif;
+  --font-brush:   'Yuji Syuku','Shippori Mincho B1',Georgia,serif;
+  --font-head:    'Fraunces',Georgia,'Times New Roman',serif;
+  --font-ui:      'Zen Kaku Gothic New','DM Sans',ui-sans-serif,system-ui,sans-serif;
+
+  --s--1: .8125rem;
+  --s-0:  1rem;
+  --s-1:  1.1875rem;
+  --s-2:  1.5rem;
+  --s-3:  2rem;
+  --s-4:  2.75rem;
+  --s-5:  clamp(2.6rem, 8vw, 5rem);
+
+  --gutter: 20px;
+  --maxw: 1120px;
+}
+
+/* Noche de festival */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --paper:        #131E2C;
+    --paper-hi:     #1C2A3C;
+    --paper-2:      #0D161F;
+    --paper-3:      #26374C;
+    --ink:          #F2E7D1;
+    --ink-2:        #CDC0A6;
+    --ink-3:        #93A2B5;
+    --vermilion:    #E2543F;
+    --vermilion-2:  #F4755C;
+    --mustard:      #F0BE55;
+    --matcha:       #9BB173;
+    --matcha-deep:  #B9CC96;
+    --sakura:       #E9AFA6;
+    --on-vermilion: #22120E;
+    --lantern:      #FFD277;
+    --lantern-off:  #3A4A5E;
+    --wood:         #B4894F;
+    --hairline:  rgba(242,231,209,.26);
+    --halftone:  rgba(242,231,209,.13);
+    --grain-op:  .30;
+    --shadow-hard: 6px 6px 0 rgba(0,0,0,.6);
+    --shadow-soft: 3px 3px 0 rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:        #131E2C;
+  --paper-hi:     #1C2A3C;
+  --paper-2:      #0D161F;
+  --paper-3:      #26374C;
+  --ink:          #F2E7D1;
+  --ink-2:        #CDC0A6;
+  --ink-3:        #93A2B5;
+  --vermilion:    #E2543F;
+  --vermilion-2:  #F4755C;
+  --mustard:      #F0BE55;
+  --matcha:       #9BB173;
+  --matcha-deep:  #B9CC96;
+  --sakura:       #E9AFA6;
+  --on-vermilion: #22120E;
+  --lantern:      #FFD277;
+  --lantern-off:  #3A4A5E;
+  --wood:         #B4894F;
+  --hairline:  rgba(242,231,209,.26);
+  --halftone:  rgba(242,231,209,.13);
+  --grain-op:  .30;
+  --shadow-hard: 6px 6px 0 rgba(0,0,0,.6);
+  --shadow-soft: 3px 3px 0 rgba(0,0,0,.6);
+}
+
+/* ── BASE ───────────────────────────────────────────────────────────── */
+*,*::before,*::after{ box-sizing:border-box; }
+body{
+  margin:0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--s-0);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+#grain{
+  position: fixed; inset:0; z-index: 90; pointer-events:none;
+  opacity: var(--grain-op); mix-blend-mode: multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+}
+h1,h2,h3,h4{ margin:0; text-wrap: balance; font-weight:400; }
+p{ margin:0; }
+a{ color: var(--vermilion-2); text-underline-offset:3px; }
+ul{ margin:0; padding:0; list-style:none; }
+:focus-visible{ outline:3px solid var(--vermilion); outline-offset:3px; }
+img,svg{ max-width:100%; }
+
+.wrap{ width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:var(--gutter); }
+.sec{ padding-block: clamp(48px,7vw,86px); position:relative; }
+.sec--alt{ background: var(--paper-2); }
+.sec--ink{ background: var(--ink); color: var(--paper); }
+
+/* ── MARCA / SELLOS ─────────────────────────────────────────────────── */
+.eyebrow{
+  font-family: var(--font-ui); font-size:.72rem; font-weight:700;
+  letter-spacing:.22em; text-transform:uppercase; color: var(--vermilion-2);
+  display:flex; align-items:center; gap:10px;
+}
+.eyebrow::after{ content:""; flex:1 0 24px; height:0; border-top:1px solid var(--hairline); }
+.kanji-num{
+  font-family: var(--font-antique); font-size:.95rem; color: var(--on-vermilion);
+  background: var(--vermilion); width:26px; height:26px; flex:0 0 26px;
+  display:grid; place-items:center; border-radius:50%;
+}
+.sec-title{
+  font-family: var(--font-head); font-weight:900; font-size: var(--s-3);
+  letter-spacing:-.015em; line-height:1.1; margin-top:14px;
+}
+.sec-lede{ color: var(--ink-2); max-width:62ch; margin-top:10px; font-size: var(--s-1); }
+
+.frame{
+  background: var(--card);
+  border:2px solid var(--ink);
+  box-shadow: inset 0 0 0 3px var(--card), inset 0 0 0 4px var(--ink), var(--shadow-hard);
+  padding: 22px;
+}
+.frame--flat{ box-shadow: inset 0 0 0 3px var(--card), inset 0 0 0 4px var(--ink); }
+
+.tag{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  padding:4px 10px; border:1.5px solid currentColor;
+  clip-path: polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
+}
+.tag--ok{ color: var(--matcha-deep); }
+.tag--warn{ color: var(--vermilion-2); }
+
+.stamp{
+  font-family: var(--font-display); font-size: var(--s-0); line-height:1;
+  background: var(--vermilion); color: var(--on-vermilion);
+  border:2px solid var(--ink); box-shadow: var(--shadow-soft);
+  padding:14px 22px; cursor:pointer;
+  transition: transform .09s ease, box-shadow .09s ease, background .15s;
+}
+.stamp:hover{ background: var(--vermilion-2); }
+.stamp:active{ transform: translate(3px,3px); box-shadow:0 0 0 var(--ink); }
+.stamp--ghost{ background: transparent; color: var(--ink); }
+.stamp--ghost:hover{ background: var(--mustard); color: var(--ink); }
+.stamp--wood{ background: var(--wood); color: var(--ink); }
+.stamp--sm{ padding:9px 15px; font-size:var(--s--1); }
+
+/* ── HERO ───────────────────────────────────────────────────────────── */
+#hero{ background: var(--paper); border-bottom:3px solid var(--ink); position:relative; overflow:hidden; }
+#hero .seigaiha-band{ position:absolute; inset:auto 0 0 0; width:100%; height:104px; opacity:.45; pointer-events:none;
+  -webkit-mask-image:linear-gradient(to top,#000,transparent); mask-image:linear-gradient(to top,#000,transparent); }
+.hero-grid{
+  display:grid; grid-template-columns: minmax(0,1fr) minmax(0,520px);
+  gap: clamp(28px,5vw,60px); align-items:center;
+  padding-block: clamp(36px,6vw,70px);
+}
+@media (max-width:900px){ .hero-grid{ grid-template-columns: minmax(0,1fr); } }
+.hero-jp{
+  font-family: var(--font-display); font-size: clamp(3.4rem,11vw,6.5rem); line-height:.95;
+  color: var(--vermilion); letter-spacing:.02em;
+}
+.hero-title{
+  font-family: var(--font-head); font-weight:900; font-size: var(--s-5);
+  line-height:.94; letter-spacing:-.03em; margin-top:6px;
+}
+.hero-sub{ margin-top:18px; max-width:46ch; color: var(--ink-2); font-size: var(--s-1); }
+.hero-meta{ display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; align-items:center; }
+
+.wheel-stage{ position:relative; }
+.wheel-stage canvas{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:3; }
+#wheelResult{
+  margin-top:16px; min-height:56px; display:flex; align-items:center; justify-content:center; gap:12px;
+}
+.hanko-result{
+  display:inline-flex; align-items:center; gap:12px;
+  font-family: var(--font-head); font-weight:900; font-size: var(--s-2);
+}
+.hanko-badge{
+  width:64px; height:64px; flex:0 0 64px; border-radius:50%;
+  background: var(--vermilion); color: var(--on-vermilion);
+  display:grid; place-items:center; font-family: var(--font-antique); font-size:1.5rem;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.is-stamping{ animation: stampIn .42s cubic-bezier(.2,1.5,.35,1) both; }
+@keyframes stampIn{
+  0%{ transform: scale(2.4) rotate(-14deg); opacity:0; }
+  60%{ transform: scale(.94) rotate(3deg); opacity:1; }
+  100%{ transform: scale(1) rotate(-2deg); opacity:1; }
+}
+
+/* ── REJILLAS ───────────────────────────────────────────────────────── */
+.grid{ display:grid; gap:18px; margin-top:32px; }
+.g-2{ grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); }
+.g-3{ grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); }
+.g-4{ grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); }
+
+/* Concepto sí/no */
+.vs{ display:grid; gap:0; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); margin-top:32px;
+     border:2px solid var(--ink); box-shadow: var(--shadow-hard); background: var(--card); }
+.vs > div{ padding:24px; }
+.vs > div + div{ border-left:2px solid var(--ink); }
+@media (max-width:620px){ .vs > div + div{ border-left:0; border-top:2px solid var(--ink); } }
+.vs h3{ font-family: var(--font-head); font-weight:900; font-size: var(--s-2); display:flex; align-items:center; gap:10px; }
+.vs li{ padding:7px 0 7px 26px; position:relative; border-bottom:1px dotted var(--hairline); font-size:var(--s--1); }
+.vs li:last-child{ border-bottom:0; }
+.vs li::before{ position:absolute; left:0; top:7px; font-weight:700; }
+.vs--yes li::before{ content:"✓"; color: var(--matcha-deep); }
+.vs--no  li::before{ content:"✕"; color: var(--vermilion-2); }
+
+/* ── NOMBRES ────────────────────────────────────────────────────────── */
+.name-card{
+  background: var(--card); border:2px solid var(--ink); box-shadow: var(--shadow-hard);
+  padding:24px; display:flex; flex-direction:column; gap:14px; cursor:pointer;
+  text-align:left; font: inherit; color: inherit;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.name-card:hover{ transform: rotate(-.7deg) translateY(-3px); box-shadow: 9px 9px 0 var(--ink); }
+.name-card[aria-pressed="true"]{ background: var(--mustard); transform: rotate(.5deg); }
+.name-card[aria-pressed="true"] .pick{ background: var(--ink); color: var(--paper); }
+.name-word{ font-family: var(--font-head); font-weight:900; font-size: var(--s-3); line-height:1; letter-spacing:-.02em; }
+.name-read{ font-family: var(--font-mincho); color: var(--ink-2); font-size:var(--s--1); }
+.name-why{ font-size:var(--s--1); color: var(--ink-2); }
+.name-why b{ color: var(--ink); }
+.pick{
+  align-self:flex-start; margin-top:auto; font-size:.7rem; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase; padding:6px 12px;
+  border:1.5px solid var(--ink); background: transparent;
+}
+
+/* ── PALETA ─────────────────────────────────────────────────────────── */
+.swatch{ border:2px solid var(--ink); box-shadow: var(--shadow-soft); overflow:hidden; background:var(--card); }
+.swatch .chip{ height:104px; display:flex; align-items:flex-end; padding:10px; }
+.swatch .chip span{ font-family: var(--font-antique); font-size:1.5rem; }
+.swatch .meta{ padding:10px 12px 14px; border-top:2px solid var(--ink); }
+.swatch .nm{ font-weight:700; font-size:var(--s--1); }
+.swatch code{ font-family: ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.72rem; color: var(--ink-2); display:block; }
+.swatch .role{ font-size:.72rem; color: var(--ink-2); margin-top:5px; }
+
+.tbl-scroll{ overflow-x:auto; margin-top:28px; border:2px solid var(--ink); box-shadow: var(--shadow-hard); background: var(--card); }
+table{ border-collapse:collapse; width:100%; min-width:560px; font-size:var(--s--1); }
+th,td{ text-align:left; padding:11px 14px; border-bottom:1px solid var(--hairline); }
+th{ font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color: var(--ink-2); background: var(--paper-2); }
+td.num{ font-variant-numeric: tabular-nums; font-weight:700; }
+tr:last-child td{ border-bottom:0; }
+.mini{ display:inline-block; width:14px; height:14px; border:1px solid var(--ink); vertical-align:-2px; margin-right:6px; }
+
+/* ── TIPOGRAFÍA ─────────────────────────────────────────────────────── */
+.spec{ background: var(--card); border:2px solid var(--ink); box-shadow: var(--shadow-soft); padding:20px; }
+.spec .label{ font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color: var(--vermilion-2); font-weight:700; }
+.spec .big{ font-size: clamp(2rem,5.5vw,3rem); line-height:1.15; margin-top:8px; }
+.spec .sm{ font-size: var(--s--1); color: var(--ink-2); margin-top:10px; }
+.f-dela{ font-family: var(--font-display); } .f-mincho{ font-family: var(--font-mincho); }
+.f-antique{ font-family: var(--font-antique); } .f-brush{ font-family: var(--font-brush); }
+.f-head{ font-family: var(--font-head); font-weight:900; } .f-ui{ font-family: var(--font-ui); }
+.scale-row{ display:flex; align-items:baseline; gap:16px; padding:9px 0; border-bottom:1px dotted var(--hairline); }
+.scale-row code{ font-family: ui-monospace,Menlo,monospace; font-size:.7rem; color: var(--ink-3); flex:0 0 118px; }
+
+/* ── PATRONES ───────────────────────────────────────────────────────── */
+.pat{ border:2px solid var(--ink); box-shadow: var(--shadow-soft); background: var(--paper); }
+.pat .box{ height:130px; overflow:hidden; }
+.pat .cap{ border-top:2px solid var(--ink); padding:10px 12px; }
+.pat .cap b{ font-size:var(--s--1); } .pat .cap span{ display:block; font-size:.72rem; color: var(--ink-2); }
+.halftone-demo{
+  background-image: linear-gradient(95deg, var(--ink) 0%, var(--ink) 18%, transparent 92%);
+  -webkit-mask-image: radial-gradient(#000 44%, transparent 46%); mask-image: radial-gradient(#000 44%, transparent 46%);
+  -webkit-mask-size: 7px 7px; mask-size: 7px 7px;
+}
+.grain-demo{ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)' opacity='.85'/%3E%3C/svg%3E"); background-color: var(--paper-2); }
+
+/* ── ANATOMÍA RULETA ────────────────────────────────────────────────── */
+.anat{ display:grid; grid-template-columns: minmax(0,1fr) minmax(0,330px); gap:28px; align-items:start; margin-top:32px; }
+@media (max-width:880px){ .anat{ grid-template-columns: minmax(0,1fr); } }
+.anat ol{ list-style:none; padding:0; margin:0; counter-reset: a; }
+.anat li{ display:flex; gap:14px; padding:13px 0; border-bottom:1px dotted var(--hairline); }
+.anat li::before{
+  counter-increment:a; content: counter(a,decimal-leading-zero);
+  font-family: var(--font-head); font-weight:900; font-size:.8rem;
+  width:28px; height:28px; flex:0 0 28px; border-radius:50%;
+  background: var(--vermilion); color: var(--on-vermilion); display:grid; place-items:center;
+}
+.anat li b{ display:block; }
+.anat li span{ font-size:var(--s--1); color: var(--ink-2); }
+
+/* ── COMPONENTES ────────────────────────────────────────────────────── */
+.field{ display:block; }
+.field .lb{ font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color: var(--ink-2); }
+.field input{
+  width:100%; margin-top:6px; padding:11px 13px; font:inherit; font-size:var(--s-0);
+  color: var(--ink); background: var(--paper-hi);
+  border:2px solid var(--ink); box-shadow: inset 2px 2px 0 rgba(27,42,65,.12);
+}
+.field input::placeholder{ color: var(--ink-3); }
+.steps{ display:flex; align-items:center; gap:0; flex-wrap:wrap; }
+.step{ display:flex; align-items:center; gap:9px; }
+.step i{
+  font-style:normal; width:30px; height:30px; border-radius:50%; display:grid; place-items:center;
+  font-family: var(--font-head); font-weight:900; font-size:.85rem;
+  border:2px solid var(--ink); background: var(--card); color: var(--ink);
+}
+.step.on i{ background: var(--vermilion); color: var(--on-vermilion); }
+.step b{ font-size:var(--s--1); }
+.step-line{ width:36px; height:2px; background: var(--ink); margin:0 12px; }
+@media (max-width:560px){ .step-line{ width:18px; margin:0 7px; } }
+
+.noshi{ position:relative; background: var(--card); border:2px solid var(--ink); box-shadow: var(--shadow-hard); padding:26px 22px 22px; }
+.noshi::before{
+  content:""; position:absolute; top:0; right:20px;
+  width:30px; height:100%;
+  background: repeating-linear-gradient(90deg, var(--vermilion) 0 8px, var(--mustard) 8px 16px, var(--matcha) 16px 24px, var(--mustard) 24px 32px, var(--vermilion) 32px 40px);
+  opacity:.28;
+}
+.noshi > *{ position:relative; }
+.mizuhiki{ display:block; width:100%; height:26px; }
+
+.icons{ display:flex; flex-wrap:wrap; gap:18px; margin-top:20px; }
+.icons figure{ margin:0; text-align:center; width:92px; }
+.icons figcaption{ font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color: var(--ink-2); margin-top:6px; }
+.icon-box{ width:92px; height:92px; border:2px solid var(--ink); background: var(--card); display:grid; place-items:center; box-shadow: var(--shadow-soft); }
+
+/* ── ÁRBOL DE CARPETAS ──────────────────────────────────────────────── */
+.tree{
+  margin-top:28px; background: var(--ink); color: var(--paper);
+  border:2px solid var(--ink); box-shadow: var(--shadow-hard);
+  overflow-x:auto; padding:22px;
+}
+.tree pre{
+  margin:0; font-family: ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.78rem; line-height:1.75; white-space:pre; color: var(--paper);
+}
+.tree .c{ color: var(--mustard); }
+.tree .d{ color: var(--sakura); }
+
+/* ── CIERRE ─────────────────────────────────────────────────────────── */
+.ask li{ display:flex; gap:14px; padding:14px 0; border-bottom:1px dotted var(--hairline); align-items:flex-start; }
+.ask .k{ font-family: var(--font-antique); color: var(--vermilion); font-size:1.5rem; line-height:1.2; flex:0 0 34px; }
+
+.topbar{
+  position:sticky; top: env(safe-area-inset-top, 0px); z-index:80;
+  background: var(--paper-2); border-bottom:2px solid var(--ink);
+}
+.topbar .wrap{ display:flex; align-items:center; gap:14px; height:56px; }
+.topbar nav{ display:flex; gap:16px; margin-left:auto; overflow-x:auto; }
+.topbar nav a{
+  font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700;
+  color: var(--ink-2); text-decoration:none; white-space:nowrap;
+}
+.topbar nav a:hover{ color: var(--vermilion-2); }
+@media (max-width:760px){ .topbar nav{ display:none; } }
+.brandmark{ display:flex; align-items:center; gap:9px; font-family: var(--font-head); font-weight:900; font-size:var(--s-1); }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+}
+</style>
+
+<div id="grain" aria-hidden="true"></div>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute" focusable="false">
+  <defs>
+    <pattern id="p-seigaiha" width="40" height="20" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke="var(--ink)" stroke-width="1.1" opacity=".75"></g>
+    </pattern>
+    <pattern id="p-asanoha" width="60" height="104" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke="var(--ink)" stroke-width="1" opacity=".7"></g>
+    </pattern>
+    <pattern id="p-shippo" width="40" height="40" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke="var(--ink)" stroke-width="1.1" opacity=".7">
+        <circle cx="0" cy="0" r="20"/><circle cx="20" cy="0" r="20"/><circle cx="40" cy="0" r="20"/>
+        <circle cx="0" cy="20" r="20"/><circle cx="20" cy="20" r="20"/><circle cx="40" cy="20" r="20"/>
+        <circle cx="0" cy="40" r="20"/><circle cx="20" cy="40" r="20"/><circle cx="40" cy="40" r="20"/>
+      </g>
+    </pattern>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <div class="wrap">
+    <span class="brandmark">
+      <svg width="28" height="28" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+        <circle cx="60" cy="60" r="52" fill="var(--vermilion)"/>
+        <g stroke="var(--on-vermilion)" stroke-width="7" stroke-linecap="round">
+          <path d="M60 18v16M60 86v16M18 60h16M86 60h16"/>
+          <path d="M30 30l11 11M90 90l-11-11M90 30l-11 11M30 90l11-11"/>
+        </g>
+        <circle cx="60" cy="60" r="13" fill="var(--on-vermilion)"/>
+      </svg>
+      <span class="brand">Fukubiki</span>
+    </span>
+    <nav aria-label="Secciones del moodboard">
+      <a href="#concepto">Concepto</a>
+      <a href="#nombre">Nombre</a>
+      <a href="#paleta">Paleta</a>
+      <a href="#tipografia">Tipografía</a>
+      <a href="#patrones">Patrones</a>
+      <a href="#ruleta">Ruleta</a>
+      <a href="#componentes">Componentes</a>
+      <a href="#estructura">Estructura</a>
+    </nav>
+    <button class="stamp stamp--ghost stamp--sm" id="themeBtn" type="button" aria-pressed="false">
+      <span id="themeLabel">Noche</span>
+    </button>
+  </div>
+</header>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero">
+  <svg class="seigaiha-band" aria-hidden="true" focusable="false">
+    <rect width="100%" height="100%" fill="url(#p-seigaiha)"/>
+  </svg>
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow" style="margin-bottom:18px">Moodboard 01 · Dirección visual · 21 sep 2026</p>
+      <p class="hero-jp"><span class="brand-jp">福引</span></p>
+      <h1 class="hero-title">Showa<br>Matsuri</h1>
+      <p class="hero-sub">Lotería de barrio japonesa de los años 60-70: tintas planas de imprenta offset, papel envejecido, sellos <i lang="ja">hanko</i> y faroles de papel. Cálido y festivo, nunca corporativo.</p>
+      <div class="hero-meta">
+        <span class="tag tag--warn">Pendiente de aprobación</span>
+        <span class="tag tag--ok">ruleta.codezun.com</span>
+      </div>
+    </div>
+
+    <div class="wheel-stage">
+      <svg id="wheel" viewBox="0 0 460 470" role="img" aria-labelledby="wheelTitle" style="width:100%;height:auto;display:block"><title id="wheelTitle">Boceto de la ruleta con ocho participantes</title></svg>
+      <canvas id="confetti" aria-hidden="true"></canvas>
+      <div style="display:flex;justify-content:center;margin-top:6px">
+        <button class="stamp" id="spinBtn" type="button">Girar la ruleta</button>
+      </div>
+      <div id="wheelResult" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 01 CONCEPTO ══════════════ -->
+<section class="sec" id="concepto">
+  <div class="wrap">
+    <p class="eyebrow"><span class="kanji-num" aria-hidden="true">一</span> Concepto</p>
+    <h2 class="sec-title">Diseño gráfico Showa auténtico, no “Japón genérico”</h2>
+    <p class="sec-lede">La referencia es la papelería de un <i lang="ja">matsuri</i> de barrio y el cartel de una <i lang="ja">kissaten</i>: cuatro tintas planas, registro ligeramente desalineado, medios tonos en lugar de degradados y sombras duras desplazadas como las de una pegatina.</p>
+
+    <div class="vs">
+      <div class="vs--yes">
+        <h3><span aria-hidden="true">◎</span> Sí es esto</h3>
+        <ul>
+          <li>Impresión offset de 4 tintas: bordes netos, sin degradados suaves.</li>
+          <li>Trama de puntos <i lang="ja">halftone</i> para dar volumen y sombra.</li>
+          <li>Sombras duras desplazadas (<code>6px 6px 0</code>) en índigo.</li>
+          <li>Marcos de doble línea y etiquetas tipo “sello de inspección”.</li>
+          <li>Kanji decorativo mínimo, siempre con su traducción funcional.</li>
+          <li>Iconos dibujados a mano con trazo constante.</li>
+        </ul>
+      </div>
+      <div class="vs--no">
+        <h3><span aria-hidden="true">✕</span> No es esto</h3>
+        <ul>
+          <li>Anime, cyberpunk, neón o katana.</li>
+          <li>Sakura y la ola de Hokusai como papel tapiz.</li>
+          <li>Gradientes morado-azul y tarjetas blancas con sombra difusa.</li>
+          <li>Esquinas <code>rounded-2xl</code> por defecto en todo.</li>
+          <li>Brillos metálicos o luces de casino de Las Vegas.</li>
+          <li>Inter o Roboto puestas sin criterio.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 02 NOMBRE ══════════════ -->
+<section class="sec sec--alt" id="nombre">
+  <div class="wrap">
+    <p class="eyebrow"><span class="kanji-num" aria-hidden="true">二</span> Nombre de marca</p>
+    <h2 class="sec-title">Tres opciones. Elige una y toda la página cambia.</h2>
+    <p class="sec-lede">El nombre vive en una sola constante (<code>src/config/brand.ts</code>): cambiarlo actualiza interfaz, correos, metadatos y remitente. Pulsa una tarjeta para previsualizarlo aquí mismo.</p>
+
+    <div class="grid g-3" id="nameGrid">
+      <button class="name-card" type="button" aria-pressed="true"
+              data-name="Fukubiki" data-jp="福引" data-domain="hola@ruleta.codezun.com">
+        <svg viewBox="0 0 120 120" width="96" height="96" aria-hidden="true" focusable="false">
+          <circle cx="60" cy="60" r="52" fill="var(--vermilion)"/>
+          <g stroke="var(--on-vermilion)" stroke-width="5" stroke-linecap="round">
+            <path d="M60 14v12M60 94v12M14 60h12M94 60h12"/>
+            <path d="M27.5 27.5l8.5 8.5M84 84l8.5 8.5M92.5 27.5L84 36M36 84l-8.5 8.5"/>
+          </g>
+          <circle cx="60" cy="60" r="38" fill="none" stroke="var(--on-vermilion)" stroke-width="3"/>
+          <text x="60" y="60" text-anchor="middle" dominant-baseline="central"
+                fill="var(--on-vermilion)" font-family="var(--font-antique)" font-size="42" lang="ja">福</text>
+        </svg>
+        <div>
+          <div class="name-word">Fukubiki</div>
+          <div class="name-read" lang="ja">福引 — “tirar de la fortuna”</div>
+        </div>
+        <p class="name-why"><b>A favor:</b> es literalmente el mecanismo: la rifa de barrio japonesa. Muy evocador y con historia propia que contar en la landing.<br><b>En contra:</b> cuatro sílabas difíciles de decir y deletrear en español; el dominio se escribe mal.</p>
+        <span class="pick">Elegir</span>
+      </button>
+
+      <button class="name-card" type="button" aria-pressed="false"
+              data-name="Tanoshii" data-jp="楽しい" data-domain="hola@ruleta.codezun.com">
+        <svg viewBox="0 0 120 120" width="96" height="96" aria-hidden="true" focusable="false">
+          <circle cx="60" cy="60" r="52" fill="var(--vermilion)"/>
+          <path d="M60 60 L60 8 A52 52 0 0 1 112 60 Z" fill="var(--on-vermilion)" opacity=".2"/>
+          <path d="M60 60 L60 112 A52 52 0 0 1 8 60 Z" fill="var(--on-vermilion)" opacity=".2"/>
+          <circle cx="60" cy="60" r="40" fill="var(--vermilion)"/>
+          <circle cx="60" cy="60" r="40" fill="none" stroke="var(--on-vermilion)" stroke-width="3"/>
+          <text x="60" y="61" text-anchor="middle" dominant-baseline="central"
+                fill="var(--on-vermilion)" font-family="var(--font-antique)" font-size="44" lang="ja">楽</text>
+        </svg>
+        <div>
+          <div class="name-word">Tanoshii</div>
+          <div class="name-read" lang="ja">楽しい — “divertido, alegre”</div>
+        </div>
+        <p class="name-why"><b>A favor:</b> el más cálido y el más fácil de leer en español; el kanji 楽 (música/placer) da un logotipo bonito.<br><b>En contra:</b> es un adjetivo genérico, no dice “sorteo”; puede sonar a app de karaoke.</p>
+        <span class="pick">Elegir</span>
+      </button>
+
+      <button class="name-card" type="button" aria-pressed="false"
+              data-name="Kuji" data-jp="くじ" data-domain="hola@ruleta.codezun.com">
+        <svg viewBox="0 0 120 120" width="96" height="96" aria-hidden="true" focusable="false">
+          <circle cx="60" cy="60" r="52" fill="var(--vermilion)"/>
+          <circle cx="60" cy="60" r="43" fill="none" stroke="var(--on-vermilion)" stroke-width="2.5"
+                  stroke-dasharray="4 7" stroke-linecap="round"/>
+          <path d="M60 10 L70 28 H50 Z" fill="var(--on-vermilion)"/>
+          <text x="60" y="66" text-anchor="middle" dominant-baseline="central"
+                fill="var(--on-vermilion)" font-family="var(--font-antique)" font-size="36" lang="ja">くじ</text>
+        </svg>
+        <div>
+          <div class="name-word">Kuji</div>
+          <div class="name-read" lang="ja">くじ / 籤 — “el papelito del sorteo”</div>
+        </div>
+        <p class="name-why"><b>A favor:</b> dos sílabas, se pronuncia igual en ES y EN, se escribe a la primera y funciona como verbo (“hagamos un kuji”). <b>Mi recomendación.</b><br><b>En contra:</b> tan corto que necesita apoyarse más en el logotipo para significar algo.</p>
+        <span class="pick">Elegir</span>
+      </button>
+    </div>
+
+    <p style="margin-top:22px;font-size:var(--s--1);color:var(--ink-2)">
+      Elección actual: <b class="brand">Fukubiki</b> · remitente <code><span class="brand">Fukubiki</span> &lt;hola@ruleta.codezun.com&gt;</code> · <code>BRAND.name</code>
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════ 03 PALETA ══════════════ -->
+<section class="sec" id="paleta">
+  <div class="wrap">
+    <p class="eyebrow"><span class="kanji-num" aria-hidden="true">三</span> Paleta</p>
+    <h2 class="sec-title">Cuatro tintas planas sobre papel envejecido</h2>
+    <p class="sec-lede">Cada color es una variable CSS. Ningún componente escribe un hex suelto: si mañana el bermellón cambia, cambia en <code>src/styles/tokens.css</code> y en ningún sitio más.</p>
+
+    <div class="grid g-4">
+      <div class="swatch"><div class="chip" style="background:#F1E6CF;color:#1B2A41"><span lang="ja">紙</span></div>
+        <div class="meta"><div class="nm">Papel</div><code>--color-paper · #F1E6CF</code><div class="role">Fondo base con grano.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#FBF3E2;color:#1B2A41"><span lang="ja">白</span></div>
+        <div class="meta"><div class="nm">Papel claro</div><code>--color-paper-hi · #FBF3E2</code><div class="role">Superficie de tarjetas y campos.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#1B2A41;color:#F1E6CF"><span lang="ja">墨</span></div>
+        <div class="meta"><div class="nm">Tinta índigo</div><code>--color-ink · #1B2A41</code><div class="role">Texto, bordes y sombras duras. Nunca negro puro.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#C8382B;color:#FFF8EC"><span lang="ja">印</span></div>
+        <div class="meta"><div class="nm">Bermellón hanko</div><code>--color-vermilion · #C8382B</code><div class="role">Sellos, botón principal, puntero.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#E0A526;color:#1B2A41"><span lang="ja">灯</span></div>
+        <div class="meta"><div class="nm">Mostaza</div><code>--color-mustard · #E0A526</code><div class="role">Faroles, segmentos, estados activos.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#7A8F5A;color:#FBF3E2"><span lang="ja">茶</span></div>
+        <div class="meta"><div class="nm">Verde matcha</div><code>--color-matcha · #7A8F5A</code><div class="role">Segmentos y confirmaciones.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#E8A9A0;color:#1B2A41"><span lang="ja">桜</span></div>
+        <div class="meta"><div class="nm">Rosa pálido</div><code>--color-sakura · #E8A9A0</code><div class="role">Puntual: confeti y un segmento de cada ocho.</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#C8A06A;color:#1B2A41"><span lang="ja">木</span></div>
+        <div class="meta"><div class="nm">Madera clara</div><code>--color-wood · #C8A06A</code><div class="role">Aro, puntero y botones secundarios.</div></div></div>
+    </div>
+
+    <h3 class="f-head" style="font-size:var(--s-2);margin-top:44px">Contraste verificado (WCAG 2.1)</h3>
+    <p style="font-size:var(--s--1);color:var(--ink-2);margin-top:6px;max-width:62ch">Tres combinaciones no llegan a AA en texto pequeño. Las dejo en la paleta pero con regla de uso, y añado dos tintas “oscurecidas” para texto.</p>
+    <div class="tbl-scroll">
+      <table>
+        <caption class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Ratios de contraste de la paleta</caption>
+        <thead><tr><th scope="col">Frente</th><th scope="col">Fondo</th><th scope="col">Ratio</th><th scope="col">Veredicto</th><th scope="col">Regla</th></tr></thead>
+        <tbody>
+          <tr><td><i class="mini" style="background:#1B2A41"></i>Índigo</td><td><i class="mini" style="background:#F1E6CF"></i>Papel</td><td class="num">11.7:1</td><td><span class="tag tag--ok">AAA</span></td><td>Texto general. Sin restricción.</td></tr>
+          <tr><td><i class="mini" style="background:#1B2A41"></i>Índigo</td><td><i class="mini" style="background:#E0A526"></i>Mostaza</td><td class="num">6.6:1</td><td><span class="tag tag--ok">AA</span></td><td>Botón mostaza siempre con texto índigo.</td></tr>
+          <tr><td><i class="mini" style="background:#FFF8EC"></i>Crema #FFF8EC</td><td><i class="mini" style="background:#C8382B"></i>Bermellón</td><td class="num">4.9:1</td><td><span class="tag tag--ok">AA</span></td><td>Texto sobre botón rojo: usar <code>#FFF8EC</code>, no <code>#F1E6CF</code>.</td></tr>
+          <tr><td><i class="mini" style="background:#A82D22"></i>Bermellón oscuro</td><td><i class="mini" style="background:#F1E6CF"></i>Papel</td><td class="num">5.5:1</td><td><span class="tag tag--ok">AA</span></td><td>Enlaces y texto rojo pequeño.</td></tr>
+          <tr><td><i class="mini" style="background:#55673A"></i>Matcha oscuro</td><td><i class="mini" style="background:#F1E6CF"></i>Papel</td><td class="num">5.0:1</td><td><span class="tag tag--ok">AA</span></td><td>Mensajes de éxito en texto pequeño.</td></tr>
+          <tr><td><i class="mini" style="background:#C8382B"></i>Bermellón</td><td><i class="mini" style="background:#F1E6CF"></i>Papel</td><td class="num">4.2:1</td><td><span class="tag tag--warn">Solo grande</span></td><td>Solo ≥24px o ≥19px en negrita. Para texto normal, <code>#A82D22</code>.</td></tr>
+          <tr><td><i class="mini" style="background:#F1E6CF"></i>Papel</td><td><i class="mini" style="background:#C8382B"></i>Bermellón</td><td class="num">4.2:1</td><td><span class="tag tag--warn">Solo grande</span></td><td>Titulares dentro de sellos, nunca párrafos.</td></tr>
+          <tr><td><i class="mini" style="background:#1B2A41"></i>Índigo</td><td><i class="mini" style="background:#7A8F5A"></i>Matcha</td><td class="num">4.1:1</td><td><span class="tag tag--warn">Solo grande</span></td><td>Matcha es color de superficie, no de fondo de párrafo.</td></tr>
+          <tr><td><i class="mini" style="background:#6A7A90"></i>Índigo claro</td><td><i class="mini" style="background:#F1E6CF"></i>Papel</td><td class="num">3.5:1</td><td><span class="tag tag--warn">Decorativo</span></td><td>Solo <i>placeholders</i> y líneas. Texto atenuado: <code>#33455E</code> (7.9:1).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 04 TIPOGRAFÍA ══════════════ -->
+<section class="sec sec--alt" id="tipografia">
+  <div class="wrap">
+    <p class="eyebrow"><span class="kanji-num" aria-hidden="true">四</span> Tipografía</p>
+    <h2 class="sec-title">Una display de cartel, una serif latina, una sans de interfaz</h2>
+    <p class="sec-lede">Tres candidatas para los titulares en japonés. Las tres se cargan con <code>next/font</code> y subsetting por <code>unicode-range</code>: solo bajan los kanji decorativos que realmente usamos.</p>
+
+    <div class="grid g-3">
+      <div class="spec">
+        <div class="label">Display A · Dela Gothic One</div>
+        <div class="big f-dela" lang="ja">大当たり</div>
+        <div class="big f-dela">Kuji</div>
+        <p class="sm">Gótica maciza de cartel. Máximo impacto, muy “premio gordo”. Riesgo: pesada en bloques largos, solo para 1-4 palabras.</p>
+      </div>
+      <div class="spec">
+        <div class="label">Display B · Shippori Mincho B1</div>
+        <div class="big f-mincho" lang="ja">大当たり</div>
+        <div class="big f-mincho">Kuji</div>
+        <p class="sm">Mincho con remates marcados, sabor a imprenta de los 70. Es la que <b>recomiendo</b>: elegante y legible también en párrafos cortos.</p>
+      </div>
+      <div class="spec">
+        <div class="label">Display C · Zen Antique</div>
+        <div class="big f-antique" lang="ja">大当たり</div>
+        <div class="big f-antique">Kuji</div>
+        <p class="sm">Serif antigua con trazo irregular, como tipo de plomo gastado. La más nostálgica; menos versátil en tamaños pequeños.</p>
+      </div>
+    </div>
+
+    <div class="grid g-2" style="margin-top:22px">
+      <div class="spec">
+        <div class="label">Titulares latinos · Fraunces 900</div>
+        <div class="big f-head">El destino ha hablado</div>
+        <p class="sm">Serif retro de contraste suave que combina con las mincho japonesas. Variable: <code>opsz</code> ajusta el contraste según el tamaño.</p>
+      </div>
+      <div class="spec">
+        <div class="label">Interfaz y párrafos · Zen Kaku Gothic New</div>
+        <div class="big f-ui" style="font-size:var(--s-2)">Añade a los participantes y pulsa Girar.</div>
+        <p class="sm">Sans humanista con familia japonesa completa: ES, EN y kanji comparten métricas, así que nada “salta” al cambiar de idioma. <code>DM Sans</code> como alternativa latina.</p>
+      </div>
+    </div>
+
+    <h3 class="f-head" style="font-size:var(--s-2);margin-top:44px">Escala tipográfica</h3>
+    <div style="margin-top:12px">
+      <div class="scale-row"><code>--s-5 / hero</code><span class="f-head" style="font-size:var(--s-4)">Que empiece el sorteo</span></div>
+      <div class="scale-row"><code>--s-3 / h2</code><span class="f-head" style="font-size:var(--s-3)">Amigo secreto</span></div>
+      <div class="scale-row"><code>--s-2 / h3</code><span class="f-head" style="font-size:var(--s-2)">Participantes</span></div>
+      <div class="scale-row"><code>--s-1 / lede</code><span style="font-size:var(--s-1)">Cada quien recibe solo su propio resultado.</span></div>
+      <div class="scale-row"><code>--s-0 / cuerpo</code><span>Monto sugerido, fecha e intercambio.</span></div>
+      <div class="scale-row"><code>--s--1 / nota</code><span style="font-size:var(--s--1)">Los correos se borran a los 30 días.</span></div>
+      <div class="scale-row"><code>.7rem / etiqueta</code><span class="eyebrow" style="font-size:.7rem">ID de sorteo verificable</span></div>
+    </div>
+
+    <h3 class="f-head" style="font-size:var(--s-2);margin-top:44px">Kanji decorativo y su traducción</h3>
+    <div class="grid g-4" style="margin-top:14px">
+      <div class="spec"><div class="big f-mincho" lang="ja" style="font-size:var(--s-3)">抽選</div><p class="sm"><b>chūsen</b> — sorteo. Cabecera del modo A.</p></div>
+      <div class="spec"><div class="big f-mincho" lang="ja" style="font-size:var(--s-3)">大当たり</div><p class="sm"><b>ōatari</b> — gran premio. Pantalla de ganador.</p></div>
+      <div class="spec"><div class="big f-mincho" lang="ja" style="font-size:var(--s-3)">お楽しみ</div><p class="sm"><b>otanoshimi</b> — la diversión. Sello del correo de amigo secreto.</p></div>
+      <div class="spec"><div class="big f-mincho" lang="ja" style="font-size:var(--s-3)">福</div><p class="sm"><b>fuku</b> — fortuna. Centro de la ruleta y favicon.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 05 PATRONES ══════════════ -->
+<section class="sec" id="patrones">
+  <div class="wrap">
+    <p class="eyebrow"><span class="kanji-num" aria-hidden="true">五</span> Patrones y texturas</p>
+    <h2 class="sec-title">Línea fina, al 12 % de opacidad, en bordes y bandas</h2>
+    <p class="sec-lede">Redibujados en SVG como <code>&lt;pattern&gt;</code>, heredan el color de la tinta actual, así que funcionan igual en modo día y en modo noche. Nunca como papel tapiz de página completa.</p>
+
+    <div class="grid g-4">
+      <div class="pat"><div class="box"><svg width="100%" height="100%" aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#p-seigaiha)"/></svg></div>
+        <div class="cap"><b lang="ja">青海波 Seigaiha</b><span>Olas concéntricas. Bandas de pie de página y cabecera del hero.</span></div></div>
+      <div class="pat"><div class="box"><svg width="100%" height="100%" aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#p-asanoha)"/></svg></div>
+        <div class="cap"><b lang="ja">麻の葉 Asanoha</b><span>Hoja de cáñamo. Reverso de las tarjetas y la scratch card.</span></div></div>
+      <div class="pat"><div class="box"><svg width="100%" height="100%" aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#p-shippo)"/></svg></div>
+        <div class="cap"><b lang="ja">七宝 Shippō</b><span>Círculos entrelazados. Marco de los correos.</span></div></div>
+      <div class="pat"><div class="box halftone-demo"></div>
+        <div class="cap"><b>Halftone</b><span>Trama de puntos de 6px para sombra y volumen. Sustituye al degradado.</span></div></div>
+    </div>
+
+    <div class="grid g-2" style="margin-top:18px">
+      <div class="pat"><div class="box grain-demo"></div>
+        <div class="cap"><b>Grano de papel</b><span><code>feTurbulence</code> en multiply sobre toda la página, al 42 %. Un solo SVG en línea, cero peticiones.</span></div></div>
+      <div class="pat"><div class="box" style="background:var(--paper-hi);display:grid;place-items:center">
+          <div style="display:flex;gap:16px;align-items:center">
+            <div style="width:64px;height:44px;background:var(--mustard);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink)"></div>
+            <div style="width:64px;height:44px;background:var(--matcha);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink)"></div>
+          </div></div>
+        <div class="cap"><b>Sombra dura desplazada</b><span><code>box-shadow: 6px 6px 0 var(--color-ink)</code>. Nunca <code>blur</code>.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 06 RULETA ══════════════ -->
+<section class="sec sec--alt" id="ruleta">
+  <div class="wrap">
+    <p class="eyebrow"><span class="kanji-num" aria-hidden="true">六</span> La ruleta</p>
+    <h2 class="sec-title">Anatomía de la protagonista</h2>
+    <p class="sec-lede">Dibujada en Canvas 2D con <code>devicePixelRatio</code> y animada fuera del ciclo de render de React, para que no baje de 60fps. El resultado nunca lo decide la física: el servidor elige el ganador y la animación se calcula para terminar exactamente ahí.</p>
+
+    <div class="anat">
+      <svg id="wheelDiagram" viewBox="0 0 460 470" role="img" aria-label="Despiece de la ruleta con seis llamadas numeradas" style="width:100%;height:auto"></svg>
+      <ol>
+        <li><div><b>Aro de esmalte rojo</b><span>Anillo de 20px con 24 remaches crema. Alternativa: madera clara <code>#C8A06A</code>.</span></div></li>
+        <li><div><b>Puntero de sello</b><span>Cuña bermellón con sombra dura. Rebota al golpear el clavo de cada segmento: rotación de ±9° amortiguada.</span></div></li>
+        <li><div><b>Segmentos en tintas planas</b><span>Borde índigo de 2px, sin degradado. El volumen lo da una trama halftone en el tercio exterior.</span></div></li>
+        <li><div><b>Cubo <span lang="ja">福</span></b><span>Sello hanko que hace de eje. En el estado de resultado se convierte en el sello que estampa el nombre.</span></div></li>
+        <li><div><b>Faroles <i lang="ja">chōchin</i></b><span>12 faroles de papel en vez de bombillas de casino. Se encienden en secuencia mientras gira y quedan fijos al parar.</span></div></li>
+        <li><div><b>Sombra dura desplazada</b><span>Copia del disco en índigo a <code>8px 8px</code>. Da el aire de pegatina impresa, no de objeto 3D.</span></div></li>
+      </ol>
+    </div>
+
+    <div class="grid g-3" style="margin-top:34px">
+      <div class="spec"><div class="label">Física del giro</div>
+        <p class="sm" style="margin-top:10px">5-8s con <code>cubic-bezier(.12,.72,.12,1)</code> y un rebote final de 2°. La velocidad angular se deriva del ángulo objetivo, no al revés.</p></div>
+      <div class="spec"><div class="label">Sonido · apagado por defecto</div>
+        <p class="sm" style="margin-top:10px">Clac de madera por cada clavo (ritmo ligado a la velocidad), taiko corto al parar y campanilla al revelar. Toggle visible en el header.</p></div>
+      <div class="spec"><div class="label">prefers-reduced-motion</div>
+        <p class="sm" style="margin-top:10px">Sin giro ni confeti: transición de opacidad de 200ms al resultado y el mismo anuncio en <code>aria-live="polite"</code>.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 07 COMPONENTES ══════════════ -->
+<section class="sec" id="componentes">
+  <div class="wrap">
+    <p class="eyebrow"><span class="kanji-num" aria-hidden="true">七</span> Componentes</p>
+    <h2 class="sec-title">Botones que se hunden como sellos</h2>
+
+    <div class="grid g-2">
+      <div class="frame">
+        <div class="label eyebrow" style="font-size:.68rem">Botones · pulsa para ver el efecto</div>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:16px">
+          <button class="stamp" type="button">Girar</button>
+          <button class="stamp stamp--wood" type="button">Añadir persona</button>
+          <button class="stamp stamp--ghost" type="button">Atrás</button>
+          <button class="stamp stamp--sm" type="button">Reintentar envío</button>
+        </div>
+        <p class="sm" style="font-size:var(--s--1);color:var(--ink-2);margin-top:16px">Al pulsar se desplazan <code>3px 3px</code> y pierden la sombra: el botón “estampa”. Sin <code>border-radius</code> salvo en los sellos circulares.</p>
+      </div>
+
+      <div class="frame">
+        <div class="label eyebrow" style="font-size:.68rem">Formulario</div>
+        <div style="display:grid;gap:14px;margin-top:16px">
+          <label class="field" for="f-nombre"><span class="lb">Nombre</span>
+            <input id="f-nombre" type="text" value="Marisol Cadena"></label>
+          <label class="field" for="f-mail"><span class="lb">Correo</span>
+            <input id="f-mail" type="email" placeholder="marisol@ejemplo.com"></label>
+          <p style="font-size:var(--s--1);color:var(--vermilion-2);display:flex;gap:7px"><span aria-hidden="true">✕</span> Ese correo ya está en la lista. Cambia uno de los dos.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame" style="margin-top:18px">
+      <div class="label eyebrow" style="font-size:.68rem">Wizard de 3 pasos</div>
+      <div class="steps" style="margin-top:18px">
+        <span class="step on"><i>1</i><b>Participantes</b></span><span class="step-line"></span>
+        <span class="step on"><i>2</i><b>Detalles</b></span><span class="step-line"></span>
+        <span class="step"><i>3</i><b>Revisión</b></span>
+      </div>
+    </div>
+
+    <div class="grid g-3" style="margin-top:18px">
+      <div class="noshi">
+        <svg class="mizuhiki" viewBox="0 0 200 26" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path d="M0 13c25-16 50 16 75 0s50-16 75 0 50 16 50 0" fill="none" stroke="var(--vermilion)" stroke-width="3"/>
+          <path d="M0 19c25-16 50 16 75 0s50-16 75 0 50 16 50 0" fill="none" stroke="var(--mustard)" stroke-width="3"/>
+        </svg>
+        <p class="eyebrow" style="margin-top:14px;font-size:.66rem">Correo · amigo secreto</p>
+        <p style="font-size:var(--s--1);color:var(--ink-2);margin-top:10px">Te tocó regalarle a:</p>
+        <p class="f-head" style="font-size:var(--s-2);line-height:1.1;margin-top:4px">Kenji Morales</p>
+        <p style="font-size:var(--s--1);color:var(--ink-2);margin-top:10px">Hasta $25.000 · 20 dic, 8pm · Casa de Ana</p>
+        <p style="font-size:.72rem;color:var(--ink-3);margin-top:14px">Etiqueta <i lang="ja">noshi</i> con cordón <i lang="ja">mizuhiki</i>. En el correo real va como PNG alojado, con <code>alt</code>, por Outlook.</p>
+      </div>
+
+      <div class="frame frame--flat" style="--card:var(--paper-hi)">
+        <p class="eyebrow" style="font-size:.66rem">Tarjeta de participante</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:14px">
+          <span class="hanko-badge" style="width:44px;height:44px;flex:0 0 44px;font-size:1.05rem">3</span>
+          <div><b style="display:block">Diego Restrepo</b><span style="font-size:var(--s--1);color:var(--ink-2)">diego@ejemplo.com</span></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+          <span class="tag tag--ok">Correo enviado</span>
+          <span class="tag tag--warn">No puede tocarle Ana</span>
+        </div>
+      </div>
+
+      <div class="frame" id="stampDemo" style="text-align:center">
+        <p class="eyebrow" style="font-size:.66rem;justify-content:center">Resultado</p>
+        <div style="margin:20px 0" id="stampSlot">
+          <span class="hanko-badge" style="width:92px;height:92px;flex:0 0 92px;font-size:2rem;margin-inline:auto" lang="ja">当</span>
+        </div>
+        <p class="f-head" style="font-size:var(--s-2)">Yuki Sandoval</p>
+        <p style="font-size:var(--s--1);color:var(--ink-2)">Sorteo <code>#8K3-QW9</code> · verificable</p>
+        <button class="stamp stamp--sm" type="button" id="stampBtn" style="margin-top:16px">Volver a estampar</button>
+      </div>
+    </div>
+
+    <h3 class="f-head" style="font-size:var(--s-2);margin-top:44px">Iconos dibujados a mano</h3>
+    <p style="font-size:var(--s--1);color:var(--ink-2);margin-top:6px">Trazo de 2.2px, extremos redondeados, ligera imperfección. Sin packs genéricos.</p>
+    <div class="icons" id="iconSet"></div>
+  </div>
+</section>
+
+<!-- ══════════════ 08 NOCHE ══════════════ -->
+<section class="sec sec--alt" id="noche">
+  <div class="wrap">
+    <p class="eyebrow"><span class="kanji-num" aria-hidden="true">八</span> Modo oscuro</p>
+    <h2 class="sec-title">Noche de festival</h2>
+    <p class="sec-lede">No es un inverso automático. El índigo pasa de tinta a papel, los faroles suben de mostaza a ámbar encendido y el bermellón se aclara a <code>#E2543F</code> para mantener 4.8:1 sobre el fondo oscuro. Pulsa <b>Noche</b> arriba para verlo.</p>
+    <div class="grid g-3">
+      <div class="spec"><div class="label">Papel → cielo</div><p class="sm" style="margin-top:8px"><code>#F1E6CF</code> → <code>#131E2C</code></p></div>
+      <div class="spec"><div class="label">Tinta → luz</div><p class="sm" style="margin-top:8px"><code>#1B2A41</code> → <code>#F2E7D1</code></p></div>
+      <div class="spec"><div class="label">Farol encendido</div><p class="sm" style="margin-top:8px"><code>#E0A526</code> → <code>#FFD277</code></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 09 ESTRUCTURA ══════════════ -->
+<section class="sec" id="estructura">
+  <div class="wrap">
+    <p class="eyebrow"><span class="kanji-num" aria-hidden="true">九</span> Estructura de carpetas</p>
+    <h2 class="sec-title">Dónde vive cada cosa</h2>
+    <p class="sec-lede">Todo lo sensible (asignaciones, claves, envíos) queda del lado del servidor en <code>src/lib</code> y <code>src/app/api</code>. El cliente nunca ve el algoritmo ni las asignaciones.</p>
+
+    <div class="tree">
+<pre>ruleta/
+├─ src/
+│  ├─ app/
+│  │  ├─ [locale]/
+│  │  │  ├─ layout.tsx            <span class="c">// fuentes, tokens, header, footer</span>
+│  │  │  ├─ page.tsx              <span class="c">// landing con ruleta demo</span>
+│  │  │  ├─ sorteo/               <span class="c">// MODO A — wizard + ruleta + resultado</span>
+│  │  │  ├─ amigo-secreto/        <span class="c">// MODO B — wizard + ceremonia</span>
+│  │  │  ├─ r/[token]/page.tsx    <span class="c">// scratch card privada del participante</span>
+│  │  │  ├─ privacidad/ terminos/
+│  │  │  └─ opengraph-image.tsx
+│  │  ├─ api/
+│  │  │  ├─ draws/route.ts        <span class="c">// crear sorteo (Zod + Turnstile + ratelimit)</span>
+│  │  │  ├─ draws/[id]/spin/      <span class="c">// elige ganador con crypto.randomInt</span>
+│  │  │  ├─ emails/retry/         <span class="c">// reintento solo de los fallidos</span>
+│  │  │  └─ cron/purge/           <span class="c">// borra correos a los 30 días</span>
+│  │  ├─ sitemap.ts  robots.ts
+│  │
+│  ├─ components/
+│  │  ├─ <span class="d">wheel/</span>      Wheel.tsx · drawWheel.ts · useSpin.ts · Pointer.tsx
+│  │  │            Chochin.tsx · Confetti.tsx · HankoStamp.tsx · sounds.ts
+│  │  ├─ <span class="d">wizard/</span>     Step1Participants.tsx · Step2Details.tsx · Step3Review.tsx
+│  │  │            ParticipantRow.tsx · ExclusionEditor.tsx · ProgressBar.tsx
+│  │  ├─ <span class="d">ui/</span>         StampButton · PaperCard · DoubleFrame · Tag · Field
+│  │  │            StepNumber · HalftoneBox · Pattern (seigaiha/asanoha/shippo)
+│  │  └─ <span class="d">layout/</span>     Header · Footer · LocaleSwitcher · ThemeToggle · SoundToggle
+│  │
+│  ├─ emails/                     <span class="c">// React Email — tablas + estilos inline</span>
+│  │  ├─ components/              EmailFrame · NoshiTag · HankoSeal · Footer
+│  │  ├─ SecretSantaEmail.tsx     RaffleWinnerEmail.tsx
+│  │  ├─ RaffleParticipantEmail.tsx  OrganizerReceiptEmail.tsx
+│  │  └─ render.ts                <span class="c">// elige plantilla + locale</span>
+│  │
+│  ├─ lib/
+│  │  ├─ draw/   derangement.ts <span class="c">// algoritmo + exclusiones</span>
+│  │  │          random.ts      <span class="c">// crypto.randomInt, sin Math.random</span>
+│  │  │          audit.ts       <span class="c">// hash semilla+timestamp = ID verificable</span>
+│  │  ├─ email/  resend.ts · batch.ts · backoff.ts · status.ts
+│  │  ├─ db/     schema.ts · client.ts · queries/
+│  │  ├─ crypto/ assignments.ts <span class="c">// AES-GCM; el organizador nunca descifra</span>
+│  │  ├─ validation/  participants.ts · draw.ts · shared.ts <span class="c">// Zod, cliente+servidor</span>
+│  │  ├─ ratelimit.ts            turnstile.ts
+│  │
+│  ├─ i18n/     routing.ts · request.ts · navigation.ts
+│  ├─ config/   <span class="d">brand.ts</span>   <span class="c">// ← ÚNICA fuente del nombre, dominio y remitente</span>
+│  └─ styles/   tokens.css · globals.css · patterns.css
+│
+├─ messages/    es.json · en.json        <span class="c">// UI, validaciones, correos, SEO</span>
+├─ public/      fonts/ · email/ (sello.png, noshi.png) · og/ · favicon.svg
+├─ drizzle/     migrations/
+├─ tests/
+│  ├─ unit/     derangement.test.ts <span class="c">// 3 personas, 50, exclusiones imposibles</span>
+│  │            random.test.ts · validation.test.ts
+│  └─ e2e/      secret-santa.spec.ts <span class="c">// Playwright, flujo completo</span>
+├─ docs/        moodboard.html · resend-dns.md · deploy-vercel.md
+├─ .env.example
+└─ README.md</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 10 CIERRE ══════════════ -->
+<section class="sec sec--alt" id="aprobacion">
+  <div class="wrap">
+    <p class="eyebrow"><span class="kanji-num" aria-hidden="true">十</span> Siguiente paso</p>
+    <h2 class="sec-title">Qué necesito que apruebes</h2>
+    <div class="frame" style="margin-top:28px">
+      <ul class="ask">
+        <li><span class="k" lang="ja">名</span><div><b>El nombre.</b> Fukubiki, Tanoshii o Kuji. Mi recomendación es <b>Kuji</b> por lo fácil que es decirlo y escribirlo en español; Fukubiki es el segundo si prefieres el guiño literal al mecanismo.</div></li>
+        <li><span class="k" lang="ja">字</span><div><b>La display japonesa.</b> Dela Gothic One (impacto), <b>Shippori Mincho B1</b> (mi recomendación) o Zen Antique (la más nostálgica).</div></li>
+        <li><span class="k" lang="ja">色</span><div><b>La paleta.</b> Tal cual, o ajustando el bermellón. Ojo: tres combinaciones solo pasan AA en texto grande y quedan restringidas por regla.</div></li>
+        <li><span class="k" lang="ja">輪</span><div><b>El aro de la ruleta.</b> Esmalte rojo (el del boceto) o madera clara <code>#C8A06A</code>.</div></li>
+        <li><span class="k" lang="ja">夜</span><div><b>El modo noche.</b> ¿Lo incluimos en la fase 1 o lo dejamos para la fase 7?</div></li>
+      </ul>
+      <p style="margin-top:20px;font-size:var(--s--1);color:var(--ink-2)">Con eso arranco la <b>Fase 1</b>: setup de Next.js, tokens, i18n y landing. Si algo no te convence, dime qué y lo rehago antes de escribir una línea de aplicación.</p>
+    </div>
+  </div>
+</section>
+
+<footer style="background:var(--ink);color:var(--paper);padding-block:32px">
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
+    <span class="f-head" style="font-size:var(--s-1)"><span class="brand">Fukubiki</span> · Moodboard 01</span>
+    <span style="font-size:var(--s--1);opacity:.75">ruleta.codezun.com · <span lang="ja" class="f-mincho">お楽しみに</span> (que lo disfrutes)</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (t, a = {}, text) => {
+    const n = document.createElementNS(NS, t);
+    for (const k in a) n.setAttribute(k, a[k]);
+    if (text != null) n.textContent = text;
+    return n;
+  };
+  const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  /* ── Patrones generados ────────────────────────────────────────── */
+  (function seigaiha() {
+    const pat = document.getElementById("p-seigaiha");
+    const g = pat.querySelector("g");
+    const R = 26, H = R / 2;           // radio del abanico y salto entre filas
+    pat.setAttribute("width", R * 2);  // dos periodos horizontales
+    pat.setAttribute("height", H * 2); // dos filas = un periodo vertical
+    const radii = [R, R * 0.72, R * 0.46, R * 0.22];
+    // De arriba abajo: cada abanico se rellena con el papel y tapa al de atrás.
+    for (let row = -4; row <= 8; row++) {
+      const cy = row * H;
+      const offset = Math.abs(row % 2) === 1 ? R / 2 : 0;
+      for (let x = -2 * R + offset; x <= 4 * R; x += R) {
+        g.appendChild(el("path", {
+          d: `M${x - R} ${cy}A${R} ${R} 0 0 1 ${x + R} ${cy}Z`,
+          fill: "var(--paper)", stroke: "none",
+        }));
+        g.appendChild(el("path", {
+          d: radii.map((r) => `M${x - r} ${cy}A${r} ${r} 0 0 1 ${x + r} ${cy}`).join(""),
+        }));
+      }
+    }
+  })();
+  (function asanoha() {
+    const pat = document.getElementById("p-asanoha");
+    const g = pat.querySelector("g");
+    const R = 24, W = Math.sqrt(3) * R, H = 3 * R;
+    pat.setAttribute("width", W.toFixed(3));
+    pat.setAttribute("height", H.toFixed(3));
+    const vert = (cx, cy, i) => {
+      const a = (Math.PI / 180) * (60 * i - 90);
+      return [cx + R * Math.cos(a), cy + R * Math.sin(a)];
+    };
+    let d = "";
+    for (let row = -1; row <= 3; row++) {
+      const cy = row * 1.5 * R;
+      const offset = Math.abs(row % 2) === 1 ? W / 2 : 0;
+      for (let col = -1; col <= 2; col++) {
+        const cx = col * W + offset;
+        for (let i = 0; i < 6; i++) {
+          const [x1, y1] = vert(cx, cy, i);
+          const [x2, y2] = vert(cx, cy, i + 1);
+          d += `M${x1.toFixed(2)} ${y1.toFixed(2)}L${x2.toFixed(2)} ${y2.toFixed(2)}`;
+          d += `M${cx.toFixed(2)} ${cy.toFixed(2)}L${x1.toFixed(2)} ${y1.toFixed(2)}`;
+        }
+      }
+    }
+    g.appendChild(el("path", { d }));
+  })();
+
+  /* ── Ruleta ────────────────────────────────────────────────────── */
+  const NAMES = ["Ana", "Kenji", "Marisol", "Diego", "Yuki", "Camila", "Rubén", "Sora"];
+  const INKS = ["var(--mustard)", "var(--paper-hi)", "var(--matcha)", "var(--sakura)"];
+  const CX = 230, CY = 240, RS = 150, RIM = 160, ROUT = 170.5, RLANT = 195;
+  const STEP = 360 / NAMES.length;
+  const polar = (r, deg) => {
+    const a = (deg - 90) * Math.PI / 180;
+    return [CX + r * Math.cos(a), CY + r * Math.sin(a)];
+  };
+
+  function buildWheel(svg) {
+    const shadow = el("circle", { cx: CX + 8, cy: CY + 8, r: ROUT, fill: "var(--ink)", opacity: ".92" });
+    svg.appendChild(shadow);
+
+    const rot = el("g", {});
+    const segs = [];
+    NAMES.forEach((name, i) => {
+      const a1 = i * STEP - STEP / 2, a2 = a1 + STEP;
+      const [x1, y1] = polar(RS, a1), [x2, y2] = polar(RS, a2);
+      const seg = el("path", {
+        d: `M${CX} ${CY}L${x1.toFixed(2)} ${y1.toFixed(2)}A${RS} ${RS} 0 0 1 ${x2.toFixed(2)} ${y2.toFixed(2)}Z`,
+        fill: INKS[i % INKS.length], stroke: "var(--ink)", "stroke-width": "2",
+      });
+      rot.appendChild(seg);
+      segs.push(seg);
+    });
+    NAMES.forEach((name, i) => {
+      const mid = i * STEP;
+      const flip = mid > 90 && mid < 270;
+      const t = el("text", {
+        x: CX, y: flip ? CY + 96 : CY - 96,
+        transform: `rotate(${flip ? mid + 180 : mid} ${CX} ${CY})`,
+        "text-anchor": "middle", "dominant-baseline": "central",
+        fill: "var(--ink)", "font-family": "var(--font-head)", "font-weight": "900", "font-size": "19",
+      }, name);
+      rot.appendChild(t);
+    });
+    rot.appendChild(el("circle", { cx: CX, cy: CY, r: RS, fill: "none", stroke: "var(--ink)", "stroke-width": "3" }));
+    rot.appendChild(el("circle", { cx: CX, cy: CY, r: RIM, fill: "none", stroke: "var(--vermilion)", "stroke-width": "20" }));
+    rot.appendChild(el("circle", { cx: CX, cy: CY, r: ROUT, fill: "none", stroke: "var(--ink)", "stroke-width": "2.5" }));
+    for (let i = 0; i < 24; i++) {
+      const [x, y] = polar(RIM, i * 15 + 7.5);
+      rot.appendChild(el("circle", { cx: x.toFixed(2), cy: y.toFixed(2), r: "3.4", fill: "var(--on-vermilion)", opacity: ".85" }));
+    }
+    svg.appendChild(rot);
+
+    const lanterns = [];
+    const lg = el("g", {});
+    for (let i = 0; i < 12; i++) {
+      const [x, y] = polar(RLANT, i * 30 + 15);
+      const one = el("g", { transform: `translate(${x.toFixed(2)} ${y.toFixed(2)})` });
+      one.appendChild(el("path", { d: "M0 -17v4", stroke: "var(--ink)", "stroke-width": "1.6" }));
+      one.appendChild(el("rect", { x: -5, y: -14, width: 10, height: 3, fill: "var(--ink)" }));
+      const body = el("ellipse", { cx: 0, cy: 0, rx: 8.5, ry: 11, fill: "var(--lantern-off)", stroke: "var(--ink)", "stroke-width": "1.6" });
+      one.appendChild(body);
+      one.appendChild(el("path", { d: "M-8 -4h16M-8 4h16", stroke: "var(--ink)", "stroke-width": "1", opacity: ".5" }));
+      one.appendChild(el("rect", { x: -3.5, y: 11, width: 7, height: 3, fill: "var(--ink)" }));
+      lg.appendChild(one);
+      lanterns.push(body);
+    }
+    svg.appendChild(lg);
+
+    const hub = el("g", {});
+    hub.appendChild(el("circle", { cx: CX + 4, cy: CY + 4, r: 34, fill: "var(--ink)" }));
+    hub.appendChild(el("circle", { cx: CX, cy: CY, r: 34, fill: "var(--vermilion)", stroke: "var(--ink)", "stroke-width": "2.5" }));
+    hub.appendChild(el("text", {
+      x: CX, y: CY + 1, "text-anchor": "middle", "dominant-baseline": "central", lang: "ja",
+      fill: "var(--on-vermilion)", "font-family": "var(--font-antique)", "font-size": "30",
+    }, "福"));
+    svg.appendChild(hub);
+
+    const pointer = el("g", {});
+    const shape = (dx, dy, fill) => {
+      const g = el("g", { transform: `translate(${dx} ${dy})` });
+      g.appendChild(el("path", { d: `M${CX - 17} ${CY - 194}L${CX + 17} ${CY - 194}L${CX} ${CY - 138}Z`, fill }));
+      g.appendChild(el("circle", { cx: CX, cy: CY - 198, r: 17, fill }));
+      return g;
+    };
+    pointer.appendChild(shape(4, 4, "var(--ink)"));
+    const head = shape(0, 0, "var(--vermilion)");
+    head.querySelectorAll("path,circle").forEach((n) => { n.setAttribute("stroke", "var(--ink)"); n.setAttribute("stroke-width", "2.5"); n.setAttribute("stroke-linejoin", "round"); });
+    pointer.appendChild(head);
+    svg.appendChild(pointer);
+
+    return { rot, segs, lanterns, pointer };
+  }
+
+  const wheelSvg = document.getElementById("wheel");
+  const W = buildWheel(wheelSvg);
+
+  /* Despiece numerado */
+  (function diagram() {
+    const svg = document.getElementById("wheelDiagram");
+    const scaled = el("g", { transform: `translate(${CX} ${CY}) scale(.82) translate(${-CX} ${-CY})` });
+    const tmp = el("g", {});
+    buildWheel(tmp);
+    while (tmp.firstChild) scaled.appendChild(tmp.firstChild);
+    scaled.querySelectorAll("ellipse").forEach((n, i) => { if (i % 3 === 0) n.setAttribute("fill", "var(--lantern)"); });
+    svg.appendChild(scaled);
+    const calls = [
+      [416, 92, 322, 148, "01"],   // aro
+      [58, 56, 212, 74, "02"],     // puntero
+      [426, 288, 318, 292, "03"],  // segmento
+      [44, 236, 200, 240, "04"],   // cubo
+      [42, 412, 140, 372, "05"],   // farol
+      [412, 424, 320, 362, "06"],  // sombra (cae abajo-derecha, con el offset)
+    ];
+    for (const [x, y, tx, ty, n] of calls) {
+      svg.appendChild(el("path", { d: `M${x} ${y}L${tx} ${ty}`, stroke: "var(--ink)", "stroke-width": "1.5", "stroke-dasharray": "3 4" }));
+      svg.appendChild(el("circle", { cx: x, cy: y, r: 14, fill: "var(--vermilion)", stroke: "var(--ink)", "stroke-width": "2" }));
+      svg.appendChild(el("text", { x, y: y + 1, "text-anchor": "middle", "dominant-baseline": "central", fill: "var(--on-vermilion)", "font-family": "var(--font-head)", "font-weight": "900", "font-size": "13" }, n));
+    }
+  })();
+
+  /* ── Confeti ───────────────────────────────────────────────────── */
+  const cv = document.getElementById("confetti");
+  const ctx = cv.getContext("2d");
+  let bits = [], raf = null;
+  function sizeCanvas() {
+    const r = cv.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.max(1, Math.round(r.width * dpr));
+    cv.height = Math.max(1, Math.round(r.height * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener("resize", sizeCanvas);
+  function burst() {
+    if (reduced()) return;
+    sizeCanvas();
+    const w = cv.getBoundingClientRect().width;
+    const cols = ["--vermilion", "--mustard", "--matcha", "--sakura", "--paper-hi"].map(token);
+    bits = Array.from({ length: 110 }, () => ({
+      x: w / 2 + (Math.random() - .5) * w * .5, y: -20 - Math.random() * 120,
+      vx: (Math.random() - .5) * 2.6, vy: 1.6 + Math.random() * 2.8,
+      s: 4 + Math.random() * 7, rot: Math.random() * 6.28, vr: (Math.random() - .5) * .22,
+      c: cols[Math.floor(Math.random() * cols.length)], round: Math.random() < .4, life: 1,
+    }));
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function tick() {
+    const r = cv.getBoundingClientRect();
+    ctx.clearRect(0, 0, r.width, r.height);
+    let alive = 0;
+    for (const b of bits) {
+      b.vy += 0.035; b.x += b.vx; b.y += b.vy; b.rot += b.vr;
+      if (b.y > r.height * .82) b.life -= 0.035;
+      if (b.life <= 0) continue;
+      alive++;
+      ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.rot);
+      ctx.globalAlpha = Math.max(0, b.life); ctx.fillStyle = b.c;
+      if (b.round) { ctx.beginPath(); ctx.arc(0, 0, b.s / 2, 0, 6.29); ctx.fill(); }
+      else ctx.fillRect(-b.s / 2, -b.s / 3, b.s, b.s * .66);
+      ctx.restore();
+    }
+    raf = alive ? requestAnimationFrame(tick) : (ctx.clearRect(0, 0, r.width, r.height), null);
+  }
+
+  /* ── Giro ──────────────────────────────────────────────────────── */
+  const spinBtn = document.getElementById("spinBtn");
+  const out = document.getElementById("wheelResult");
+  let angle = 0, spinning = false;
+
+  function pickWinner() {
+    const buf = new Uint32Array(1);
+    const max = Math.floor(4294967296 / NAMES.length) * NAMES.length;
+    let v;
+    do { crypto.getRandomValues(buf); v = buf[0]; } while (v >= max);
+    return v % NAMES.length;
+  }
+  function resetHighlight() {
+    W.segs.forEach((s) => s.setAttribute("opacity", "1"));
+    W.lanterns.forEach((l) => l.setAttribute("fill", "var(--lantern-off)"));
+  }
+  function showWinner(i) {
+    W.segs.forEach((s, k) => s.setAttribute("opacity", k === i ? "1" : ".32"));
+    W.lanterns.forEach((l) => l.setAttribute("fill", "var(--lantern)"));
+    out.innerHTML = "";
+    const box = document.createElement("div");
+    box.className = "hanko-result is-stamping";
+    box.innerHTML = '<span class="hanko-badge" lang="ja">当</span>';
+    box.append(NAMES[i]);
+    out.appendChild(box);
+    burst();
+  }
+
+  function spin() {
+    if (spinning) return;
+    spinning = true;
+    spinBtn.disabled = true;
+    resetHighlight();
+    out.textContent = "";
+    const winner = pickWinner();
+    const jitter = (Math.random() - .5) * STEP * .5;
+    const base = ((-winner * STEP + jitter) % 360 + 360) % 360;
+    const turns = 5 + Math.floor(Math.random() * 3);
+    const start = angle;
+    const target = start + turns * 360 + (((base - (start % 360)) % 360) + 360) % 360;
+
+    if (reduced()) { angle = target; W.rot.setAttribute("transform", `rotate(${angle} ${CX} ${CY})`); spinning = false; spinBtn.disabled = false; showWinner(winner); return; }
+
+    const dur = 5800, overshoot = 4.5, t0 = performance.now();
+    let pAng = 0, pVel = 0, lastSeg = Math.floor(start / STEP), lit = 0, prev = start;
+    (function frame(now) {
+      const t = Math.min(1, (now - t0) / dur);
+      const peak = target + overshoot;
+      if (t < 0.9) {
+        const e = 1 - Math.pow(1 - t / 0.9, 4);
+        angle = start + (peak - start) * e;
+      } else {
+        const e = 1 - Math.pow(1 - (t - 0.9) / 0.1, 3);
+        angle = peak + (target - peak) * e;
+      }
+      const speed = Math.abs(angle - prev); prev = angle;
+      const seg = Math.floor(angle / STEP);
+      if (seg !== lastSeg) {
+        lastSeg = seg;
+        pVel -= Math.min(10, 1.2 + speed * .55);
+        W.lanterns[lit % 12].setAttribute("fill", "var(--lantern)");
+        W.lanterns[(lit + 9) % 12].setAttribute("fill", "var(--lantern-off)");
+        lit++;
+      }
+      pVel += -pAng * 0.4; pVel *= 0.76; pAng = Math.max(-15, Math.min(15, pAng + pVel));
+      W.rot.setAttribute("transform", `rotate(${angle.toFixed(2)} ${CX} ${CY})`);
+      W.pointer.setAttribute("transform", `rotate(${pAng.toFixed(2)} ${CX} ${CY - 198})`);
+      if (t < 1) requestAnimationFrame(frame);
+      else {
+        angle = target % 360;
+        W.rot.setAttribute("transform", `rotate(${angle} ${CX} ${CY})`);
+        W.pointer.removeAttribute("transform");
+        spinning = false; spinBtn.disabled = false;
+        showWinner(winner);
+      }
+    })(t0);
+  }
+  spinBtn.addEventListener("click", spin);
+
+  /* ── Iconos ────────────────────────────────────────────────────── */
+  const ICONS = [
+    ["Ruleta", "M24 42a16 16 0 1 1 0-32 16 16 0 0 1 0 32ZM24 10v32M8 26h32M12.7 14.7l22.6 22.6M35.3 14.7 12.7 37.3"],
+    ["Correo", "M7 13h34v24H7zM7 15l17 13 17-13"],
+    ["Personas", "M18 23a6 6 0 1 1 0-12 6 6 0 0 1 0 12ZM32 25a5 5 0 1 1 0-10 5 5 0 0 1 0 10M8 39c1.6-7.4 6-11 10-11s8.4 3.6 10 11M29 39c1-5.4 4.2-8.6 7-8.6s5.4 2.2 6.4 6.4"],
+    ["Regalo", "M9 21h30v19H9zM6 14h36v7H6zM24 14v26M24 14c-4.5-6.5-13-6-13-1.4S19.5 15 24 14ZM24 14c4.5-6.5 13-6 13-1.4S28.5 15 24 14Z"],
+    ["Fecha", "M7 12h34v29H7zM7 21h34M16 7v9M32 7v9M16 29h4M23 29h4M30 29h4"],
+    ["Privado", "M11 22h26v18H11zM17 22v-6a7 7 0 0 1 14 0v6M24 29v5"],
+  ];
+  const iconSet = document.getElementById("iconSet");
+  for (const [label, d] of ICONS) {
+    const fig = document.createElement("figure");
+    const box = document.createElement("div");
+    box.className = "icon-box";
+    const svg = el("svg", { viewBox: "0 0 48 48", width: "52", height: "52", "aria-hidden": "true", focusable: "false" });
+    svg.appendChild(el("path", { d, fill: "none", stroke: "var(--ink)", "stroke-width": "2.2", "stroke-linecap": "round", "stroke-linejoin": "round" }));
+    box.appendChild(svg);
+    const cap = document.createElement("figcaption");
+    cap.textContent = label;
+    fig.append(box, cap);
+    iconSet.appendChild(fig);
+  }
+
+  /* ── Sello de resultado ────────────────────────────────────────── */
+  const stampBtn = document.getElementById("stampBtn");
+  const stampSlot = document.getElementById("stampSlot");
+  stampBtn.addEventListener("click", () => {
+    const badge = stampSlot.firstElementChild;
+    badge.classList.remove("is-stamping");
+    void badge.offsetWidth;
+    badge.classList.add("is-stamping");
+  });
+
+  /* ── Nombre de marca ───────────────────────────────────────────── */
+  const cards = document.querySelectorAll(".name-card");
+  cards.forEach((card) => card.addEventListener("click", () => {
+    cards.forEach((c) => c.setAttribute("aria-pressed", String(c === card)));
+    const name = card.dataset.name, jp = card.dataset.jp;
+    document.querySelectorAll(".brand").forEach((n) => { n.textContent = name; });
+    document.querySelectorAll(".brand-jp").forEach((n) => { n.textContent = jp; });
+    document.title = name + " Showa";
+  }));
+
+  /* ── Tema ──────────────────────────────────────────────────────── */
+  const themeBtn = document.getElementById("themeBtn");
+  const themeLabel = document.getElementById("themeLabel");
+  const prefersDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+  let dark = prefersDark();
+  try { const s = localStorage.getItem("fb-theme"); if (s) dark = s === "dark"; } catch (e) { /* sin storage */ }
+  function applyTheme() {
+    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+    themeLabel.textContent = dark ? "Día" : "Noche";
+    themeBtn.setAttribute("aria-pressed", String(dark));
+  }
+  applyTheme();
+  themeBtn.addEventListener("click", () => {
+    dark = !dark;
+    applyTheme();
+    try { localStorage.setItem("fb-theme", dark ? "dark" : "light"); } catch (e) { /* sin storage */ }
+  });
+
+  sizeCanvas();
+})();
+</script>
