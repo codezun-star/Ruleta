@@ -206,6 +206,26 @@
       inset 0 0 0 4px var(--ink);
   }
 
+  /* Golpe de sello: entra grande y torcido y se asienta ligeramente ladeado. */
+  @keyframes stamp-in {
+    0% {
+      transform: scale(2.2) rotate(-16deg);
+      opacity: 0;
+    }
+    55% {
+      transform: scale(0.94) rotate(4deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(-7deg);
+      opacity: 1;
+    }
+  }
+
+  .animate-stamp {
+    animation: stamp-in 0.42s cubic-bezier(0.2, 1.5, 0.35, 1) both;
+  }
+
   /* Etiqueta tipo sello de inspección: dos esquinas recortadas. */
   .clipped-tag {
     clip-path: polygon(

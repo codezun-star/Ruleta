@@ -19,6 +19,10 @@
     "theme": {
       "toDark": "Night",
       "toLight": "Day"
+    },
+    "sound": {
+      "enable": "Turn sound on",
+      "disable": "Mute"
     }
   },
   "home": {
@@ -29,7 +33,6 @@
       "lede": "Build your list, spin the wheel and let chance decide. Results go out by email to each person, and with Secret Santa not even you can see who got whom.",
       "primaryCta": "Run a raffle",
       "secondaryCta": "Secret Santa",
-      "wheelLabel": "Demo wheel spinning with eight sample names",
       "note": "Free, no account, nothing to install."
     },
     "modes": {
@@ -120,5 +123,13 @@
     "badge": "Under construction",
     "title": "The form goes here",
     "body": "The three-step wizard lands in the next phase. For now this screen wires up navigation, language and the design system."
+  },
+  "wheel": {
+    "canvas": "Raffle wheel showing the participants' names",
+    "spin": "Spin",
+    "spinning": "Spinning…",
+    "again": "Spin again",
+    "caption": "The winner is",
+    "seal": "WON!"
   }
 }

@@ -4,6 +4,7 @@ import {BRAND} from '@/config/brand';
 import {SealMark} from '@/components/ui/SealMark';
 import {LocaleSwitcher} from './LocaleSwitcher';
 import {ThemeToggle} from './ThemeToggle';
+import {SoundToggle} from './SoundToggle';
 
 export function Header() {
   const t = useTranslations('nav');
@@ -28,6 +29,7 @@ export function Header() {
         <div className="ml-auto flex items-center gap-2 md:ml-0">
           <LocaleSwitcher />
           <ThemeToggle />
+          <SoundToggle />
         </div>
       </div>
     </header>

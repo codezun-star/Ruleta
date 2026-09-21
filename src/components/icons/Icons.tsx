@@ -14,7 +14,9 @@ const PATHS = {
   calendar: 'M7 12h34v29H7zM7 21h34M16 7v9M32 7v9M16 29h4M23 29h4M30 29h4',
   lock: 'M11 22h26v18H11zM17 22v-6a7 7 0 0 1 14 0v6M24 29v5',
   dice: 'M10 14h28v28H10zM18 22h.01M30 22h.01M18 34h.01M30 34h.01M24 28h.01',
-  shield: 'M24 6l16 6v12c0 9-7 15.5-16 18-9-2.5-16-9-16-18V12l16-6ZM17 24l5 5 10-10'
+  shield: 'M24 6l16 6v12c0 9-7 15.5-16 18-9-2.5-16-9-16-18V12l16-6ZM17 24l5 5 10-10',
+  sound: 'M8 19h6l9-7v24l-9-7H8zM29 19a9 9 0 0 1 0 10M35 15a16 16 0 0 1 0 18',
+  mute: 'M8 19h6l9-7v24l-9-7H8zM30 19l10 10M40 19l-10 10'
 } as const;
 
 export type IconName = keyof typeof PATHS;

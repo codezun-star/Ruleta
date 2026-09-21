@@ -14,7 +14,7 @@ las asignaciones.
 |---|---|---|
 | 0 | Moodboard y dirección visual | ✅ `docs/moodboard.html` |
 | 1 | Setup, sistema de diseño, i18n, layout, landing | ✅ |
-| 2 | Ruleta: física, sonido, confeti, sello | ⏳ |
+| 2 | Ruleta: física, sonido, confeti, sello | ✅ |
 | 3 | Asistente de configuración y validaciones | ⏳ |
 | 4 | Algoritmo de asignación y tests | ⏳ |
 | 5 | Base de datos y envío de correos | ⏳ |
@@ -85,8 +85,29 @@ Google Fonts en tiempo de ejecución:
 ### La ruleta
 
 Se dibuja en Canvas 2D (`src/components/wheel/`) fuera del ciclo de render de
-React: el bucle de animación no provoca re-renders. Dos detalles que conviene
-recordar al tocarla:
+React: el bucle de animación no provoca re-renders y se detiene solo cuando la
+ruleta queda en reposo.
+
+**El resultado no sale de la animación.** `<Wheel>` acepta `resolveWinner`, que
+devuelve el índice ganador; `planSpin()` calcula *hacia atrás* el ángulo que
+hay que recorrer para acabar justo en ese segmento. Hoy la demo lo sortea en el
+cliente con `randomInt()` (`crypto.getRandomValues` con rechazo de módulo, sin
+sesgo); en la Fase 5 se sustituye por la llamada al servidor sin tocar una
+línea de la animación.
+
+| Pieza | Archivo |
+|---|---|
+| Dibujo del disco, aro, bombillas y puntero | `drawWheel.ts` |
+| Frenada, rebote final y muelle del puntero | `spinPhysics.ts` |
+| Papel picado que cae al ganar | `confetti.ts` |
+| Clac, golpe y campanilla (WebAudio, sin archivos) | `sounds.ts` |
+| Bucle, estado y accesibilidad | `Wheel.tsx` |
+
+El sonido viene apagado por defecto y se guarda en `localStorage`. Solo se
+desbloquea el `AudioContext` dentro del gesto que lo activa, que es lo único
+que aceptan los navegadores.
+
+Dos detalles que conviene recordar al tocarla:
 
 - `ctx.font` **no** resuelve `var(--font-*)`. La familia se resuelve en
   `readWheelLabelFont()` antes de pasarla al canvas.
@@ -105,7 +126,9 @@ Contraste verificado sobre papel crema:
 | Bermellón `#C8382B` sobre papel | 4.2:1 | **Solo ≥24px.** Para texto normal, `#A82D22` |
 | Índigo sobre matcha | 4.1:1 | Solo texto grande; matcha es color de superficie |
 
-`prefers-reduced-motion` detiene el giro de la ruleta y las transiciones.
+`prefers-reduced-motion` salta el giro y el confeti: la ruleta va directa al
+resultado y este se anuncia igual por `aria-live`. El ganador se lee en texto,
+no solo por el color del segmento.
 
 ## Licencia
 

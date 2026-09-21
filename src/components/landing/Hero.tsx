@@ -1,7 +1,7 @@
 import {useTranslations} from 'next-intl';
 import {StampLink} from '@/components/ui/StampButton';
 import {PapelPicado} from '@/components/ui/Patterns';
-import {WheelCanvas} from '@/components/wheel/WheelCanvas';
+import {Wheel} from '@/components/wheel/Wheel';
 
 /** Nombres de muestra: la ruleta de portada tiene que verse llena de gente. */
 const DEMO_NAMES = ['Ana', 'Kenji', 'Marisol', 'Diego', 'Yuki', 'Camila', 'Rubén', 'Sora'];
@@ -33,7 +33,7 @@ export function Hero() {
           <p className="mt-4 text-sm text-ink-2">{t('note')}</p>
         </div>
 
-        <WheelCanvas labels={DEMO_NAMES} label={t('wheelLabel')} />
+        <Wheel labels={DEMO_NAMES} />
       </div>
     </section>
   );

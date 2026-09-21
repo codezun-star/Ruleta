@@ -19,6 +19,10 @@
     "theme": {
       "toDark": "Noche",
       "toLight": "Día"
+    },
+    "sound": {
+      "enable": "Activar sonido",
+      "disable": "Silenciar"
     }
   },
   "home": {
@@ -29,7 +33,6 @@
       "lede": "Arma tu lista, gira la ruleta y deja que el azar decida. Los resultados llegan por correo a cada quien, y en el amigo secreto ni siquiera tú puedes ver quién le tocó a quién.",
       "primaryCta": "Hacer un sorteo",
       "secondaryCta": "Amigo secreto",
-      "wheelLabel": "Ruleta de demostración girando con ocho nombres de ejemplo",
       "note": "Gratis, sin cuenta y sin instalar nada."
     },
     "modes": {
@@ -120,5 +123,13 @@
     "badge": "En construcción",
     "title": "Aquí va el formulario",
     "body": "El asistente de tres pasos llega en la siguiente fase. Por ahora esta pantalla monta la navegación, el idioma y el sistema de diseño."
+  },
+  "wheel": {
+    "canvas": "Ruleta de sorteo con los nombres de los participantes",
+    "spin": "Girar",
+    "spinning": "Girando…",
+    "again": "Girar otra vez",
+    "caption": "El ganador es",
+    "seal": "¡GANÓ!"
   }
 }

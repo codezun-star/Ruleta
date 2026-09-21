@@ -83,13 +83,22 @@ export function drawWheel(ctx: CanvasRenderingContext2D, options: DrawWheelOptio
     const start = ((i * step - step / 2 - 90) * Math.PI) / 180;
     const end = start + (step * Math.PI) / 180;
 
-    ctx.globalAlpha = highlight === null || highlight === i ? 1 : 0.28;
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.arc(cx, cy, SEGMENT_RADIUS, start, end);
     ctx.closePath();
     ctx.fillStyle = palette[ink.fill];
     ctx.fill();
+
+    // Los segmentos que no ganaron se lavan con un velo de papel. Bajarles la
+    // opacidad dejaría ver la sombra del disco y saldrían de color barro.
+    if (highlight !== null && highlight !== i) {
+      ctx.fillStyle = palette.paper;
+      ctx.globalAlpha = 0.68;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
     ctx.strokeStyle = palette.ink;
     ctx.lineWidth = 2;
     ctx.stroke();
@@ -100,6 +109,7 @@ export function drawWheel(ctx: CanvasRenderingContext2D, options: DrawWheelOptio
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(((flip ? mid + 180 : mid) * Math.PI) / 180);
+    ctx.globalAlpha = highlight !== null && highlight !== i ? 0.4 : 1;
     ctx.fillStyle = palette[ink.text];
     ctx.font = labelFont;
     ctx.textAlign = 'center';
@@ -107,7 +117,6 @@ export function drawWheel(ctx: CanvasRenderingContext2D, options: DrawWheelOptio
     ctx.fillText(label, 0, flip ? LABEL_RADIUS : -LABEL_RADIUS, LABEL_MAX_WIDTH);
     ctx.restore();
   });
-  ctx.globalAlpha = 1;
 
   ctx.beginPath();
   ctx.arc(cx, cy, SEGMENT_RADIUS, 0, Math.PI * 2);
