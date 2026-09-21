@@ -13,13 +13,41 @@ export const BRAND = {
   mailbox: 'hola'
 } as const;
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? `https://${BRAND.domain}`;
+/**
+ * Una variable de entorno declarada pero vacía llega como `''`, no como
+ * `undefined`, así que `??` no la cubre. Esto sí.
+ */
+function env(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : undefined;
+}
+
+function resolveSiteUrl(): string {
+  const configured =
+    env(process.env.NEXT_PUBLIC_SITE_URL) ??
+    // En previews de Vercel el dominio lo pone la plataforma.
+    (env(process.env.VERCEL_PROJECT_PRODUCTION_URL) ?? env(process.env.VERCEL_URL));
+
+  const candidate = configured ?? BRAND.domain;
+  // Admite tanto "ruleta.codezun.com" como "https://ruleta.codezun.com/".
+  const absolute = /^https?:\/\//.test(candidate) ? candidate : `https://${candidate}`;
+
+  try {
+    return new URL(absolute).origin;
+  } catch {
+    return `https://${BRAND.domain}`;
+  }
+}
+
+/** Siempre una URL absoluta y válida: `metadataBase` no admite otra cosa. */
+export const SITE_URL = resolveSiteUrl();
 
 /** Remitente de Resend. El dominio debe estar verificado con SPF, DKIM y DMARC. */
 export const EMAIL_FROM =
-  process.env.EMAIL_FROM ?? `${BRAND.name} <${BRAND.mailbox}@${BRAND.domain}>`;
+  env(process.env.EMAIL_FROM) ?? `${BRAND.name} <${BRAND.mailbox}@${BRAND.domain}>`;
 
-export const EMAIL_REPLY_TO = process.env.EMAIL_REPLY_TO ?? `${BRAND.mailbox}@${BRAND.domain}`;
+export const EMAIL_REPLY_TO =
+  env(process.env.EMAIL_REPLY_TO) ?? `${BRAND.mailbox}@${BRAND.domain}`;
 
 /**
  * Los únicos glifos japoneses que usamos como elemento gráfico. Se piden a
