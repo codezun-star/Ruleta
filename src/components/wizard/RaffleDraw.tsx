@@ -1,6 +1,6 @@
 'use client';
 
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useMemo, useState, type ReactNode} from 'react';
 import {useTranslations} from 'next-intl';
 import {Wheel} from '@/components/wheel/Wheel';
 import {StampButton} from '@/components/ui/StampButton';
@@ -11,29 +11,43 @@ import type {Participant} from '@/lib/validation/participants';
 export function RaffleDraw({
   participants,
   winnerCount,
-  onRestart
+  onRestart,
+  serverWinners,
+  drawId,
+  emailStatus
 }: {
   participants: Participant[];
   winnerCount: number;
   onRestart: () => void;
+  /** Ganadores ya decididos por el servidor. La ruleta solo los representa. */
+  serverWinners?: {name: string; position: number}[];
+  drawId?: string;
+  emailStatus?: ReactNode;
 }) {
   const t = useTranslations('draw');
   // Referencia estable: si cambiara en cada render, la ruleta se reconstruiría.
   const labels = useMemo(() => participants.map((person) => person.name), [participants]);
   const [won, setWon] = useState<number[]>([]);
-  const [drawId] = useState(randomTicketId);
+  const [localId] = useState(randomTicketId);
 
-  const total = Math.min(winnerCount, participants.length);
+  const total = serverWinners ? serverWinners.length : Math.min(winnerCount, participants.length);
   const finished = won.length >= total;
+  const ticket = drawId ?? localId;
 
   /**
    * Los ya premiados quedan fuera del sorteo siguiente, pero siguen en la
    * ruleta: quitarlos la reconstruiría y se perdería el sello del ganador.
    */
   const resolveWinner = useCallback(() => {
+    if (serverWinners) {
+      // Los nombres son únicos: la validación rechaza repetidos.
+      const next = serverWinners[won.length]?.name;
+      const index = labels.indexOf(next ?? '');
+      if (index >= 0) return index;
+    }
     const remaining = labels.map((_, index) => index).filter((index) => !won.includes(index));
     return remaining[randomInt(remaining.length)] ?? 0;
-  }, [labels, won]);
+  }, [labels, serverWinners, won]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -81,14 +95,15 @@ export function RaffleDraw({
           <p className="text-[0.7rem] font-bold tracking-[0.14em] text-ink-2 uppercase">
             {t('id')}
           </p>
-          <p className="font-mono text-xl tracking-widest tabular-nums">{drawId}</p>
+          <p className="font-mono text-xl tracking-widest tabular-nums">{ticket}</p>
           <p className="text-sm text-ink-2">{t('idHint')}</p>
-          <p className="text-sm text-ink-2">{t('emailsSoon')}</p>
           <StampButton variant="ghost" size="sm" className="self-start" onClick={onRestart}>
             {t('restart')}
           </StampButton>
         </div>
       ) : null}
+
+      {finished ? emailStatus : null}
     </div>
   );
 }

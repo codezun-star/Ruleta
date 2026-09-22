@@ -1,6 +1,6 @@
 'use client';
 
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useMemo, useState, type ReactNode} from 'react';
 import {useTranslations} from 'next-intl';
 import {Wheel} from '@/components/wheel/Wheel';
 import {StampButton} from '@/components/ui/StampButton';
@@ -13,11 +13,18 @@ import type {Participant} from '@/lib/validation/participants';
 export function SecretSantaCeremony({
   participants,
   exclusions,
-  onRestart
+  onRestart,
+  serverDrawn = false,
+  drawId,
+  emailStatus
 }: {
   participants: Participant[];
   exclusions: [string, string][];
   onRestart: () => void;
+  /** El servidor ya repartió y cifró: aquí no se calcula ni se ve nada. */
+  serverDrawn?: boolean;
+  drawId?: string;
+  emailStatus?: ReactNode;
 }) {
   const t = useTranslations('ceremony');
   const labels = useMemo(() => participants.map((person) => person.name), [participants]);
@@ -28,12 +35,15 @@ export function SecretSantaCeremony({
    * organizador: solo marcamos de quién es el turno.
    */
   const [result] = useState(() =>
-    assignSecretSanta(
-      participants.map((person) => person.id),
-      exclusions
-    )
+    serverDrawn
+      ? ({ok: true} as const)
+      : assignSecretSanta(
+          participants.map((person) => person.id),
+          exclusions
+        )
   );
-  const [drawId] = useState(randomTicketId);
+  const [localId] = useState(randomTicketId);
+  const ticket = drawId ?? localId;
   const [turn, setTurn] = useState(0);
 
   const total = participants.length;
@@ -100,13 +110,15 @@ export function SecretSantaCeremony({
 
       {finished ? (
         <div className="flex flex-col gap-3 border-2 border-ink bg-paper-2 p-5">
-          <p className="font-mono text-xl tracking-widest tabular-nums">{drawId}</p>
-          <p className="text-sm text-ink-2">{t('clientNote')}</p>
+          <p className="font-mono text-xl tracking-widest tabular-nums">{ticket}</p>
+          {serverDrawn ? null : <p className="text-sm text-ink-2">{t('clientNote')}</p>}
           <StampButton variant="ghost" size="sm" className="self-start" onClick={onRestart}>
             {t('restart')}
           </StampButton>
         </div>
       ) : null}
+
+      {finished ? emailStatus : null}
     </div>
   );
 }

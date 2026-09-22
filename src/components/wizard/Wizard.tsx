@@ -1,7 +1,7 @@
 'use client';
 
 import {useState} from 'react';
-import {useTranslations} from 'next-intl';
+import {useLocale, useTranslations} from 'next-intl';
 import {useWizard, clearWizardDraft} from './WizardProvider';
 import {namedParticipants, type WizardStep} from './wizardState';
 import {WizardSteps} from './WizardSteps';
@@ -11,12 +11,48 @@ import {SecretSantaDetailsStep} from './SecretSantaDetailsStep';
 import {ReviewStep} from './ReviewStep';
 import {RaffleDraw} from './RaffleDraw';
 import {SecretSantaCeremony} from './SecretSantaCeremony';
+import {EmailStatus} from './EmailStatus';
 import {StampButton} from '@/components/ui/StampButton';
+import {createDraw, type DrawResponse} from '@/lib/api/draws';
 import {LIMITS} from '@/lib/validation/limits';
 import {validateParticipants} from '@/lib/validation/participants';
 import {raffleSchema} from '@/lib/validation/draw';
 import {checkFeasible} from '@/lib/draw/derangement';
 import type {WizardState} from './wizardState';
+import type {DrawConfig} from '@/lib/validation/draw';
+
+/** Traduce el estado del formulario a lo que entiende el servidor. */
+function toDrawConfig(state: WizardState, locale: string): DrawConfig {
+  const participants = namedParticipants(state);
+  if (state.mode === 'raffle') {
+    return {
+      mode: 'raffle',
+      participants,
+      prize: state.prize.trim(),
+      winnerCount: Math.min(state.winnerCount, participants.length),
+      notify: state.notify,
+      organizerEmail: state.organizerEmail.trim(),
+      locale
+    };
+  }
+  return {
+    mode: 'secretSanta',
+    participants,
+    budget: state.budget.trim() === '' ? '' : Number(state.budget),
+    currency: state.currency,
+    date: state.date,
+    place: state.place.trim(),
+    message: state.message.trim(),
+    exclusions: state.exclusions,
+    organizerEmail: state.organizerEmail.trim(),
+    locale
+  };
+}
+
+type Stage =
+  | {kind: 'server'; result: Extract<DrawResponse, {status: 'ok'}>}
+  /** Sin base de datos ni Resend, el sorteo se hace aquí y no se guarda. */
+  | {kind: 'local'; reason: 'notConfigured' | 'error'};
 
 function organizerLooksValid(state: WizardState): boolean {
   const value = state.organizerEmail.trim();
@@ -49,25 +85,47 @@ function stepIsComplete(state: WizardState): boolean {
 export function Wizard() {
   const t = useTranslations('wizard');
   const tReview = useTranslations('review');
+  const tDelivery = useTranslations('delivery');
+  const locale = useLocale();
   const {state, dispatch, restored} = useWizard();
-  const [drawing, setDrawing] = useState(false);
+  const [stage, setStage] = useState<Stage | null>(null);
+  const [starting, setStarting] = useState(false);
 
   const people = namedParticipants(state);
 
-  if (drawing) {
+  if (stage) {
     const restart = () => {
       clearWizardDraft(state.mode);
       dispatch({type: 'reset'});
-      setDrawing(false);
+      setStage(null);
     };
 
+    const status =
+      stage.kind === 'server' ? (
+        <EmailStatus drawId={stage.result.drawId} initial={stage.result.deliveries} />
+      ) : (
+        <p className="border-2 border-dashed border-vermilion-2 p-4 text-sm text-ink-2">
+          {stage.reason === 'notConfigured' ? tDelivery('localOnly') : tDelivery('serverError')}
+        </p>
+      );
+
     return state.mode === 'raffle' ? (
-      <RaffleDraw participants={people} winnerCount={state.winnerCount} onRestart={restart} />
+      <RaffleDraw
+        participants={people}
+        winnerCount={state.winnerCount}
+        onRestart={restart}
+        serverWinners={stage.kind === 'server' ? stage.result.winners : undefined}
+        drawId={stage.kind === 'server' ? stage.result.shortId : undefined}
+        emailStatus={status}
+      />
     ) : (
       <SecretSantaCeremony
         participants={people}
         exclusions={state.exclusions}
         onRestart={restart}
+        serverDrawn={stage.kind === 'server'}
+        drawId={stage.kind === 'server' ? stage.result.shortId : undefined}
+        emailStatus={status}
       />
     );
   }
@@ -80,12 +138,22 @@ export function Wizard() {
     dispatch({type: 'goTo', step});
   };
 
-  const start = () => {
+  /**
+   * El sorteo lo decide el servidor. Si todavía no hay base de datos ni
+   * Resend, se hace aquí para no dejar la pantalla muerta, y se dice.
+   */
+  const start = async () => {
     if (!stepIsComplete(state)) {
       dispatch({type: 'attempt'});
       return;
     }
-    setDrawing(true);
+    setStarting(true);
+    const response = await createDraw(toDrawConfig(state, locale));
+    setStarting(false);
+
+    if (response.status === 'ok') setStage({kind: 'server', result: response});
+    else if (response.status === 'notConfigured') setStage({kind: 'local', reason: 'notConfigured'});
+    else setStage({kind: 'local', reason: 'error'});
   };
 
   return (
@@ -132,7 +200,9 @@ export function Wizard() {
         {state.step < 3 ? (
           <StampButton onClick={() => goTo((state.step + 1) as WizardStep)}>{t('next')}</StampButton>
         ) : (
-          <StampButton onClick={start}>{tReview('start')}</StampButton>
+          <StampButton onClick={start} disabled={starting}>
+            {starting ? tDelivery('sending') : tReview('start')}
+          </StampButton>
         )}
       </div>
     </div>

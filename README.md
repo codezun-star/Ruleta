@@ -17,7 +17,7 @@ las asignaciones.
 | 2 | Ruleta: física, sonido, confeti, sello | ✅ |
 | 3 | Asistente de configuración y validaciones | ✅ |
 | 4 | Algoritmo de asignación y tests | ✅ |
-| 5 | Base de datos y envío de correos | ⏳ |
+| 5 | Base de datos y envío de correos | ✅ |
 | 6 | Seguridad, rate limit, captcha, legales, cron | ⏳ |
 | 7 | Pulido, accesibilidad, SEO y despliegue | ⏳ |
 
@@ -38,6 +38,10 @@ Abre http://localhost:3000 — redirige a `/es` o `/en` según tu navegador.
 | `npm run start` | Sirve la compilación |
 | `npm run typecheck` | TypeScript sin emitir |
 | `npm test` | Tests unitarios (Vitest) |
+| `npm run db:generate` | Regenera la migración desde el esquema |
+| `npm run db:migrate` | Aplica las migraciones |
+| `npm run email:preview` | Renderiza los correos a HTML para mirarlos |
+| `npm run email:assets` | Regenera los PNG del correo |
 
 ## Cómo está montado
 
@@ -154,6 +158,34 @@ válido y uniforme entre todos los ciclos posibles.
 
 El organizador **nunca** ve las asignaciones: la ceremonia gira por cada
 participante y solo marca de quién es el turno.
+
+### Base de datos y correos
+
+Se despliega **sin** base de datos ni Resend: si faltan, la API responde `503
+notConfigured` y el sorteo se hace en el navegador, diciéndolo en pantalla. En
+cuanto se configuran, el sorteo pasa al servidor sin tocar nada más.
+
+| Variable | Para qué |
+|---|---|
+| `DATABASE_URL` | Postgres (Supabase o Vercel). `npm run db:migrate` crea las tablas |
+| `ASSIGNMENTS_ENCRYPTION_KEY` | 32 bytes en base64: `openssl rand -base64 32` |
+| `RESEND_API_KEY`, `EMAIL_FROM`, `EMAIL_REPLY_TO` | Envío. Pasos de DNS en [`docs/resend-dns.md`](docs/resend-dns.md) |
+
+**El organizador nunca ve las asignaciones.** Se guardan cifradas con AES-GCM,
+la clave vive solo en el servidor, y las filas se borran en cuanto han salido
+todos los correos. El recibo del organizador cuenta cuánta gente participó y
+cuántos correos salieron, nada más.
+
+Los correos van en lotes de 100 con espera entre ellos, porque Resend permite
+2 peticiones por segundo. Si un lote entero falla tras los reintentos, se
+reenvía uno a uno: la API de lotes no dice *cuál* de los cien falló, y sin eso
+no se puede ofrecer "reintentar solo los fallidos".
+
+Las plantillas usan tablas, estilos en línea y tipografías web-safe (Georgia y
+Arial), porque las webfonts no son fiables en correo. El sello y la tira de
+papel picado viajan como **PNG** —Outlook no renderiza SVG— generados por
+`scripts/make-email-assets.mjs` con un codificador propio sobre `zlib`, sin
+dependencias.
 
 ### Accesibilidad
 

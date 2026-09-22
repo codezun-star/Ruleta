@@ -240,5 +240,70 @@
     "caption": "It's the turn of",
     "sealWord": "DONE",
     "knows": "knows who they are buying for"
+  },
+  "emails": {
+    "common": {
+      "bannerAlt": "Papel picado bunting",
+      "sealAlt": "Kuji seal",
+      "drawId": "Draw ID",
+      "footerWhy": "You're getting this because someone added you to a draw on {domain}.",
+      "footerUnsubscribe": "Report this email",
+      "footerRetention": "Your email address is deleted automatically after 30 days."
+    },
+    "secretSanta": {
+      "subject": "You know who you're buying for 🎁",
+      "preview": "Your Secret Santa is drawn. For your eyes only.",
+      "greeting": "Hi {name},",
+      "intro": "The draw is done and this is who you got. Nobody else knows, not even the organiser.",
+      "youGive": "You're buying for",
+      "budget": "Suggested budget",
+      "date": "Exchange date",
+      "place": "Place",
+      "messageFrom": "A note from the organiser",
+      "keep": "Keep this email: it's the only place this appears."
+    },
+    "raffleWinner": {
+      "subject": "You won! 🎉",
+      "preview": "Your name came up.",
+      "greeting": "Hi {name},",
+      "headline": "You won!",
+      "intro": "The wheel stopped on your name.",
+      "prize": "Prize",
+      "position": "Winner number {position}"
+    },
+    "raffleParticipant": {
+      "subject": "The draw is in",
+      "preview": "Here's how the draw went.",
+      "greeting": "Hi {name},",
+      "headline": "Here's how it went",
+      "intro": "Your name didn't come up this time, but here's the full result.",
+      "prize": "Prize",
+      "winners": "Winners"
+    },
+    "organizer": {
+      "subject": "Your draw is done",
+      "preview": "Draw summary and delivery status.",
+      "headline": "All set",
+      "intro": "The draw ran and the emails went out.",
+      "participants": "People",
+      "sent": "Emails sent",
+      "failed": "Failed",
+      "prize": "Prize",
+      "winners": "Winners",
+      "privacy": "Assignments are deliberately not here: each person only got their own, and we don't store them in the clear.",
+      "retry": "If any failed, you can retry them from the draw screen."
+    }
+  },
+  "delivery": {
+    "title": "Email delivery",
+    "sending": "Sending…",
+    "sent": "{count} sent",
+    "failed": "{count} failed",
+    "allSent": "Every email went out. Each person only got their own.",
+    "someFailed": "Some didn't make it. You can retry just those: the ones already sent are not repeated.",
+    "retry": "Retry the failed ones",
+    "retrying": "Retrying…",
+    "localOnly": "Email delivery isn't configured on this deployment yet, so the draw ran here in your browser and was stored nowhere.",
+    "serverError": "Something went wrong running the draw on the server. We ran it here so you are not left hanging."
   }
 }

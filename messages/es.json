@@ -240,5 +240,70 @@
     "caption": "Le toca a",
     "sealWord": "LISTO",
     "knows": "ya sabe a quién le regala"
+  },
+  "emails": {
+    "common": {
+      "bannerAlt": "Tira de papel picado",
+      "sealAlt": "Sello de Kuji",
+      "drawId": "ID de sorteo",
+      "footerWhy": "Recibes este correo porque alguien te incluyó en un sorteo en {domain}.",
+      "footerUnsubscribe": "Reportar este correo",
+      "footerRetention": "Tu correo se borra automáticamente a los 30 días."
+    },
+    "secretSanta": {
+      "subject": "Ya sabes a quién le regalas 🎁",
+      "preview": "Tu amigo secreto ya está sorteado. Ábrelo solo tú.",
+      "greeting": "Hola, {name}:",
+      "intro": "Se hizo el sorteo y esto es lo que te tocó. Nadie más lo sabe, ni siquiera quien organizó.",
+      "youGive": "Te tocó regalarle a",
+      "budget": "Monto sugerido",
+      "date": "Fecha del intercambio",
+      "place": "Lugar",
+      "messageFrom": "Mensaje de quien organiza",
+      "keep": "Guarda este correo: es el único sitio donde aparece."
+    },
+    "raffleWinner": {
+      "subject": "¡Ganaste! 🎉",
+      "preview": "Saliste sorteado.",
+      "greeting": "Hola, {name}:",
+      "headline": "¡Ganaste!",
+      "intro": "La ruleta se detuvo en tu nombre.",
+      "prize": "Premio",
+      "position": "Ganador número {position}"
+    },
+    "raffleParticipant": {
+      "subject": "Ya hay resultado del sorteo",
+      "preview": "Así quedó el sorteo.",
+      "greeting": "Hola, {name}:",
+      "headline": "Así quedó",
+      "intro": "Esta vez no salió tu nombre, pero aquí está el resultado completo.",
+      "prize": "Premio",
+      "winners": "Ganadores"
+    },
+    "organizer": {
+      "subject": "Tu sorteo quedó hecho",
+      "preview": "Resumen del sorteo y estado de los envíos.",
+      "headline": "Listo",
+      "intro": "El sorteo se realizó y los correos salieron.",
+      "participants": "Participantes",
+      "sent": "Correos enviados",
+      "failed": "Envíos fallidos",
+      "prize": "Premio",
+      "winners": "Ganadores",
+      "privacy": "Las asignaciones no aparecen aquí a propósito: cada quien recibió solo la suya y nosotros no las guardamos en claro.",
+      "retry": "Si alguno falló, puedes reintentarlo desde la pantalla del sorteo."
+    }
+  },
+  "delivery": {
+    "title": "Envío de correos",
+    "sending": "Enviando…",
+    "sent": "{count} enviados",
+    "failed": "{count} fallidos",
+    "allSent": "Todos los correos salieron. Cada quien recibió solo lo suyo.",
+    "someFailed": "Algunos no llegaron. Puedes reintentar solo esos: los que ya salieron no se repiten.",
+    "retry": "Reintentar los fallidos",
+    "retrying": "Reintentando…",
+    "localOnly": "El envío de correos todavía no está configurado en este despliegue, así que el sorteo se hizo aquí en tu navegador y no se guardó en ningún sitio.",
+    "serverError": "Algo falló al hacer el sorteo en el servidor. Se hizo aquí para no dejarte a medias."
   }
 }
