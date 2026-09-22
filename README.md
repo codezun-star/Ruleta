@@ -18,7 +18,7 @@ las asignaciones.
 | 3 | Asistente de configuración y validaciones | ✅ |
 | 4 | Algoritmo de asignación y tests | ✅ |
 | 5 | Base de datos y envío de correos | ✅ |
-| 6 | Seguridad, rate limit, captcha, legales, cron | ⏳ |
+| 6 | Seguridad, rate limit, captcha, legales, cron | ✅ |
 | 7 | Pulido, accesibilidad, SEO y despliegue | ⏳ |
 
 ## Arrancar en local
@@ -186,6 +186,37 @@ Arial), porque las webfonts no son fiables en correo. El sello y la tira de
 papel picado viajan como **PNG** —Outlook no renderiza SVG— generados por
 `scripts/make-email-assets.mjs` con un codificador propio sobre `zlib`, sin
 dependencias.
+
+### Seguridad
+
+Todo lo opcional degrada solo: si falta una variable, esa pieza se apaga y el
+resto sigue funcionando.
+
+| Pieza | Sin configurar | Configurada |
+|---|---|---|
+| **Rate limit** (Upstash) | No limita nada | 5 sorteos por hora y por IP |
+| **Captcha** (Turnstile) | No se muestra ni se exige | Widget en el paso 3 y verificación en el servidor |
+| **Cron de limpieza** | `503` | Borra los correos a los 30 días, a diario |
+
+La única excepción es el captcha ya configurado: si Cloudflare no responde, el
+sorteo **no** pasa. Dejarlo pasar anularía el captcha justo cuando más falta
+hace.
+
+El cuerpo de la petición se corta a 64 KB, se valida con el mismo esquema de
+Zod que el formulario, y el cron comprueba `CRON_SECRET` **antes** de mirar si
+hay base de datos, para no filtrar si existe o no.
+
+Cabeceras: `nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`,
+`Permissions-Policy` y una CSP con `frame-ancestors`, `base-uri`, `form-action`
+y `object-src`. Falta `script-src`, que necesita nonces por petición porque
+Next inyecta scripts en línea propios: es una tarea aparte, no un olvido.
+
+### Rutas traducidas
+
+`/es/amigo-secreto` y `/en/secret-santa` son la misma página. Las rutas se
+declaran en `src/i18n/routing.ts` y el selector de idioma traduce la ruta
+actual en vez de mandarte a la portada. Los `hreflang` salen de `getPathname()`,
+porque concatenar el idioma daría `/en/privacidad`, que no existe.
 
 ### Accesibilidad
 

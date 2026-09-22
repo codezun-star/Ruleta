@@ -4,6 +4,7 @@ import {notFound} from 'next/navigation';
 import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {routing} from '@/i18n/routing';
+import {alternatesFor} from '@/lib/metadata';
 import {BRAND, SITE_URL} from '@/config/brand';
 import {fontVariables} from '@/lib/fonts';
 import {themeInitScript} from '@/lib/theme';
@@ -29,13 +30,7 @@ export async function generateMetadata({
     title: {default: `${BRAND.name} — ${t('title')}`, template: `%s · ${BRAND.name}`},
     description: t('description'),
     applicationName: BRAND.name,
-    alternates: {
-      canonical: `/${locale}`,
-      languages: {
-        ...Object.fromEntries(routing.locales.map((l) => [l, `/${l}`])),
-        'x-default': `/${routing.defaultLocale}`
-      }
-    },
+    alternates: alternatesFor('/', locale),
     openGraph: {
       type: 'website',
       siteName: BRAND.name,

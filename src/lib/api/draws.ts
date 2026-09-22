@@ -13,15 +13,20 @@ export type DrawResponse =
   /** Todavía no hay base de datos ni Resend: el sorteo se hace en el navegador. */
   | {status: 'notConfigured'}
   | {status: 'impossible'}
+  | {status: 'rateLimited'; retryAfter: number}
+  | {status: 'captcha'}
   | {status: 'error'};
 
-export async function createDraw(config: DrawConfig): Promise<DrawResponse> {
+export async function createDraw(
+  draw: DrawConfig,
+  turnstileToken?: string | null
+): Promise<DrawResponse> {
   let response: Response;
   try {
     response = await fetch('/api/draws', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(config)
+      body: JSON.stringify({draw, turnstileToken: turnstileToken ?? undefined})
     });
   } catch {
     return {status: 'error'};
@@ -29,6 +34,11 @@ export async function createDraw(config: DrawConfig): Promise<DrawResponse> {
 
   if (response.status === 503) return {status: 'notConfigured'};
   if (response.status === 409) return {status: 'impossible'};
+  if (response.status === 403) return {status: 'captcha'};
+  if (response.status === 429) {
+    const retryAfter = Number(response.headers.get('Retry-After') ?? 0);
+    return {status: 'rateLimited', retryAfter};
+  }
   if (!response.ok) return {status: 'error'};
 
   const data = (await response.json()) as Omit<

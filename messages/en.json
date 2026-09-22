@@ -104,7 +104,9 @@
   },
   "footer": {
     "tagline": "Raffles and Secret Santa with a spinning wheel",
-    "retention": "Participant emails are deleted after 30 days."
+    "retention": "Participant emails are deleted after 30 days.",
+    "privacy": "Privacy",
+    "terms": "Terms"
   },
   "wizard": {
     "participants": "People",
@@ -304,6 +306,80 @@
     "retry": "Retry the failed ones",
     "retrying": "Retrying…",
     "localOnly": "Email delivery isn't configured on this deployment yet, so the draw ran here in your browser and was stored nowhere.",
-    "serverError": "Something went wrong running the draw on the server. We ran it here so you are not left hanging."
+    "serverError": "Something went wrong running the draw on the server. We ran it here so you are not left hanging.",
+    "captchaFailed": "We couldn't confirm you're not a robot. Reload the page and try again.",
+    "rateLimited": "You've run several draws in a row. Wait {minutes} minutes and try again."
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy",
+      "updated": "Last updated: 22 September 2026",
+      "intro": "This isn't a contract full of small print. It's what we do with your data, said plainly.",
+      "s1": {
+        "title": "What we keep",
+        "body": "Only what the draw needs: each person's name and, when emails are going out, their address. Whoever organises can add their own address to get the summary. No account, no password, no date of birth, nothing that doesn't go on the wheel."
+      },
+      "s2": {
+        "title": "What we use it for",
+        "body": "Running the draw and sending the result. That's it. We don't sell data, build profiles or send marketing. If you choose not to email anyone in raffle mode, we don't even ask for addresses."
+      },
+      "s3": {
+        "title": "How long",
+        "body": "Email addresses are deleted automatically 30 days after the draw. A scheduled job does it every day; it doesn't depend on anyone remembering. After that the draw stays without contact details, so the verifiable ID still means something."
+      },
+      "s4": {
+        "title": "Secret Santa",
+        "body": "Who gives to whom is stored encrypted with AES-GCM and the key lives only on our server. Neither the organiser nor we can read it from the database. Once every email has gone out, those rows are deleted: the assignment exists only in each person's inbox."
+      },
+      "s5": {
+        "title": "Who we share it with",
+        "body": "Three services, and only what they need:\n\n• Resend, to send the emails. It gets the recipient's name and address.\n• The database provider (Supabase or Vercel Postgres), where draws live.\n• Cloudflare Turnstile, the captcha that stops people using this to send spam. It doesn't use tracking cookies.\n\nThere's no analytics, no pixels, no social widgets."
+      },
+      "s6": {
+        "title": "Cookies",
+        "body": "None. We keep three things in your browser's local storage, which never leave your device: whether you prefer day or night mode, whether you want sound, and your form draft so you don't lose it on reload. You can clear them from your browser settings."
+      },
+      "s7": {
+        "title": "Your rights",
+        "body": "You can ask us to delete your address before the 30 days are up, or to tell you what we hold. Write to us with the draw ID at hand, which is what lets us find it."
+      },
+      "s8": {
+        "title": "Contact",
+        "body": "hola@ruleta.codezun.com"
+      }
+    },
+    "terms": {
+      "title": "Terms",
+      "updated": "Last updated: 22 September 2026",
+      "intro": "Short rules for a short tool.",
+      "s1": {
+        "title": "What this is",
+        "body": "A free tool for raffles and Secret Santa. No accounts, no payments, no guaranteed support."
+      },
+      "s2": {
+        "title": "Acceptable use",
+        "body": "You may only add email addresses of people who know they're taking part. Using this to email people who aren't expecting it is spam, and we cut access without notice. That's exactly why there's a limit on draws per hour."
+      },
+      "s3": {
+        "title": "The emails",
+        "body": "We send one email per person, from a verified sender, with a footer to report it. If someone marks your email as spam it can affect delivery of later ones, so tell your group before you run the draw."
+      },
+      "s4": {
+        "title": "No warranties",
+        "body": "The service is offered as is. We do our best to keep the draw fair and the emails delivered, but we can't guarantee every mail provider will accept them, or that the service is always up."
+      },
+      "s5": {
+        "title": "Liability",
+        "body": "We're not responsible for gifts that never arrived, prizes that weren't handed over or exchanges that went sideways. The wheel decides; the rest is between you and your group."
+      },
+      "s6": {
+        "title": "Changes",
+        "body": "If these terms change, the date above changes. Carrying on using the site after a change means accepting it."
+      },
+      "s7": {
+        "title": "Contact",
+        "body": "hola@ruleta.codezun.com"
+      }
+    }
   }
 }

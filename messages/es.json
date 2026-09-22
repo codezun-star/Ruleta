@@ -104,7 +104,9 @@
   },
   "footer": {
     "tagline": "Sorteos y amigo secreto con ruleta",
-    "retention": "Los correos de los participantes se borran a los 30 días."
+    "retention": "Los correos de los participantes se borran a los 30 días.",
+    "privacy": "Privacidad",
+    "terms": "Términos"
   },
   "wizard": {
     "participants": "Participantes",
@@ -304,6 +306,80 @@
     "retry": "Reintentar los fallidos",
     "retrying": "Reintentando…",
     "localOnly": "El envío de correos todavía no está configurado en este despliegue, así que el sorteo se hizo aquí en tu navegador y no se guardó en ningún sitio.",
-    "serverError": "Algo falló al hacer el sorteo en el servidor. Se hizo aquí para no dejarte a medias."
+    "serverError": "Algo falló al hacer el sorteo en el servidor. Se hizo aquí para no dejarte a medias.",
+    "captchaFailed": "No pudimos comprobar que no eres un robot. Recarga la página y prueba otra vez.",
+    "rateLimited": "Has hecho varios sorteos seguidos. Espera {minutes} minutos y vuelve a intentarlo."
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacidad",
+      "updated": "Última actualización: 22 de septiembre de 2026",
+      "intro": "Esto no es un contrato lleno de letra pequeña, es lo que hacemos con tus datos, dicho claro.",
+      "s1": {
+        "title": "Qué guardamos",
+        "body": "Solo lo que hace falta para el sorteo: el nombre de cada participante y, cuando se van a mandar correos, su dirección. Quien organiza puede añadir su propio correo para recibir el resumen. No pedimos cuenta, ni contraseña, ni fecha de nacimiento, ni nada que no entre en la ruleta."
+      },
+      "s2": {
+        "title": "Para qué lo usamos",
+        "body": "Para hacer el sorteo y mandar el resultado. Nada más. No vendemos datos, no hacemos perfiles y no mandamos publicidad. Si en el modo sorteo eliges que no se avise a nadie por correo, ni siquiera pedimos direcciones."
+      },
+      "s3": {
+        "title": "Cuánto tiempo",
+        "body": "Las direcciones de correo se borran automáticamente a los 30 días del sorteo. Lo hace una tarea programada que corre todos los días; no depende de que alguien se acuerde. Después de eso queda el sorteo sin datos de contacto, para que el identificador verificable siga teniendo sentido."
+      },
+      "s4": {
+        "title": "El amigo secreto",
+        "body": "Quién le regala a quién se guarda cifrado con AES-GCM y la clave vive solo en nuestro servidor. Ni quien organiza el intercambio ni nosotros podemos leerlo desde la base de datos. En cuanto han salido todos los correos, esas filas se borran: el reparto solo existe en el buzón de cada quien."
+      },
+      "s5": {
+        "title": "Con quién lo compartimos",
+        "body": "Con tres servicios, y solo lo imprescindible:\n\n• Resend, para mandar los correos. Recibe el nombre y la dirección del destinatario.\n• El proveedor de la base de datos (Supabase o Vercel Postgres), donde viven los sorteos.\n• Cloudflare Turnstile, el captcha que evita que alguien use esto para mandar spam. No usa cookies de seguimiento.\n\nNo hay analítica, ni píxeles, ni redes sociales."
+      },
+      "s6": {
+        "title": "Cookies",
+        "body": "Ninguna. Guardamos tres cosas en el almacenamiento local de tu navegador, que nunca salen de tu equipo: si prefieres modo día o noche, si quieres sonido, y el borrador del formulario para que no lo pierdas al recargar. Puedes borrarlas desde la configuración de tu navegador."
+      },
+      "s7": {
+        "title": "Tus derechos",
+        "body": "Puedes pedirnos que borremos tu dirección antes de los 30 días, o saber qué tenemos de ti. Escríbenos con el identificador del sorteo a mano, que es lo que nos deja encontrarlo."
+      },
+      "s8": {
+        "title": "Contacto",
+        "body": "hola@ruleta.codezun.com"
+      }
+    },
+    "terms": {
+      "title": "Términos",
+      "updated": "Última actualización: 22 de septiembre de 2026",
+      "intro": "Reglas cortas para una herramienta corta.",
+      "s1": {
+        "title": "Qué es esto",
+        "body": "Una herramienta gratuita para hacer sorteos y amigos secretos. No hay cuentas, no hay pagos y no hay soporte garantizado."
+      },
+      "s2": {
+        "title": "Uso aceptable",
+        "body": "Solo puedes poner direcciones de correo de gente que sabe que va a participar. Usar esto para mandar correos a quien no lo espera es spam, y cortamos el acceso sin aviso. Hay un límite de sorteos por hora justamente por eso."
+      },
+      "s3": {
+        "title": "Los correos",
+        "body": "Mandamos un correo por participante, con el remitente verificado y un pie para reportarlo. Si alguien reporta un correo tuyo como spam, puede afectar a la entrega de los siguientes: procura avisar a tu grupo antes de hacer el sorteo."
+      },
+      "s4": {
+        "title": "Sin garantías",
+        "body": "El servicio se ofrece tal cual. Hacemos lo posible por que el sorteo sea justo y los correos lleguen, pero no podemos garantizar que el proveedor de correo de cada quien los acepte, ni que el servicio esté siempre disponible."
+      },
+      "s5": {
+        "title": "Responsabilidad",
+        "body": "No respondemos por regalos que no llegaron, premios que no se entregaron ni intercambios que salieron mal. La ruleta reparte; lo demás es cosa del grupo."
+      },
+      "s6": {
+        "title": "Cambios",
+        "body": "Si estos términos cambian, se actualiza la fecha de arriba. Seguir usando el sitio después de un cambio es aceptarlo."
+      },
+      "s7": {
+        "title": "Contacto",
+        "body": "hola@ruleta.codezun.com"
+      }
+    }
   }
 }

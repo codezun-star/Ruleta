@@ -1,5 +1,6 @@
 import type {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {alternatesFor} from '@/lib/metadata';
 import {SectionHeading} from '@/components/ui/SectionHeading';
 import {WizardProvider} from '@/components/wizard/WizardProvider';
 import {Wizard} from '@/components/wizard/Wizard';
@@ -11,7 +12,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'secretSanta'});
-  return {title: t('title'), description: t('lede')};
+  return {
+    title: t('title'),
+    description: t('lede'),
+    alternates: alternatesFor('/amigo-secreto', locale)
+  };
 }
 
 export default async function SecretSantaPage({params}: {params: Promise<{locale: string}>}) {

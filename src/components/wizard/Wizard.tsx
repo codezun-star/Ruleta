@@ -1,6 +1,6 @@
 'use client';
 
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import {useLocale, useTranslations} from 'next-intl';
 import {useWizard, clearWizardDraft} from './WizardProvider';
 import {namedParticipants, type WizardStep} from './wizardState';
@@ -12,6 +12,8 @@ import {ReviewStep} from './ReviewStep';
 import {RaffleDraw} from './RaffleDraw';
 import {SecretSantaCeremony} from './SecretSantaCeremony';
 import {EmailStatus} from './EmailStatus';
+import {TurnstileWidget, isTurnstileEnabled} from '@/components/ui/TurnstileWidget';
+import {ErrorText} from '@/components/ui/Field';
 import {StampButton} from '@/components/ui/StampButton';
 import {createDraw, type DrawResponse} from '@/lib/api/draws';
 import {LIMITS} from '@/lib/validation/limits';
@@ -90,6 +92,11 @@ export function Wizard() {
   const {state, dispatch, restored} = useWizard();
   const [stage, setStage] = useState<Stage | null>(null);
   const [starting, setStarting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [blocked, setBlocked] = useState<{reason: 'rateLimited' | 'captcha'; minutes?: number} | null>(
+    null
+  );
+  const onToken = useCallback((token: string | null) => setCaptchaToken(token), []);
 
   const people = namedParticipants(state);
 
@@ -148,12 +155,22 @@ export function Wizard() {
       return;
     }
     setStarting(true);
-    const response = await createDraw(toDrawConfig(state, locale));
+    setBlocked(null);
+    const response = await createDraw(toDrawConfig(state, locale), captchaToken);
     setStarting(false);
 
-    if (response.status === 'ok') setStage({kind: 'server', result: response});
-    else if (response.status === 'notConfigured') setStage({kind: 'local', reason: 'notConfigured'});
-    else setStage({kind: 'local', reason: 'error'});
+    if (response.status === 'ok') {
+      setStage({kind: 'server', result: response});
+    } else if (response.status === 'notConfigured') {
+      setStage({kind: 'local', reason: 'notConfigured'});
+    } else if (response.status === 'rateLimited') {
+      // Aquí no hay repliegue local: el límite existe justamente para frenar.
+      setBlocked({reason: 'rateLimited', minutes: Math.ceil(response.retryAfter / 60)});
+    } else if (response.status === 'captcha') {
+      setBlocked({reason: 'captcha'});
+    } else {
+      setStage({kind: 'local', reason: 'error'});
+    }
   };
 
   return (
@@ -186,6 +203,20 @@ export function Wizard() {
         ) : null}
         {state.step === 3 ? <ReviewStep /> : null}
       </div>
+
+      {state.step === 3 && isTurnstileEnabled() ? (
+        <div className="flex flex-col gap-2">
+          <TurnstileWidget onToken={onToken} />
+        </div>
+      ) : null}
+
+      {blocked ? (
+        <ErrorText>
+          {blocked.reason === 'captcha'
+            ? tDelivery('captchaFailed')
+            : tDelivery('rateLimited', {minutes: blocked.minutes ?? 1})}
+        </ErrorText>
+      ) : null}
 
       <div className="flex flex-wrap items-center gap-3">
         {state.step > 1 ? (

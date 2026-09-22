@@ -38,3 +38,14 @@ export const drawSchema = z.discriminatedUnion('mode', [raffleSchema, secretSant
 export type RaffleConfig = z.infer<typeof raffleSchema>;
 export type SecretSantaConfig = z.infer<typeof secretSantaSchema>;
 export type DrawConfig = z.infer<typeof drawSchema>;
+
+/**
+ * Lo que llega por HTTP: el sorteo más el token del captcha. Se mantiene
+ * aparte de `drawSchema` para que el dominio no sepa nada de Turnstile.
+ */
+export const drawRequestSchema = z.object({
+  draw: drawSchema,
+  turnstileToken: z.string().max(4096).optional()
+});
+
+export type DrawRequest = z.infer<typeof drawRequestSchema>;
