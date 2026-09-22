@@ -9,6 +9,8 @@ import {postsFor} from '@/content/posts';
 import {BreadcrumbData} from '@/components/seo/StructuredData';
 import {BlogListData} from '@/components/seo/BlogData';
 import {SectionHeading} from '@/components/ui/SectionHeading';
+import {AdLeaderboard} from '@/components/ads/AdBanner';
+import {AdNative} from '@/components/ads/AdNative';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
@@ -46,8 +48,10 @@ export default async function BlogIndex({params}: {params: Promise<{locale: stri
         <div className="mx-auto w-full max-w-3xl px-5">
           <SectionHeading as="h1" eyebrow={t('title')} title={t('heading')} lede={t('lede')} />
 
+          <AdLeaderboard className="mt-8" />
+
           <ul className="mt-10 flex flex-col">
-            {posts.map((post) => (
+            {posts.map((post, index) => (
               <li key={post.slug} className="border-t-2 border-ink first:border-t-0">
                 <Link
                   href={{pathname: '/blog/[slug]', params: {slug: post.slug}}}
@@ -69,9 +73,14 @@ export default async function BlogIndex({params}: {params: Promise<{locale: stri
                   </h2>
                   <p className="max-w-[62ch] text-ink-2">{post.description}</p>
                 </Link>
+                {/* Cada tres artículos, no entre todos: una lista donde se
+                    alternan entrada y anuncio deja de leerse como una lista. */}
+                {index % 3 === 2 && index < posts.length - 1 ? <AdNative className="mb-7" /> : null}
               </li>
             ))}
           </ul>
+
+          <AdNative className="mt-10" />
         </div>
       </section>
     </>

@@ -102,7 +102,7 @@
       "title": "Only what the draw needs",
       "point1": "We only ask for a name and an email. No accounts, no passwords.",
       "point2": "Secret Santa assignments are stored encrypted and deleted once the emails are out.",
-      "point3": "Participant emails are deleted automatically after 30 days."
+      "point3": "Participant emails are deleted after 3 days; 10 at most."
     },
     "finalCta": {
       "title": "Fate has spoken",
@@ -342,11 +342,11 @@
       },
       "s5": {
         "title": "Who we share it with",
-        "body": "Three services, and only what they need:\n\n• Resend, to send the emails. It gets the recipient's name and address.\n• Neon, the Postgres where draws live.\n• Cloudflare Turnstile, the captcha that stops people using this to send spam. It doesn't use tracking cookies.\n\nThere's no analytics, no pixels, no social widgets."
+        "body": "Four services, and only what they need:\n\n• Resend, to send the emails. It gets the recipient's name and address.\n• Neon, the Postgres where draws live.\n• Cloudflare Turnstile, the captcha that stops people using this to send spam. It doesn't use tracking cookies.\n• Adsterra, the network that serves the ads. It is what pays for the hosting and the emails.\n\nEvery ad loads inside an isolated frame that cannot read anything on this page: not your list, not the addresses you typed, not your form draft. What the network does see is what any ad network sees: your browser, roughly which country you are in, and which page you were on.\n\nThere's no analytics of our own, no pixels of ours, no social widgets. The privacy and terms pages carry no ads."
       },
       "s6": {
         "title": "Cookies",
-        "body": "None. We keep three things in your browser's local storage, which never leave your device: whether you prefer day or night mode, whether you want sound, and your form draft so you don't lose it on reload. You can clear them from your browser settings."
+        "body": "We set none ourselves. We keep three things in your browser's local storage, which never leave your device: whether you prefer day or night mode, whether you want sound, and your form draft so you don't lose it on reload.\n\nThe ad network does set its own, which is how advertising on the internet works. We have no access to them and use them for nothing. You can clear them, and block them, from your browser settings; the draw works exactly the same with an ad blocker on."
       },
       "s7": {
         "title": "Your rights",
@@ -506,5 +506,8 @@
     "decide": "Decide",
     "turns": "Turns",
     "teams": "Teams"
+  },
+  "ads": {
+    "label": "Advertisement"
   }
 }

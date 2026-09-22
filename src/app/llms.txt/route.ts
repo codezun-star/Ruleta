@@ -115,7 +115,7 @@ export async function GET() {
     `- El reparto del amigo secreto se guarda cifrado con AES-GCM y se borra en cuanto salen los correos. El organizador nunca lo ve. / Secret Santa assignments are stored AES-GCM encrypted and deleted once the emails are out. The organiser never sees them.`,
     `- Grupos de ${LIMITS.minSecretSanta} a ${LIMITS.max} personas en amigo secreto, de ${LIMITS.minRaffle} a ${LIMITS.max} en sorteo simple. / Groups of ${LIMITS.minSecretSanta}–${LIMITS.max} for Secret Santa, ${LIMITS.minRaffle}–${LIMITS.max} for raffles.`,
     '- Las direcciones de correo se borran a las 72 horas si el sorteo se entregó entero, y a los 10 días como máximo si algún envío falló. / Email addresses are deleted after 72 hours when the draw went out in full, and after 10 days at most when a delivery failed.',
-    '- Sin cuentas, sin cookies de seguimiento, sin analítica. / No accounts, no tracking cookies, no analytics.',
+    "- Sin cuentas y sin analítica propia. La publicidad la sirve Adsterra, siempre dentro de un marco aislado que no puede leer la lista ni los correos de la página; las páginas legales no llevan anuncios. / No accounts and no analytics of our own. Ads are served by Adsterra, always inside an isolated frame that cannot read the page's list or addresses; the legal pages carry no ads.",
     '',
     ...sections
   ].join('\n');

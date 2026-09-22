@@ -4,6 +4,7 @@ import {alternatesFor} from '@/lib/metadata';
 import {BreadcrumbData} from '@/components/seo/StructuredData';
 import {SectionHeading} from '@/components/ui/SectionHeading';
 import {DecisionTool} from '@/components/tools/DecisionTool';
+import {AdLeaderboard} from '@/components/ads/AdBanner';
 
 export async function generateMetadata({
   params
@@ -33,6 +34,10 @@ export default async function DecidePage({params}: {params: Promise<{locale: str
           <div className="mt-8">
             <DecisionTool />
           </div>
+
+          {/* Debajo de la herramienta y nunca encima: quien entra aquí viene a
+              girar, y un anuncio entre el titular y la ruleta lo estorba. */}
+          <AdLeaderboard className="mt-12" />
         </div>
       </section>
     </>

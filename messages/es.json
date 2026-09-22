@@ -102,7 +102,7 @@
       "title": "Lo justo y nada más",
       "point1": "Solo pedimos nombre y correo. Nada de cuentas ni contraseñas.",
       "point2": "Las asignaciones del amigo secreto se guardan cifradas y se borran al terminar los envíos.",
-      "point3": "Los correos de los participantes se eliminan automáticamente a los 30 días."
+      "point3": "Los correos de los participantes se borran a los 3 días; 10 como máximo."
     },
     "finalCta": {
       "title": "El destino ha hablado",
@@ -342,11 +342,11 @@
       },
       "s5": {
         "title": "Con quién lo compartimos",
-        "body": "Con tres servicios, y solo lo imprescindible:\n\n• Resend, para mandar los correos. Recibe el nombre y la dirección del destinatario.\n• Neon, el Postgres donde viven los sorteos.\n• Cloudflare Turnstile, el captcha que evita que alguien use esto para mandar spam. No usa cookies de seguimiento.\n\nNo hay analítica, ni píxeles, ni redes sociales."
+        "body": "Con cuatro servicios, y solo lo imprescindible:\n\n• Resend, para mandar los correos. Recibe el nombre y la dirección del destinatario.\n• Neon, el Postgres donde viven los sorteos.\n• Cloudflare Turnstile, el captcha que evita que alguien use esto para mandar spam. No usa cookies de seguimiento.\n• Adsterra, la red que sirve la publicidad. Es la que paga el alojamiento y los correos.\n\nCada anuncio se carga dentro de un marco aislado que no puede leer nada de esta página: ni tu lista, ni los correos que escribiste, ni el borrador del formulario. Lo que la red sí ve es lo que ve cualquier red de publicidad: tu navegador, tu país aproximado y en qué página estabas.\n\nNo hay analítica propia, ni píxeles nuestros, ni redes sociales. En las páginas de privacidad y términos no hay publicidad."
       },
       "s6": {
         "title": "Cookies",
-        "body": "Ninguna. Guardamos tres cosas en el almacenamiento local de tu navegador, que nunca salen de tu equipo: si prefieres modo día o noche, si quieres sonido, y el borrador del formulario para que no lo pierdas al recargar. Puedes borrarlas desde la configuración de tu navegador."
+        "body": "Nosotros no ponemos ninguna. Guardamos tres cosas en el almacenamiento local de tu navegador, que nunca salen de tu equipo: si prefieres modo día o noche, si quieres sonido, y el borrador del formulario para que no lo pierdas al recargar.\n\nLa red de publicidad sí pone las suyas, que es como funciona la publicidad en internet. No tenemos acceso a ellas ni las usamos para nada. Puedes borrarlas, y bloquearlas, desde la configuración de tu navegador; el sorteo funciona igual con un bloqueador de anuncios puesto."
       },
       "s7": {
         "title": "Tus derechos",
@@ -506,5 +506,8 @@
     "decide": "Decidir",
     "turns": "Turnos",
     "teams": "Equipos"
+  },
+  "ads": {
+    "label": "Publicidad"
   }
 }

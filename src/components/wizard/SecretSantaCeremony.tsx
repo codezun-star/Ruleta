@@ -4,6 +4,7 @@ import {useCallback, useMemo, useState, type ReactNode} from 'react';
 import {useTranslations} from 'next-intl';
 import {Wheel} from '@/components/wheel/Wheel';
 import {StampButton} from '@/components/ui/StampButton';
+import {AdLeaderboard} from '@/components/ads/AdBanner';
 import {Tag} from '@/components/ui/Tag';
 import {Icon} from '@/components/icons/Icons';
 import {assignSecretSanta} from '@/lib/draw/derangement';
@@ -122,6 +123,10 @@ export function SecretSantaCeremony({
       ) : null}
 
       {finished ? emailStatus : null}
+
+      {/* Con el reparto ya enviado. Nunca durante la ceremonia: ahí la pantalla
+          está prometiendo que nadie ve las asignaciones. */}
+      {finished ? <AdLeaderboard className="mt-4" /> : null}
     </div>
   );
 }

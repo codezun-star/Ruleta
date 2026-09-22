@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {countWords, parseBlocks, parseInline, readingMinutes} from '@/lib/markdown';
+import {countWords, parseBlocks, parseInline, readingMinutes, splitAtHeading} from '@/lib/markdown';
 
 describe('parseBlocks', () => {
   it('distingue titulares de párrafos', () => {
@@ -79,5 +79,29 @@ describe('countWords', () => {
   it('el tiempo de lectura nunca baja de un minuto', () => {
     expect(readingMinutes('dos palabras')).toBe(1);
     expect(readingMinutes(Array.from({length: 1200}, () => 'palabra').join(' '))).toBe(6);
+  });
+});
+
+describe('splitAtHeading', () => {
+  const article = 'Entrada.\n\n## Uno\n\nTexto.\n\n## Dos\n\nMás.\n\n## Tres\n\nFin.';
+
+  it('parte justo antes del encabezado pedido', () => {
+    const [head, tail] = splitAtHeading(article, 2);
+    expect(head).toBe('Entrada.\n\n## Uno\n\nTexto.');
+    expect(tail).toBe('## Dos\n\nMás.\n\n## Tres\n\nFin.');
+  });
+
+  it('no pierde ni duplica nada al partir', () => {
+    const [head, tail] = splitAtHeading(article, 2);
+    expect(`${head}\n\n${tail}`).toBe(article);
+  });
+
+  it('deja el texto de una pieza si no hay tantas secciones', () => {
+    expect(splitAtHeading(article, 9)).toEqual([article, '']);
+  });
+
+  it('no confunde un ### con un ##', () => {
+    const [head] = splitAtHeading('A\n\n### Sub\n\nB\n\n## Real\n\nC', 1);
+    expect(head).toBe('A\n\n### Sub\n\nB');
   });
 });

@@ -126,6 +126,26 @@ export function countWords(markdown: string): number {
   return plain === '' ? 0 : plain.split(' ').length;
 }
 
+/**
+ * Parte el texto justo antes de su enésimo `##`, para poder meter algo entre
+ * medias. Devuelve el texto entero y una cadena vacía si no hay tantas
+ * secciones: un artículo corto se queda de una pieza en vez de partirse por
+ * un sitio raro.
+ */
+export function splitAtHeading(markdown: string, nth: number): [string, string] {
+  const blocks = markdown.split(/\n{2,}/);
+  let seen = 0;
+
+  for (const [index, block] of blocks.entries()) {
+    if (!block.startsWith('## ')) continue;
+    seen += 1;
+    if (seen < nth) continue;
+    return [blocks.slice(0, index).join('\n\n'), blocks.slice(index).join('\n\n')];
+  }
+
+  return [markdown, ''];
+}
+
 export function readingMinutes(markdown: string): number {
   return Math.max(1, Math.round(countWords(markdown) / 200));
 }

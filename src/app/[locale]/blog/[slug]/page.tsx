@@ -3,12 +3,15 @@ import {notFound} from 'next/navigation';
 import {getFormatter, getTranslations, setRequestLocale} from 'next-intl/server';
 import {Link, getPathname} from '@/i18n/navigation';
 import {BRAND} from '@/config/brand';
-import {Markdown, readingMinutes} from '@/lib/markdown';
+import {Markdown, readingMinutes, splitAtHeading} from '@/lib/markdown';
 import {POSTS, findPost, relatedTo} from '@/content/posts';
 import {localizeLinks} from '@/content/posts/links';
 import {BreadcrumbData} from '@/components/seo/StructuredData';
 import {BlogPostData} from '@/components/seo/BlogData';
 import {StampLink} from '@/components/ui/StampButton';
+import {AdBanner, AdLeaderboard} from '@/components/ads/AdBanner';
+import {AdNative} from '@/components/ads/AdNative';
+import {AdOverlay} from '@/components/ads/AdOverlay';
 
 type Params = Promise<{locale: string; slug: string}>;
 
@@ -53,6 +56,10 @@ export default async function BlogPost({params}: {params: Params}) {
   const format = await getFormatter({locale});
   const related = relatedTo(post);
 
+  // El artículo se parte por su tercera sección para dejar un anuncio en medio
+  // del texto, que es donde mejor rinde sin cortar la lectura de entrada.
+  const [opening, rest] = splitAtHeading(localizeLinks(post.body, locale), 3);
+
   const date = (value: string) =>
     format.dateTime(new Date(value), {day: 'numeric', month: 'long', year: 'numeric'});
 
@@ -92,8 +99,16 @@ export default async function BlogPost({params}: {params: Params}) {
           <hr className="mt-6 border-t-2 border-ink" />
 
           <div className="mt-2 text-[1.0625rem] leading-relaxed [&>p]:mt-4">
-            <Markdown content={localizeLinks(post.body, locale)} />
+            <Markdown content={opening} />
+            {rest ? (
+              <>
+                <AdBanner unit="rectangle" className="my-10" />
+                <Markdown content={rest} />
+              </>
+            ) : null}
           </div>
+
+          <AdLeaderboard className="mt-12" />
 
           <aside className="mt-12 border-2 border-ink bg-paper-2 p-6">
             <p className="font-head text-xl font-black text-balance">{post.cta.blurb}</p>
@@ -139,8 +154,14 @@ export default async function BlogPost({params}: {params: Params}) {
               </ul>
             </section>
           ) : null}
+
+          <AdNative className="mt-12" />
         </div>
       </article>
+
+      {/* Solo aquí: es la única página donde alguien está leyendo y no a mitad
+          de un sorteo. */}
+      <AdOverlay />
     </>
   );
 }

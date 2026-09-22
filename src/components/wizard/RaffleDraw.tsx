@@ -4,6 +4,7 @@ import {useCallback, useMemo, useState, type ReactNode} from 'react';
 import {useTranslations} from 'next-intl';
 import {Wheel} from '@/components/wheel/Wheel';
 import {StampButton} from '@/components/ui/StampButton';
+import {AdLeaderboard} from '@/components/ads/AdBanner';
 import {randomInt} from '@/lib/draw/random';
 import {randomTicketId} from '@/lib/draw/audit';
 import type {Participant} from '@/lib/validation/participants';
@@ -106,6 +107,10 @@ export function RaffleDraw({
       ) : null}
 
       {finished ? emailStatus : null}
+
+      {/* Solo con el sorteo ya hecho. Durante el giro no hay nada: es el
+          momento por el que la gente vino, y es lo que hace que vuelva. */}
+      {finished ? <AdLeaderboard className="mt-4" /> : null}
     </div>
   );
 }
