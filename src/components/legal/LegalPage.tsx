@@ -1,11 +1,15 @@
 import {useTranslations} from 'next-intl';
 import {SectionHeading} from '@/components/ui/SectionHeading';
+import {BRAND} from '@/config/brand';
 
 /** Los apartados se numeran para poder citarlos: "el punto 4 de privacidad". */
 const SECTIONS = ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8'] as const;
 
 export function LegalPage({namespace}: {namespace: 'privacy' | 'terms'}) {
   const t = useTranslations(`legal.${namespace}`);
+  // La dirección sale de la marca y no escrita a mano en las traducciones:
+  // ahí se quedó con el dominio anterior durante todo el cambio de nombre.
+  const values = {email: `${BRAND.mailbox}@${BRAND.domain}`};
 
   return (
     <section className="py-12 sm:py-16">
@@ -26,7 +30,7 @@ export function LegalPage({namespace}: {namespace: 'privacy' | 'terms'}) {
                 </span>
                 <div>
                   <h2 className="font-head text-xl font-black">{t(`${key}.title`)}</h2>
-                  {t(`${key}.body`)
+                  {t(`${key}.body`, values)
                     .split('\n\n')
                     .map((paragraph) => (
                       <p key={paragraph} className="mt-2 whitespace-pre-line text-ink-2">

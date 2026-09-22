@@ -97,7 +97,7 @@ nombre, cambia también `EMAIL_FROM` para que coincidan.
 
 - Versión en **texto plano** en todos los correos (la genera React Email).
 - Pie con **por qué recibes esto**, enlace para reportar y el aviso de que la
-  dirección se borra a los 30 días.
+  dirección se borra a las 72 horas, o a los 10 días si el envío falló.
 - **Un correo por persona**, no una copia con todos en copia oculta.
 - Asuntos concretos, sin mayúsculas gritadas ni cadenas de signos.
 - Envío por **lotes** con espera entre ellos, para no pasarse del límite de

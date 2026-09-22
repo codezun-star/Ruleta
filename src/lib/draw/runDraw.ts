@@ -15,8 +15,36 @@ import {
 import {formatDate, formatMoney} from '@/lib/format';
 import type {DrawConfig} from '@/lib/validation/draw';
 
-/** Los correos de los participantes se borran a los 30 días. */
-const RETENTION_DAYS = 30;
+/**
+ * Cuánto se guardan las direcciones de correo, que depende de si queda algo
+ * por hacer con ellas.
+ *
+ * Entregado sin fallos: **72 horas**. Después del envío no queda nada que
+ * hacer con la dirección —el reparto del amigo secreto ya se borró y el
+ * resultado solo vive en el buzón de cada quien—, así que guardarla más
+ * tiempo es riesgo sin contrapartida.
+ *
+ * Con algún envío fallido: **10 días**, que es lo que mantiene vivo el
+ * reintento. Un rebote se ve en horas, pero diez días dan margen para un
+ * dominio corporativo que tarda en desatascarse o para quien se va el fin de
+ * semana sin mirar el resumen.
+ */
+const RETENTION_DELIVERED_HOURS = 72;
+const RETENTION_FAILED_DAYS = 10;
+
+const HOUR_MS = 60 * 60 * 1000;
+
+/**
+ * La fecha de borrado. Al crear el sorteo se asume el plazo largo, porque
+ * todavía no se ha mandado nada; se acorta cuando se confirma que salió todo.
+ * El orden importa: acortar es seguro, alargar sería una promesa rota.
+ */
+export function purgeDeadline(from: Date, delivered: boolean): Date {
+  const window = delivered
+    ? RETENTION_DELIVERED_HOURS * HOUR_MS
+    : RETENTION_FAILED_DAYS * 24 * HOUR_MS;
+  return new Date(from.getTime() + window);
+}
 
 export type DrawOutcome = {
   drawId: string;
@@ -45,7 +73,7 @@ export async function runDraw(config: DrawConfig): Promise<DrawOutcome> {
   const hash = await fingerprint(seed, createdAt.toISOString(), ids);
   const ticket = shortId(hash);
 
-  const purgeAfter = new Date(createdAt.getTime() + RETENTION_DAYS * 24 * 60 * 60 * 1000);
+  const purgeAfter = purgeDeadline(createdAt, false);
 
   const [draw] = await db
     .insert(schema.draws)
@@ -112,6 +140,14 @@ export async function runDraw(config: DrawConfig): Promise<DrawOutcome> {
   // El reparto ya viajó por correo: no hay razón para seguir guardándolo.
   if (config.mode === 'secretSanta' && outcome.failed === 0) {
     await db.delete(schema.assignments).where(eq(schema.assignments.drawId, draw.id));
+  }
+
+  // Salió todo: no queda nada que reintentar, así que el plazo se acorta.
+  if (outcome.failed === 0) {
+    await db
+      .update(schema.draws)
+      .set({purgeAfter: purgeDeadline(new Date(), true)})
+      .where(eq(schema.draws.id, draw.id));
   }
 
   return {drawId: draw.id, shortId: ticket, winners, deliveries: outcome};
@@ -436,6 +472,13 @@ export async function retryFailed(drawId: string): Promise<{sent: number; failed
   // Si ya salió todo, el reparto deja de hacer falta.
   if (sent === outcomes.length && sealedRows.length > 0) {
     await db.delete(schema.assignments).where(eq(schema.assignments.drawId, drawId));
+  }
+
+  if (sent === outcomes.length) {
+    await db
+      .update(schema.draws)
+      .set({purgeAfter: purgeDeadline(new Date(), true)})
+      .where(eq(schema.draws.id, drawId));
   }
 
   return {sent, failed: outcomes.length - sent};

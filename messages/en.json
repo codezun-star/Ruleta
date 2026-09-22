@@ -112,7 +112,7 @@
   },
   "footer": {
     "tagline": "Raffles and Secret Santa with a spinning wheel",
-    "retention": "Participant emails are deleted after 30 days.",
+    "retention": "Emails are deleted after 3 days; 10 at most.",
     "privacy": "Privacy",
     "terms": "Terms",
     "blog": "Guides"
@@ -334,7 +334,7 @@
       },
       "s3": {
         "title": "How long",
-        "body": "Email addresses are deleted automatically 30 days after the draw. A scheduled job does it every day; it doesn't depend on anyone remembering. After that the draw stays without contact details, so the verifiable ID still means something."
+        "body": "Email addresses are deleted on their own, and soon. If the draw went out with no failures, after 72 hours: the assignments already travelled by email and there is nothing left to do with those addresses. If a delivery failed, they are kept 10 days at most, which is what keeps the retry possible. A scheduled job does it every day; it doesn't depend on anyone remembering."
       },
       "s4": {
         "title": "Secret Santa",
@@ -342,7 +342,7 @@
       },
       "s5": {
         "title": "Who we share it with",
-        "body": "Three services, and only what they need:\n\n• Resend, to send the emails. It gets the recipient's name and address.\n• The database provider (Supabase or Vercel Postgres), where draws live.\n• Cloudflare Turnstile, the captcha that stops people using this to send spam. It doesn't use tracking cookies.\n\nThere's no analytics, no pixels, no social widgets."
+        "body": "Three services, and only what they need:\n\n• Resend, to send the emails. It gets the recipient's name and address.\n• Neon, the Postgres where draws live.\n• Cloudflare Turnstile, the captcha that stops people using this to send spam. It doesn't use tracking cookies.\n\nThere's no analytics, no pixels, no social widgets."
       },
       "s6": {
         "title": "Cookies",
@@ -350,11 +350,11 @@
       },
       "s7": {
         "title": "Your rights",
-        "body": "You can ask us to delete your address before the 30 days are up, or to tell you what we hold. Write to us with the draw ID at hand, which is what lets us find it."
+        "body": "You can ask us to delete your address before the window is up, or to tell you what we hold. Write to {email} with the draw ID at hand, which is what lets us find it."
       },
       "s8": {
         "title": "Contact",
-        "body": "hola@ruleta.codezun.com"
+        "body": "{email}"
       }
     },
     "terms": {
@@ -387,7 +387,7 @@
       },
       "s7": {
         "title": "Contact",
-        "body": "hola@ruleta.codezun.com"
+        "body": "{email}"
       }
     }
   },

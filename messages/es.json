@@ -112,7 +112,7 @@
   },
   "footer": {
     "tagline": "Sorteos y amigo secreto con ruleta",
-    "retention": "Los correos de los participantes se borran a los 30 días.",
+    "retention": "Los correos se borran a los 3 días; 10 como máximo.",
     "privacy": "Privacidad",
     "terms": "Términos",
     "blog": "Guías"
@@ -334,7 +334,7 @@
       },
       "s3": {
         "title": "Cuánto tiempo",
-        "body": "Las direcciones de correo se borran automáticamente a los 30 días del sorteo. Lo hace una tarea programada que corre todos los días; no depende de que alguien se acuerde. Después de eso queda el sorteo sin datos de contacto, para que el identificador verificable siga teniendo sentido."
+        "body": "Las direcciones de correo se borran solas y pronto. Si el sorteo se entregó sin fallos, a las 72 horas: el reparto ya viajó por correo y no queda nada que hacer con esas direcciones. Si algún envío falló, se guardan 10 días como máximo, que es lo que mantiene vivo el reintento. Lo hace una tarea programada que corre todos los días; no depende de que alguien se acuerde."
       },
       "s4": {
         "title": "El amigo secreto",
@@ -342,7 +342,7 @@
       },
       "s5": {
         "title": "Con quién lo compartimos",
-        "body": "Con tres servicios, y solo lo imprescindible:\n\n• Resend, para mandar los correos. Recibe el nombre y la dirección del destinatario.\n• El proveedor de la base de datos (Supabase o Vercel Postgres), donde viven los sorteos.\n• Cloudflare Turnstile, el captcha que evita que alguien use esto para mandar spam. No usa cookies de seguimiento.\n\nNo hay analítica, ni píxeles, ni redes sociales."
+        "body": "Con tres servicios, y solo lo imprescindible:\n\n• Resend, para mandar los correos. Recibe el nombre y la dirección del destinatario.\n• Neon, el Postgres donde viven los sorteos.\n• Cloudflare Turnstile, el captcha que evita que alguien use esto para mandar spam. No usa cookies de seguimiento.\n\nNo hay analítica, ni píxeles, ni redes sociales."
       },
       "s6": {
         "title": "Cookies",
@@ -350,11 +350,11 @@
       },
       "s7": {
         "title": "Tus derechos",
-        "body": "Puedes pedirnos que borremos tu dirección antes de los 30 días, o saber qué tenemos de ti. Escríbenos con el identificador del sorteo a mano, que es lo que nos deja encontrarlo."
+        "body": "Puedes pedirnos que borremos tu dirección antes de que venza el plazo, o saber qué tenemos de ti. Escríbenos a {email} con el identificador del sorteo a mano, que es lo que nos deja encontrarlo."
       },
       "s8": {
         "title": "Contacto",
-        "body": "hola@ruleta.codezun.com"
+        "body": "{email}"
       }
     },
     "terms": {
@@ -387,7 +387,7 @@
       },
       "s7": {
         "title": "Contacto",
-        "body": "hola@ruleta.codezun.com"
+        "body": "{email}"
       }
     }
   },

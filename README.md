@@ -213,11 +213,11 @@ dependencias.
 Todo lo opcional degrada solo: si falta una variable, esa pieza se apaga y el
 resto sigue funcionando.
 
-| Pieza                    | Sin configurar            | Configurada                                       |
-| ------------------------ | ------------------------- | ------------------------------------------------- |
-| **Rate limit** (Upstash) | No limita nada            | 5 sorteos por hora y por IP                       |
-| **Captcha** (Turnstile)  | No se muestra ni se exige | Widget en el paso 3 y verificación en el servidor |
-| **Cron de limpieza**     | `503`                     | Borra los correos a los 30 días, a diario         |
+| Pieza                    | Sin configurar            | Configurada                                                 |
+| ------------------------ | ------------------------- | ----------------------------------------------------------- |
+| **Rate limit** (Upstash) | No limita nada            | 5 sorteos por hora y por IP                                 |
+| **Captcha** (Turnstile)  | No se muestra ni se exige | Widget en el paso 3 y verificación en el servidor           |
+| **Cron de limpieza**     | `503`                     | Borra los correos a las 72 h, o a los 10 días si algo falló |
 
 La única excepción es el captcha ya configurado: si Cloudflare no responde, el
 sorteo **no** pasa. Dejarlo pasar anularía el captcha justo cuando más falta

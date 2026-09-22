@@ -52,9 +52,12 @@ export async function GET(request: Request) {
   // Si quedó algún reparto sin borrar (por envíos fallidos), se va ahora.
   await db.delete(schema.assignments).where(sql`${schema.assignments.drawId} = ANY(${ids})`);
 
+  // El del organizador también es una dirección de correo. Se quedaba sin
+  // borrar mientras la política prometía lo contrario, y es justo la que más
+  // se repite: el mismo organizador monta varios sorteos.
   await db
     .update(schema.draws)
-    .set({purgedAt: now})
+    .set({organizerEmail: null, purgedAt: now})
     .where(sql`${schema.draws.id} = ANY(${ids})`);
 
   return NextResponse.json({purged: ids.length});

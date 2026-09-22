@@ -45,7 +45,11 @@ export const draws = pgTable(
     organizerEmail: text('organizer_email'),
 
     createdAt: timestamp('created_at', {withTimezone: true}).notNull().defaultNow(),
-    /** El cron borra los correos a partir de esta fecha. */
+    /**
+     * El cron borra los correos a partir de esta fecha. Se fija al plazo largo
+     * al crear el sorteo y se acorta cuando se confirma que salió todo; ver
+     * `purgeDeadline` en `runDraw.ts`.
+     */
     purgeAfter: timestamp('purge_after', {withTimezone: true}).notNull(),
     purgedAt: timestamp('purged_at', {withTimezone: true})
   },
@@ -64,9 +68,13 @@ export const participants = pgTable(
       .references(() => draws.id, {onDelete: 'cascade'}),
     position: integer('position').notNull(),
     name: text('name').notNull(),
-    /** Se vacía a los 30 días; la fila se queda para no romper el histórico. */
+    /** La vacía el cron; la fila se queda para no romper el histórico. */
     email: text('email'),
-    /** Enlace privado para rascar el resultado en la web. */
+    /**
+     * Reservado para un enlace privado al resultado. **Todavía no lo lee
+     * ninguna ruta**: se genera y se guarda, y nada más. Está anotado aquí
+     * para que no se confunda con algo en uso.
+     */
     token: text('token').notNull()
   },
   (table) => [

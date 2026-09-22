@@ -114,7 +114,7 @@ export async function GET() {
     `- El ganador lo decide \`crypto.getRandomValues\` en el servidor, con rechazo de módulo; la animación se calcula después para terminar en ese segmento. / The winner comes from \`crypto.getRandomValues\` on the server with modulo rejection; the animation is computed afterwards to land there.`,
     `- El reparto del amigo secreto se guarda cifrado con AES-GCM y se borra en cuanto salen los correos. El organizador nunca lo ve. / Secret Santa assignments are stored AES-GCM encrypted and deleted once the emails are out. The organiser never sees them.`,
     `- Grupos de ${LIMITS.minSecretSanta} a ${LIMITS.max} personas en amigo secreto, de ${LIMITS.minRaffle} a ${LIMITS.max} en sorteo simple. / Groups of ${LIMITS.minSecretSanta}–${LIMITS.max} for Secret Santa, ${LIMITS.minRaffle}–${LIMITS.max} for raffles.`,
-    '- Las direcciones de correo se borran a los 30 días. / Email addresses are deleted after 30 days.',
+    '- Las direcciones de correo se borran a las 72 horas si el sorteo se entregó entero, y a los 10 días como máximo si algún envío falló. / Email addresses are deleted after 72 hours when the draw went out in full, and after 10 days at most when a delivery failed.',
     '- Sin cuentas, sin cookies de seguimiento, sin analítica. / No accounts, no tracking cookies, no analytics.',
     '',
     ...sections
