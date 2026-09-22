@@ -1,12 +1,12 @@
-import {getPathname} from '@/i18n/navigation';
-import {routing, type AppPathname} from '@/i18n/routing';
+import {getPathname, type PathnameHref} from '@/i18n/navigation';
+import {routing} from '@/i18n/routing';
 
 /**
  * Con rutas traducidas, los `hreflang` no se pueden inventar concatenando el
  * idioma: `/en/privacidad` no existe, existe `/en/privacy`. `getPathname`
  * devuelve el que toca en cada idioma.
  */
-export function alternatesFor(href: AppPathname, locale: string) {
+export function alternatesFor(href: PathnameHref, locale: string) {
   return {
     canonical: getPathname({href, locale}),
     languages: {

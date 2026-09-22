@@ -2,20 +2,20 @@ import {useTranslations} from 'next-intl';
 import {SectionHeading} from '@/components/ui/SectionHeading';
 import {StampLink} from '@/components/ui/StampButton';
 import {Icon, type IconName} from '@/components/icons/Icons';
-import type {AppPathname} from '@/i18n/routing';
+import type {StaticPathname} from '@/i18n/routing';
 
 /** Los dos modos con ceremonia: lista, detalles y correos. */
 const CEREMONIES = [
   {key: 'raffle', href: '/sorteo', icon: 'wheel'},
   {key: 'secretSanta', href: '/amigo-secreto', icon: 'gift'}
-] as const satisfies readonly {key: string; href: AppPathname; icon: IconName}[];
+] as const satisfies readonly {key: string; href: StaticPathname; icon: IconName}[];
 
 /** Los tres que se resuelven de una sentada. */
 const QUICK = [
   {namespace: 'decide', href: '/decidir', icon: 'dice'},
   {namespace: 'turns', href: '/turnos', icon: 'calendar'},
   {namespace: 'teams', href: '/equipos', icon: 'people'}
-] as const satisfies readonly {namespace: string; href: AppPathname; icon: IconName}[];
+] as const satisfies readonly {namespace: string; href: StaticPathname; icon: IconName}[];
 
 export function Modes() {
   const t = useTranslations('home.modes');

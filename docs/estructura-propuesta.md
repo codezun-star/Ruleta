@@ -74,10 +74,10 @@ ruleta/
 
 ## Decisiones que conviene fijar ahora
 
-| Tema | Propuesta | Por qué |
-|---|---|---|
-| Base de datos | Supabase Postgres + Drizzle | Drizzle tipa el esquema sin runtime pesado; Supabase da Postgres gratis y cron. |
-| Asignaciones | Cifradas con AES-GCM, clave solo en el servidor | El organizador no puede verlas ni con acceso a la base. |
-| Borrado | Cron diario que purga sorteos de más de 30 días | Lo exige la política de privacidad. |
-| Nombre de marca | `src/config/brand.ts` exporta `BRAND` | Un solo punto de cambio para UI, correos, remitente y metadatos. |
-| Ruleta | Canvas 2D fuera del árbol de React | Evita re-renders durante el giro; 60fps con `devicePixelRatio`. |
+| Tema            | Propuesta                                       | Por qué                                                                         |
+| --------------- | ----------------------------------------------- | ------------------------------------------------------------------------------- |
+| Base de datos   | Supabase Postgres + Drizzle                     | Drizzle tipa el esquema sin runtime pesado; Supabase da Postgres gratis y cron. |
+| Asignaciones    | Cifradas con AES-GCM, clave solo en el servidor | El organizador no puede verlas ni con acceso a la base.                         |
+| Borrado         | Cron diario que purga sorteos de más de 30 días | Lo exige la política de privacidad.                                             |
+| Nombre de marca | `src/config/brand.ts` exporta `BRAND`           | Un solo punto de cambio para UI, correos, remitente y metadatos.                |
+| Ruleta          | Canvas 2D fuera del árbol de React              | Evita re-renders durante el giro; 60fps con `devicePixelRatio`.                 |

@@ -28,12 +28,12 @@ Los registros viven en la zona de **codezun.com**, no en una zona aparte.
 > es que escribiste el nombre completo donde esperaba el relativo. Escribe
 > `resend._domainkey.tombola` y deja que él ponga el resto.
 
-| Tipo | Nombre (relativo a `codezun.com`) | Valor | Para qué |
-|---|---|---|---|
-| `MX` | `send.tombola` | `feedback-smtp.<región>.amazonses.com` (prioridad `10`) | Rebotes y quejas |
-| `TXT` | `send.tombola` | `v=spf1 include:amazonses.com ~all` | SPF |
-| `TXT` | `resend._domainkey.tombola` | `p=MIGfMA0GCSq...` (larguísimo) | DKIM |
-| `TXT` | `_dmarc.tombola` | `v=DMARC1; p=none; rua=mailto:dmarc@codezun.com` | DMARC |
+| Tipo  | Nombre (relativo a `codezun.com`) | Valor                                                   | Para qué         |
+| ----- | --------------------------------- | ------------------------------------------------------- | ---------------- |
+| `MX`  | `send.tombola`                    | `feedback-smtp.<región>.amazonses.com` (prioridad `10`) | Rebotes y quejas |
+| `TXT` | `send.tombola`                    | `v=spf1 include:amazonses.com ~all`                     | SPF              |
+| `TXT` | `resend._domainkey.tombola`       | `p=MIGfMA0GCSq...` (larguísimo)                         | DKIM             |
+| `TXT` | `_dmarc.tombola`                  | `v=DMARC1; p=none; rua=mailto:dmarc@codezun.com`        | DMARC            |
 
 Notas que ahorran una tarde:
 
@@ -105,9 +105,9 @@ nombre, cambia también `EMAIL_FROM` para que coincidan.
 
 ## 7. Si algo falla
 
-| Síntoma | Causa habitual |
-|---|---|
-| Resend no verifica y `dig` no devuelve nada | Aún no ha propagado, o el nombre lleva la zona duplicada |
-| Verifica pero llega a spam | Falta DMARC, o el dominio es nuevo y no tiene reputación |
-| `Domain not verified` al enviar | La API key es de otra cuenta, o el `EMAIL_FROM` usa otro dominio |
-| Llega solo a algunos | Rebotes duros: revisa el panel de Resend, no es cosa del DNS |
+| Síntoma                                     | Causa habitual                                                   |
+| ------------------------------------------- | ---------------------------------------------------------------- |
+| Resend no verifica y `dig` no devuelve nada | Aún no ha propagado, o el nombre lleva la zona duplicada         |
+| Verifica pero llega a spam                  | Falta DMARC, o el dominio es nuevo y no tiene reputación         |
+| `Domain not verified` al enviar             | La API key es de otra cuenta, o el `EMAIL_FROM` usa otro dominio |
+| Llega solo a algunos                        | Rebotes duros: revisa el panel de Resend, no es cosa del DNS     |

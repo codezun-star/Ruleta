@@ -18,7 +18,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test:e2e": "playwright test",
-    "test:sound": "node scripts/check-sound-levels.mjs"
+    "test:sound": "node scripts/check-sound-levels.mjs",
+    "check:content": "tsx scripts/check-content.mts"
   },
   "dependencies": {
     "@react-email/components": "^1.0.12",

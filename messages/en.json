@@ -12,7 +12,8 @@
     "how": "How it works",
     "skipToContent": "Skip to content",
     "faq": "FAQ",
-    "games": "Games"
+    "games": "Games",
+    "blog": "Blog"
   },
   "common": {
     "locale": {
@@ -113,7 +114,8 @@
     "tagline": "Raffles and Secret Santa with a spinning wheel",
     "retention": "Participant emails are deleted after 30 days.",
     "privacy": "Privacy",
-    "terms": "Terms"
+    "terms": "Terms",
+    "blog": "Guides"
   },
   "wizard": {
     "participants": "People",
@@ -483,5 +485,18 @@
     "teamLabel": "Team {number}",
     "finished": "Teams ready",
     "cta": "Build teams"
+  },
+  "blog": {
+    "title": "Blog",
+    "heading": "Guides to draws and Secret Santa",
+    "lede": "How to run a draw nobody argues with, and why randomness on the internet often isn't.",
+    "readingTime": "{minutes} min read",
+    "published": "Published {date}",
+    "updated": "Updated {date}",
+    "related": "Keep reading",
+    "backToBlog": "All guides",
+    "empty": "No guides in this language yet.",
+    "toc": "In this guide",
+    "faqHeading": "Frequently asked questions"
   }
 }

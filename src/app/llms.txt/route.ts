@@ -3,6 +3,7 @@ import {getPathname} from '@/i18n/navigation';
 import {routing} from '@/i18n/routing';
 import {BRAND, SITE_URL} from '@/config/brand';
 import {FAQ_KEYS} from '@/components/landing/Faq';
+import {postsFor} from '@/content/posts';
 import {LIMITS} from '@/lib/validation/limits';
 
 export const dynamic = 'force-static';
@@ -32,6 +33,22 @@ async function sectionFor(locale: string): Promise<string> {
   const questions = FAQ_KEYS.map((key) => `### ${faq(`${key}.q`)}\n\n${faq(`${key}.a`)}`).join(
     '\n\n'
   );
+
+  // Los artículos, con su respuesta de entrada: un asistente que cite el sitio
+  // debería poder citar la respuesta, no solo el titular.
+  const posts = postsFor(locale);
+  const guides = posts
+    .map((post) => {
+      const lead = post.body.split('\n\n')[0]?.replace(/\*\*/g, '') ?? post.description;
+      return [
+        `#### ${post.title}`,
+        '',
+        lead,
+        '',
+        url({pathname: '/blog/[slug]', params: {slug: post.slug}})
+      ].join('\n');
+    })
+    .join('\n\n');
 
   return [
     `## ${locale === 'es' ? 'Español' : 'English'} — ${url('/')}`,
@@ -66,6 +83,9 @@ async function sectionFor(locale: string): Promise<string> {
     '',
     questions,
     '',
+    ...(posts.length > 0
+      ? [`### ${locale === 'es' ? 'Guías' : 'Guides'} — ${url('/blog')}`, '', guides, '']
+      : []),
     `### ${locale === 'es' ? 'Enlaces' : 'Links'}`,
     '',
     `- ${modes('raffle.cta')}: ${url('/sorteo')}`,
@@ -73,6 +93,7 @@ async function sectionFor(locale: string): Promise<string> {
     `- ${decide('title')}: ${url('/decidir')}`,
     `- ${turns('title')}: ${url('/turnos')}`,
     `- ${teams('title')}: ${url('/equipos')}`,
+    ...(posts.length > 0 ? [`- ${locale === 'es' ? 'Guías' : 'Guides'}: ${url('/blog')}`] : []),
     `- ${locale === 'es' ? 'Privacidad' : 'Privacy'}: ${url('/privacidad')}`,
     `- ${locale === 'es' ? 'Términos' : 'Terms'}: ${url('/terminos')}`
   ].join('\n');

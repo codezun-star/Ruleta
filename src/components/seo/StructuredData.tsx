@@ -1,5 +1,5 @@
 import {getTranslations} from 'next-intl/server';
-import {getPathname} from '@/i18n/navigation';
+import {getPathname, type PathnameHref} from '@/i18n/navigation';
 import {routing} from '@/i18n/routing';
 import {BRAND, SITE_URL} from '@/config/brand';
 import {FAQ_KEYS} from '@/components/landing/Faq';
@@ -112,17 +112,28 @@ export async function StructuredData({locale}: {locale: string}) {
   );
 }
 
+type Crumb = {href: PathnameHref; name: string};
+
 /** Migas para las páginas interiores: le dice a Google dónde encaja cada una. */
 export async function BreadcrumbData({
   locale,
   href,
-  name
+  name,
+  /** Nivel intermedio, para los artículos que cuelgan del blog. */
+  parent
 }: {
   locale: string;
-  href: Parameters<typeof getPathname>[0]['href'];
+  href: PathnameHref;
   name: string;
+  parent?: Crumb;
 }) {
   const meta = await getTranslations({locale, namespace: 'meta'});
+
+  const trail: Crumb[] = [
+    {href: '/', name: meta('title')},
+    ...(parent ? [parent] : []),
+    {href, name}
+  ];
 
   return (
     <script
@@ -131,20 +142,12 @@ export async function BreadcrumbData({
         __html: safeJson({
           '@context': 'https://schema.org',
           '@type': 'BreadcrumbList',
-          itemListElement: [
-            {
-              '@type': 'ListItem',
-              position: 1,
-              name: meta('title'),
-              item: absolute(getPathname({href: '/', locale}))
-            },
-            {
-              '@type': 'ListItem',
-              position: 2,
-              name,
-              item: absolute(getPathname({href, locale}))
-            }
-          ]
+          itemListElement: trail.map((crumb, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: crumb.name,
+            item: absolute(getPathname({href: crumb.href, locale}))
+          }))
         })
       }}
     />

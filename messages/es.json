@@ -12,7 +12,8 @@
     "how": "Cómo funciona",
     "skipToContent": "Saltar al contenido",
     "faq": "Preguntas",
-    "games": "Juegos"
+    "games": "Juegos",
+    "blog": "Blog"
   },
   "common": {
     "locale": {
@@ -113,7 +114,8 @@
     "tagline": "Sorteos y amigo secreto con ruleta",
     "retention": "Los correos de los participantes se borran a los 30 días.",
     "privacy": "Privacidad",
-    "terms": "Términos"
+    "terms": "Términos",
+    "blog": "Guías"
   },
   "wizard": {
     "participants": "Participantes",
@@ -483,5 +485,18 @@
     "teamLabel": "Equipo {number}",
     "finished": "Equipos listos",
     "cta": "Armar equipos"
+  },
+  "blog": {
+    "title": "Blog",
+    "heading": "Guías de sorteos y amigo secreto",
+    "lede": "Cómo organizar un sorteo que nadie discuta, y por qué el azar de internet a veces no lo es tanto.",
+    "readingTime": "{minutes} min de lectura",
+    "published": "Publicado el {date}",
+    "updated": "Actualizado el {date}",
+    "related": "Sigue leyendo",
+    "backToBlog": "Todas las guías",
+    "empty": "Todavía no hay guías en este idioma.",
+    "toc": "En esta guía",
+    "faqHeading": "Preguntas frecuentes"
   }
 }

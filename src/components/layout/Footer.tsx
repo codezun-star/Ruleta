@@ -1,10 +1,12 @@
-import {useTranslations} from 'next-intl';
+import {useLocale, useTranslations} from 'next-intl';
 import {BRAND} from '@/config/brand';
 import {SealMark} from '@/components/ui/SealMark';
 import {Link} from '@/i18n/navigation';
+import {postsFor} from '@/content/posts';
 
 export function Footer() {
   const t = useTranslations('footer');
+  const hasBlog = postsFor(useLocale()).length > 0;
 
   return (
     <footer className="border-t-2 border-ink bg-ink text-paper">
@@ -16,6 +18,14 @@ export function Footer() {
         </p>
         <p className="text-sm opacity-75">{t('retention')}</p>
         <nav className="flex flex-wrap items-center gap-4 text-sm">
+          {hasBlog ? (
+            <Link
+              href="/blog"
+              className="text-paper underline underline-offset-4 opacity-85 hover:opacity-100"
+            >
+              {t('blog')}
+            </Link>
+          ) : null}
           <Link
             href="/privacidad"
             className="text-paper underline underline-offset-4 opacity-85 hover:opacity-100"
