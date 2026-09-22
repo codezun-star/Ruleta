@@ -32,10 +32,15 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-pressed={theme === 'dark'}
-      className="inline-flex items-center gap-2 border-2 border-ink px-3 py-1.5 text-xs font-bold tracking-[0.12em] uppercase transition-colors hover:bg-mustard hover:text-ink"
+      aria-label={theme === 'dark' ? t('toLight') : t('toDark')}
+      className="touch-target inline-flex h-9 items-center justify-center gap-2 border-2 border-ink px-2.5 text-xs font-bold tracking-[0.12em] uppercase transition-colors active:bg-mustard active:text-ink sm:px-3 sm:hover:bg-mustard sm:hover:text-ink"
     >
-      <span aria-hidden="true">{theme === 'dark' ? '☀' : '☾'}</span>
-      {theme === 'dark' ? t('toLight') : t('toDark')}
+      <span aria-hidden="true" className="text-base leading-none">
+        {theme === 'dark' ? '☀' : '☾'}
+      </span>
+      {/* El rótulo desaparece en móvil: con los cinco modos ya en la barra de
+          abajo, la cabecera solo tiene sitio para los símbolos. */}
+      <span className="hidden sm:inline">{theme === 'dark' ? t('toLight') : t('toDark')}</span>
     </button>
   );
 }

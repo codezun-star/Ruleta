@@ -17,24 +17,24 @@ export function Footer() {
           <span className="font-sans text-sm font-normal opacity-75">· {t('tagline')}</span>
         </p>
         <p className="text-sm opacity-75">{t('retention')}</p>
-        <nav className="flex flex-wrap items-center gap-4 text-sm">
+        <nav className="-my-2 flex flex-wrap items-center gap-x-5 text-sm">
           {hasBlog ? (
             <Link
               href="/blog"
-              className="text-paper underline underline-offset-4 opacity-85 hover:opacity-100"
+              className="flex min-h-11 min-w-11 items-center justify-center text-paper underline underline-offset-4 opacity-85 active:opacity-100 sm:hover:opacity-100"
             >
               {t('blog')}
             </Link>
           ) : null}
           <Link
             href="/privacidad"
-            className="text-paper underline underline-offset-4 opacity-85 hover:opacity-100"
+            className="flex min-h-11 min-w-11 items-center justify-center text-paper underline underline-offset-4 opacity-85 active:opacity-100 sm:hover:opacity-100"
           >
             {t('privacy')}
           </Link>
           <Link
             href="/terminos"
-            className="text-paper underline underline-offset-4 opacity-85 hover:opacity-100"
+            className="flex min-h-11 min-w-11 items-center justify-center text-paper underline underline-offset-4 opacity-85 active:opacity-100 sm:hover:opacity-100"
           >
             {t('terms')}
           </Link>

@@ -40,8 +40,10 @@ export function LocaleSwitcher() {
               });
             }}
             className={cn(
-              'px-2.5 py-1.5 text-xs font-bold tracking-[0.12em] uppercase transition-colors',
-              current ? 'bg-ink text-paper' : 'hover:bg-mustard hover:text-ink',
+              'touch-target flex h-9 items-center px-2.5 text-xs font-bold tracking-[0.12em] uppercase transition-colors',
+              current
+                ? 'bg-ink text-paper'
+                : 'active:bg-mustard active:text-ink sm:hover:bg-mustard sm:hover:text-ink',
               isPending && !current && 'opacity-60'
             )}
           >

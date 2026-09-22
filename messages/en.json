@@ -498,5 +498,13 @@
     "empty": "No guides in this language yet.",
     "toc": "In this guide",
     "faqHeading": "Frequently asked questions"
+  },
+  "tabs": {
+    "label": "Draw modes",
+    "raffle": "Raffle",
+    "secretSanta": "Santa",
+    "decide": "Decide",
+    "turns": "Turns",
+    "teams": "Teams"
   }
 }

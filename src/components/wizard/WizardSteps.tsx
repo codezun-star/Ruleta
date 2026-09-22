@@ -8,14 +8,14 @@ export function WizardSteps({current}: {current: 1 | 2 | 3}) {
   const t = useTranslations('wizard');
 
   return (
-    <ol className="flex flex-wrap items-center gap-x-4 gap-y-2">
+    <ol className="flex items-center gap-x-2 sm:flex-wrap sm:gap-x-4 sm:gap-y-2">
       {STEPS.map((step, index) => {
         const number = index + 1;
         const done = number <= current;
         return (
           <li key={step} className="flex items-center">
             {index > 0 ? (
-              <span aria-hidden="true" className="mx-3 hidden h-0.5 w-5 bg-ink sm:block sm:w-9" />
+              <span aria-hidden="true" className="mx-2 h-0.5 w-4 bg-ink sm:mx-3 sm:w-9" />
             ) : null}
             <span
               className="flex items-center gap-2.5"
@@ -30,7 +30,20 @@ export function WizardSteps({current}: {current: 1 | 2 | 3}) {
               >
                 {number}
               </span>
-              <span className="text-sm font-medium">{t(step)}</span>
+              {/*
+                Los tres rótulos no caben en una pantalla de teléfono y la fila
+                se partía en dos. En móvil se enseña solo el del paso en curso,
+                que es el único que hace falta leer; los otros siguen ahí para
+                quien use un lector de pantalla.
+              */}
+              <span
+                className={cn(
+                  'text-sm font-medium',
+                  number === current ? 'inline' : 'sr-only sm:not-sr-only sm:inline'
+                )}
+              >
+                {t(step)}
+              </span>
             </span>
           </li>
         );

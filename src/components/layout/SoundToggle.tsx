@@ -31,7 +31,7 @@ export function SoundToggle() {
           playChime();
         }
       }}
-      className="inline-flex items-center gap-2 border-2 border-ink px-2.5 py-1.5 transition-colors hover:bg-mustard hover:text-ink"
+      className="touch-target inline-flex h-9 items-center justify-center gap-2 border-2 border-ink px-2.5 transition-colors active:bg-mustard active:text-ink sm:hover:bg-mustard sm:hover:text-ink"
     >
       <Icon name={enabled ? 'sound' : 'mute'} size={18} />
       <span className="hidden text-xs font-bold tracking-[0.12em] uppercase sm:inline">

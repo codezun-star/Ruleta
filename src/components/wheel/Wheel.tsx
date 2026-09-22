@@ -18,6 +18,7 @@ import {StampButton} from '@/components/ui/StampButton';
 import {useSoundEnabled} from '@/lib/soundPreference';
 import {randomInt} from '@/lib/draw/random';
 import {prefersReducedMotion} from '@/lib/prefersReducedMotion';
+import {haptic} from '@/lib/haptics';
 
 /** Vueltas por minuto de la ruleta en reposo. */
 const AMBIENT_RPM = 1.4;
@@ -143,6 +144,11 @@ export function Wheel({
      * así que quien tiene esa preferencia se quedaba sin ningún sonido.
      */
     const announceResult = () => {
+      // La vibración va fuera del interruptor de sonido a propósito: quien lo
+      // ha silenciado suele ser quien está en una reunión, y es justo ahí donde
+      // quiere notar el resultado en la mano.
+      haptic('result');
+
       if (!soundRef.current) return;
       playDrum();
       window.setTimeout(() => {
@@ -213,6 +219,7 @@ export function Wheel({
         plan = planSpin(rotation, nextWinner, labels.length);
         lastAngle = rotation;
         lastSegment = Math.floor(rotation / segmentStep);
+        haptic('start');
 
         if (prefersReducedMotion()) {
           rotation = ((plan.to % 360) + 360) % 360;

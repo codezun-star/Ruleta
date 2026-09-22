@@ -19,14 +19,11 @@ export function Header() {
   const hasBlog = postsFor(useLocale()).length > 0;
 
   return (
-    <header
-      className="sticky z-50 border-b-2 border-ink bg-paper-2"
-      style={{top: 'env(safe-area-inset-top, 0px)'}}
-    >
+    <header className="pt-safe sticky top-0 z-50 border-b-2 border-ink bg-paper-2">
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-4 px-5">
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-2.5 font-head text-lg font-black tracking-tight"
+          className="flex h-11 shrink-0 items-center gap-2.5 font-head text-lg font-black tracking-tight"
         >
           <SealMark size={28} />
           {BRAND.name}

@@ -41,6 +41,14 @@
   --bulb-on: #f2c45a;
   --bulb-off: #cbb68d;
 
+  /*
+   * Alto de la barra de pestañas de móvil: los 56px de la fila más los 2 del
+   * borde superior. Vive aquí porque lo necesitan dos sitios —la propia barra
+   * y el hueco que le reserva el <body>— y tenerlo escrito dos veces ya dejó
+   * el pie 2px por debajo de la barra.
+   */
+  --tabbar-h: 3.625rem;
+
   --hairline: rgb(27 42 65 / 0.24);
   --halftone: rgb(27 42 65 / 0.17);
   --grain-opacity: 0.4;
@@ -145,6 +153,12 @@
 
   html {
     -webkit-tap-highlight-color: transparent;
+    /* Sin esto, el navegador espera 300 ms por si viene un segundo toque para
+       ampliar. Ese retardo es lo que hace que una web "se sienta" web. */
+    touch-action: manipulation;
+    /* El rebote elástico al final del scroll delata el navegador; dentro de
+       una app instalada no lo hay. */
+    overscroll-behavior-y: none;
   }
 
   body {
@@ -162,6 +176,25 @@
   :focus-visible {
     outline: 3px solid var(--vermilion);
     outline-offset: 3px;
+  }
+
+  /* iOS amplía la página al enfocar un campo cuyo texto mida menos de 16px, y
+     luego no vuelve solo. Se fija el mínimo en el propio campo. */
+  input,
+  select,
+  textarea {
+    font-size: max(16px, 1em);
+  }
+
+  /* El texto de un control no se selecciona al mantener pulsado: en un botón
+     nativo eso no pasa, y la lupa de selección de iOS rompe la ilusión. El
+     contenido de lectura sigue siendo seleccionable. */
+  button,
+  [role='button'],
+  label,
+  nav a {
+    -webkit-user-select: none;
+    user-select: none;
   }
 
   ::selection {
@@ -242,5 +275,45 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+@layer utilities {
+  /*
+   * Áreas seguras. Con `viewport-fit: cover` la app llega al borde físico de
+   * la pantalla, así que el contenido tiene que apartarse a mano del notch y
+   * de la barra de gestos. `env()` vale 0 en un navegador de escritorio, de
+   * modo que estas clases no hacen nada fuera del móvil.
+   */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Para el último bloque de una página, que si no queda debajo de la barra. */
+  .mb-tabbar {
+    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--tabbar-height, 0px));
+  }
+
+  /*
+   * Objetivo táctil mínimo sin engordar el dibujo del control: el área
+   * sensible crece con un pseudoelemento centrado. Es lo que permite que un
+   * botón de 32px se pulse como uno de 44 sin rehacer el diseño.
+   */
+  .touch-target {
+    position: relative;
+  }
+
+  .touch-target::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
   }
 }

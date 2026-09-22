@@ -498,5 +498,13 @@
     "empty": "Todavía no hay guías en este idioma.",
     "toc": "En esta guía",
     "faqHeading": "Preguntas frecuentes"
+  },
+  "tabs": {
+    "label": "Modos de sorteo",
+    "raffle": "Sorteo",
+    "secretSanta": "Amigo",
+    "decide": "Decidir",
+    "turns": "Turnos",
+    "teams": "Equipos"
   }
 }
