@@ -15,8 +15,7 @@ export function RaffleDetailsStep() {
   const people = namedParticipants(state);
   const maxWinners = Math.min(LIMITS.maxWinners, Math.max(1, people.length - 1));
 
-  const prizeError =
-    state.attempted && state.prize.trim() === '' ? tv('prizeRequired') : undefined;
+  const prizeError = state.attempted && state.prize.trim() === '' ? tv('prizeRequired') : undefined;
   const organizerError =
     state.organizerEmail.trim() !== '' &&
     !raffleSchema.shape.organizerEmail.safeParse(state.organizerEmail.trim()).success
@@ -32,7 +31,9 @@ export function RaffleDetailsStep() {
           value={state.prize}
           placeholder={t('prizePlaceholder')}
           aria-invalid={prizeError ? true : undefined}
-          onChange={(event) => dispatch({type: 'setField', field: 'prize', value: event.target.value})}
+          onChange={(event) =>
+            dispatch({type: 'setField', field: 'prize', value: event.target.value})
+          }
           className={controlClass}
         />
       </Field>

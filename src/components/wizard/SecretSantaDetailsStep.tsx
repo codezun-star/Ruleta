@@ -32,7 +32,9 @@ export function SecretSantaDetailsStep() {
             value={state.budget}
             placeholder={t('budgetPlaceholder')}
             aria-invalid={budgetError ? true : undefined}
-            onChange={(event) => dispatch({type: 'setField', field: 'budget', value: event.target.value})}
+            onChange={(event) =>
+              dispatch({type: 'setField', field: 'budget', value: event.target.value})
+            }
             className={`${controlClass} tabular-nums`}
           />
         </Field>
@@ -64,7 +66,9 @@ export function SecretSantaDetailsStep() {
             id="date"
             type="date"
             value={state.date}
-            onChange={(event) => dispatch({type: 'setField', field: 'date', value: event.target.value})}
+            onChange={(event) =>
+              dispatch({type: 'setField', field: 'date', value: event.target.value})
+            }
             className={controlClass}
           />
         </Field>
@@ -75,7 +79,9 @@ export function SecretSantaDetailsStep() {
             maxLength={LIMITS.maxPlaceLength}
             value={state.place}
             placeholder={t('placePlaceholder')}
-            onChange={(event) => dispatch({type: 'setField', field: 'place', value: event.target.value})}
+            onChange={(event) =>
+              dispatch({type: 'setField', field: 'place', value: event.target.value})
+            }
             className={controlClass}
           />
         </Field>
@@ -88,7 +94,9 @@ export function SecretSantaDetailsStep() {
           maxLength={LIMITS.maxMessageLength}
           value={state.message}
           placeholder={t('messagePlaceholder')}
-          onChange={(event) => dispatch({type: 'setField', field: 'message', value: event.target.value})}
+          onChange={(event) =>
+            dispatch({type: 'setField', field: 'message', value: event.target.value})
+          }
           className={controlClass}
         />
       </Field>

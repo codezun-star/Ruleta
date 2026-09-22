@@ -60,6 +60,8 @@ const FALLBACK_STACK = "Georgia, 'Times New Roman', serif";
  */
 export function readWheelLabelFont(): string {
   if (typeof window === 'undefined') return `700 19px ${FALLBACK_STACK}`;
-  const family = getComputedStyle(document.documentElement).getPropertyValue('--font-fraunces').trim();
+  const family = getComputedStyle(document.documentElement)
+    .getPropertyValue('--font-fraunces')
+    .trim();
   return `700 19px ${family ? `${family}, ` : ''}${FALLBACK_STACK}`;
 }

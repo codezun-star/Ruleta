@@ -77,7 +77,6 @@ export function ReviewStep() {
           {t('privacy')}
         </p>
       ) : null}
-
     </div>
   );
 }

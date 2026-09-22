@@ -13,7 +13,10 @@ export function Privacy() {
         <SectionHeading step={4} eyebrow={t('eyebrow')} title={t('title')} />
         <ul className="flex flex-col gap-3">
           {POINTS.map((n) => (
-            <li key={n} className="flex items-start gap-3 border-b border-dotted border-hairline pb-3 last:border-b-0">
+            <li
+              key={n}
+              className="flex items-start gap-3 border-b border-dotted border-hairline pb-3 last:border-b-0"
+            >
               <Icon name="shield" size={22} className="mt-0.5 shrink-0 text-vermilion" />
               <span className="text-ink-2">{t(`point${n}`)}</span>
             </li>

@@ -20,7 +20,13 @@ export function SealMark({size = 32, className}: {size?: number; className?: str
       <circle cx="60" cy="60" r="38" fill="none" stroke="var(--on-vermilion)" strokeWidth="3" />
       <circle cx="60" cy="60" r="12" fill="var(--on-vermilion)" />
       {/* Puntero: la cuña que marca el segmento ganador. */}
-      <path d="M60 4l9 16H51z" fill="var(--vermilion)" stroke="var(--ink)" strokeWidth="2.5" strokeLinejoin="round" />
+      <path
+        d="M60 4l9 16H51z"
+        fill="var(--vermilion)"
+        stroke="var(--ink)"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }

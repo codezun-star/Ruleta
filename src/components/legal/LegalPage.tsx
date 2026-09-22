@@ -10,7 +10,7 @@ export function LegalPage({namespace}: {namespace: 'privacy' | 'terms'}) {
   return (
     <section className="py-12 sm:py-16">
       <div className="mx-auto w-full max-w-3xl px-5">
-        <SectionHeading eyebrow={t('updated')} title={t('title')} lede={t('intro')} />
+        <SectionHeading as="h1" eyebrow={t('updated')} title={t('title')} lede={t('intro')} />
 
         <div className="mt-10 flex flex-col gap-8">
           {SECTIONS.map((key, index) => {

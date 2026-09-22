@@ -19,8 +19,10 @@ export function ExclusionEditor() {
   const people = namedParticipants(state);
   const nameOf = (id: string) => people.find((p) => p.id === id)?.name ?? '';
 
-  const samePair = (a: string, b: string) => ([c, d]: [string, string]) =>
-    (c === a && d === b) || (c === b && d === a);
+  const samePair =
+    (a: string, b: string) =>
+    ([c, d]: [string, string]) =>
+      (c === a && d === b) || (c === b && d === a);
 
   const add = () => {
     if (!left || !right) return;

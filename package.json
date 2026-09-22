@@ -14,7 +14,11 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "email:preview": "tsx scripts/preview-emails.mts",
-    "email:assets": "node scripts/make-email-assets.mjs"
+    "email:assets": "node scripts/make-email-assets.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:e2e": "playwright test",
+    "test:sound": "node scripts/check-sound-levels.mjs"
   },
   "dependencies": {
     "@react-email/components": "^1.0.12",
@@ -30,12 +34,14 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.6.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "drizzle-kit": "^0.31.11",
     "postcss": "^8.5.28",
+    "prettier": "^3.9.8",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vitest": "^5.0.1"

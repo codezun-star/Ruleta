@@ -12,7 +12,6 @@ import {Header} from '@/components/layout/Header';
 import {Footer} from '@/components/layout/Footer';
 import '@/styles/globals.css';
 
-
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
 }
@@ -27,19 +26,40 @@ export async function generateMetadata({
 
   return {
     metadataBase: new URL(SITE_URL),
-    title: {default: `${BRAND.name} — ${t('title')}`, template: `%s · ${BRAND.name}`},
+    // El término de búsqueda primero y la marca al final: para un sitio nuevo
+    // el nombre todavía no aporta nada en el listado de resultados.
+    title: {default: `${t('title')} · ${BRAND.name}`, template: `%s · ${BRAND.name}`},
     description: t('description'),
     applicationName: BRAND.name,
+    keywords: t('keywords').split(', '),
+    formatDetection: {telephone: false, address: false, email: false},
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1
+      }
+    },
     alternates: alternatesFor('/', locale),
     openGraph: {
       type: 'website',
       siteName: BRAND.name,
       locale,
+      alternateLocale: routing.locales.filter((other) => other !== locale),
       url: `/${locale}`,
-      title: `${BRAND.name} — ${t('title')}`,
+      title: `${t('title')} · ${BRAND.name}`,
       description: t('description')
     },
-    icons: {icon: '/favicon.svg'}
+    twitter: {
+      card: 'summary_large_image',
+      title: `${t('title')} · ${BRAND.name}`,
+      description: t('description')
+    },
+    icons: {icon: '/favicon.svg', apple: '/apple-icon.png'}
   };
 }
 

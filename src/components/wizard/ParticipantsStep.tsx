@@ -103,7 +103,11 @@ export function ParticipantsStep() {
                   placeholder={t('namePlaceholder')}
                   aria-invalid={nameError ? true : undefined}
                   onChange={(event) =>
-                    dispatch({type: 'updateParticipant', id: participant.id, patch: {name: event.target.value}})
+                    dispatch({
+                      type: 'updateParticipant',
+                      id: participant.id,
+                      patch: {name: event.target.value}
+                    })
                   }
                   className={controlClass}
                 />
@@ -123,7 +127,11 @@ export function ParticipantsStep() {
                   placeholder={t('emailPlaceholder')}
                   aria-invalid={emailError ? true : undefined}
                   onChange={(event) =>
-                    dispatch({type: 'updateParticipant', id: participant.id, patch: {email: event.target.value}})
+                    dispatch({
+                      type: 'updateParticipant',
+                      id: participant.id,
+                      patch: {email: event.target.value}
+                    })
                   }
                   className={controlClass}
                 />

@@ -10,7 +10,10 @@ const organizerEmail = z.union([z.literal(''), z.email('emailInvalid')]);
 /** Modo A. El correo de los participantes es opcional: sirve en vivo. */
 export const raffleSchema = z.object({
   mode: z.literal('raffle'),
-  participants: z.array(participantSchema).min(LIMITS.minRaffle, 'tooFewParticipants').max(LIMITS.max, 'tooManyParticipants'),
+  participants: z
+    .array(participantSchema)
+    .min(LIMITS.minRaffle, 'tooFewParticipants')
+    .max(LIMITS.max, 'tooManyParticipants'),
   prize: z.string().trim().min(1, 'prizeRequired').max(LIMITS.maxPrizeLength, 'prizeTooLong'),
   winnerCount: z.number().int().min(1, 'winnersRange').max(LIMITS.maxWinners, 'winnersRange'),
   notify: z.enum(NOTIFY_OPTIONS),
@@ -21,7 +24,10 @@ export const raffleSchema = z.object({
 /** Modo B. Aquí el correo sí es obligatorio: cada quien recibe solo el suyo. */
 export const secretSantaSchema = z.object({
   mode: z.literal('secretSanta'),
-  participants: z.array(participantSchema).min(LIMITS.minSecretSanta, 'tooFewParticipants').max(LIMITS.max, 'tooManyParticipants'),
+  participants: z
+    .array(participantSchema)
+    .min(LIMITS.minSecretSanta, 'tooFewParticipants')
+    .max(LIMITS.max, 'tooManyParticipants'),
   budget: z.union([z.literal(''), z.coerce.number().positive('budgetPositive')]),
   currency: z.enum(CURRENCIES),
   date: z.union([z.literal(''), z.iso.date('dateInvalid')]),

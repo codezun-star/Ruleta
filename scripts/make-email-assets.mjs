@@ -147,7 +147,20 @@ function papelPicado(width, height) {
   });
 }
 
+const PUBLIC_DIR = resolve(OUT_DIR, '..');
+
 mkdirSync(OUT_DIR, {recursive: true});
 writeFileSync(resolve(OUT_DIR, 'sello.png'), seal(220));
 writeFileSync(resolve(OUT_DIR, 'papel-picado.png'), papelPicado(1200, 92));
-console.log('Escritos public/email/sello.png y public/email/papel-picado.png');
+
+// Iconos del manifiesto: el mismo sello, sobre papel para que no salga
+// recortado en los lanzadores que lo ponen en un cuadrado.
+function icon(size) {
+  const disc = seal(size);
+  return disc;
+}
+writeFileSync(resolve(PUBLIC_DIR, 'icon-192.png'), icon(192));
+writeFileSync(resolve(PUBLIC_DIR, 'icon-512.png'), icon(512));
+writeFileSync(resolve(PUBLIC_DIR, 'apple-icon.png'), icon(180));
+
+console.log('Escritos los PNG del correo y los iconos del manifiesto');

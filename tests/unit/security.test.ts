@@ -5,9 +5,9 @@ const withHeaders = (headers: Record<string, string>) => new Request('https://x.
 
 describe('clientIp', () => {
   it('toma la primera de x-forwarded-for, que es la del cliente', () => {
-    expect(clientIp(withHeaders({'x-forwarded-for': '203.0.113.7, 70.41.3.18, 150.172.238.178'}))).toBe(
-      '203.0.113.7'
-    );
+    expect(
+      clientIp(withHeaders({'x-forwarded-for': '203.0.113.7, 70.41.3.18, 150.172.238.178'}))
+    ).toBe('203.0.113.7');
   });
 
   it('quita los espacios', () => {

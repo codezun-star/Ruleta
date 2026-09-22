@@ -7,7 +7,10 @@ export function HowItWorks() {
   const t = useTranslations('home.how');
 
   return (
-    <section id="como-funciona" className="scroll-mt-16 border-y-2 border-ink bg-paper-2 py-14 sm:py-20">
+    <section
+      id="como-funciona"
+      className="scroll-mt-16 border-y-2 border-ink bg-paper-2 py-14 sm:py-20"
+    >
       <div className="mx-auto w-full max-w-6xl px-5">
         <SectionHeading step={2} eyebrow={t('eyebrow')} title={t('title')} />
 

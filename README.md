@@ -19,7 +19,7 @@ las asignaciones.
 | 4 | Algoritmo de asignación y tests | ✅ |
 | 5 | Base de datos y envío de correos | ✅ |
 | 6 | Seguridad, rate limit, captcha, legales, cron | ✅ |
-| 7 | Pulido, accesibilidad, SEO y despliegue | ⏳ |
+| 7 | Pulido, accesibilidad, SEO, AEO y GEO | ✅ |
 
 ## Arrancar en local
 
@@ -38,6 +38,9 @@ Abre http://localhost:3000 — redirige a `/es` o `/en` según tu navegador.
 | `npm run start` | Sirve la compilación |
 | `npm run typecheck` | TypeScript sin emitir |
 | `npm test` | Tests unitarios (Vitest) |
+| `npm run test:e2e` | Flujo completo en navegador (Playwright) |
+| `npm run test:sound` | Mide el nivel de cada sonido y falla si no se oye |
+| `npm run format` | Prettier |
 | `npm run db:generate` | Regenera la migración desde el esquema |
 | `npm run db:migrate` | Aplica las migraciones |
 | `npm run email:preview` | Renderiza los correos a HTML para mirarlos |
@@ -217,6 +220,44 @@ Next inyecta scripts en línea propios: es una tarea aparte, no un olvido.
 declaran en `src/i18n/routing.ts` y el selector de idioma traduce la ruta
 actual en vez de mandarte a la portada. Los `hreflang` salen de `getPathname()`,
 porque concatenar el idioma daría `/en/privacidad`, que no existe.
+
+### SEO, AEO y GEO
+
+**SEO técnico.** Sitemap con una entrada por idioma y sus alternativas,
+`robots.txt`, manifiesto, imagen Open Graph generada con `next/og`, canonical
+y `hreflang` correctos con rutas traducidas, y `max-snippet:-1` /
+`max-image-preview:large` para que el buscador pueda enseñar fragmentos largos.
+
+**AEO** (que los buscadores puedan extraer la respuesta). Diez preguntas
+frecuentes con respuesta directa en el primer párrafo, marcadas con `FAQPage`
+en JSON-LD, más `HowTo` para el amigo secreto y `BreadcrumbList` en las
+interiores. **Las respuestas se pintan visibles, no en un acordeón**: plegarlas
+esconde justo el texto del que se saca la respuesta.
+
+**GEO** (que los asistentes puedan citarnos). `/llms.txt` con un resumen del
+sitio y una lista de hechos verificables, y `robots.txt` con los rastreadores
+de los asistentes listados a propósito. El JSON-LD y el `llms.txt` **se generan
+desde las mismas traducciones que la página**, así que no pueden contradecirla.
+
+> Conviene decirlo: la parte de SEO técnico y AEO descansa en prácticas
+> documentadas por los buscadores. GEO todavía no las tiene: `llms.txt` es una
+> convención emergente, no un estándar. Se ha implementado porque cuesta poco
+> y el contenido que exige —hechos concretos y citables— mejora la página de
+> todos modos.
+
+### Tests
+
+| Qué | Dónde |
+|---|---|
+| Algoritmo, azar, validación, cifrado, física | `tests/unit` · Vitest · 59 tests |
+| Flujo completo en escritorio y móvil | `tests/e2e` · Playwright · 4 specs × 2 |
+| Nivel audible de cada sonido | `scripts/check-sound-levels.mjs` |
+| Accesibilidad | axe sobre 6 páginas × 2 temas, sin incumplimientos |
+
+El comprobador de sonido existe por un fallo real: los clacs salieron a
+**−44 dBFS**, es decir, inaudibles. El código se ejecutaba —44 llamadas por
+giro— y nada lo detectaba, porque "se ejecuta" y "se oye" no son lo mismo. Ahora
+se renderiza cada sonido en un `OfflineAudioContext` y se comprueba su pico.
 
 ### Accesibilidad
 

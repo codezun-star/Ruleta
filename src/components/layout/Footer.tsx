@@ -16,10 +16,16 @@ export function Footer() {
         </p>
         <p className="text-sm opacity-75">{t('retention')}</p>
         <nav className="flex flex-wrap items-center gap-4 text-sm">
-          <Link href="/privacidad" className="text-paper underline underline-offset-4 opacity-85 hover:opacity-100">
+          <Link
+            href="/privacidad"
+            className="text-paper underline underline-offset-4 opacity-85 hover:opacity-100"
+          >
             {t('privacy')}
           </Link>
-          <Link href="/terminos" className="text-paper underline underline-offset-4 opacity-85 hover:opacity-100">
+          <Link
+            href="/terminos"
+            className="text-paper underline underline-offset-4 opacity-85 hover:opacity-100"
+          >
             {t('terms')}
           </Link>
           <span className="opacity-75">{BRAND.domain}</span>

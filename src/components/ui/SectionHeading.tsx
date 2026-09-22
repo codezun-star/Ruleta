@@ -10,13 +10,16 @@ export function SectionHeading({
   eyebrow,
   title,
   lede,
-  className
+  className,
+  /** `h1` cuando la cabecera es el título de la página, no de una sección. */
+  as: Heading = 'h2'
 }: {
   step?: number;
   eyebrow: string;
   title: ReactNode;
   lede?: ReactNode;
   className?: string;
+  as?: 'h1' | 'h2';
 }) {
   return (
     <div className={cn('max-w-[62ch]', className)}>
@@ -32,9 +35,9 @@ export function SectionHeading({
         {eyebrow}
         <span className="h-0 flex-[1_0_24px] border-t border-hairline" />
       </p>
-      <h2 className="mt-3.5 font-head text-3xl leading-[1.1] font-black tracking-tight text-balance sm:text-4xl">
+      <Heading className="mt-3.5 font-head text-3xl leading-[1.1] font-black tracking-tight text-balance sm:text-4xl">
         {title}
-      </h2>
+      </Heading>
       {lede ? <p className="mt-2.5 text-lg text-ink-2">{lede}</p> : null}
     </div>
   );

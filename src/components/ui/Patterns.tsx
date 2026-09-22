@@ -59,7 +59,10 @@ const TILES: Record<PatternName, {size: number; path: string}> = {
       [0, 32],
       [32, 32]
     ]
-      .map(([cx = 0, cy = 0]) => `M${cx} ${cy - 15}L${cx + 15} ${cy}L${cx} ${cy + 15}L${cx - 15} ${cy}Z`)
+      .map(
+        ([cx = 0, cy = 0]) =>
+          `M${cx} ${cy - 15}L${cx + 15} ${cy}L${cx} ${cy + 15}L${cx - 15} ${cy}Z`
+      )
       .join('')
   },
   /** Rayas diagonales de cartel impreso. */

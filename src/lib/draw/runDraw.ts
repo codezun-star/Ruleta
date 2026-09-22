@@ -231,8 +231,11 @@ async function prepareSecretSanta(
   );
 
   const budget =
-    config.budget !== '' ? formatMoney(Number(config.budget), config.currency, config.locale) : undefined;
-  const date = config.date !== '' ? (formatDate(config.date, config.locale) ?? undefined) : undefined;
+    config.budget !== ''
+      ? formatMoney(Number(config.budget), config.currency, config.locale)
+      : undefined;
+  const date =
+    config.date !== '' ? (formatDate(config.date, config.locale) ?? undefined) : undefined;
 
   const envelopes: Envelope[] = [];
   for (const {giver, receiver} of result.assignments) {

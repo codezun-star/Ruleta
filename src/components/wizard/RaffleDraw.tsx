@@ -80,7 +80,9 @@ export function RaffleDraw({
                 >
                   {position + 1}
                 </span>
-                <span className="font-head text-lg font-black">{labels[index]}</span>
+                <span data-testid="winner-name" className="font-head text-lg font-black">
+                  {labels[index]}
+                </span>
                 {participants[index]?.email ? (
                   <span className="text-sm text-ink-2">{participants[index]?.email}</span>
                 ) : null}

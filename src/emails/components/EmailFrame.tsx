@@ -1,5 +1,15 @@
 import type {ReactNode} from 'react';
-import {Body, Container, Head, Html, Img, Link, Preview, Section, Text} from '@react-email/components';
+import {
+  Body,
+  Container,
+  Head,
+  Html,
+  Img,
+  Link,
+  Preview,
+  Section,
+  Text
+} from '@react-email/components';
 
 /**
  * Armazón de todos los correos. Tablas y estilos en línea, tipografías
@@ -42,7 +52,9 @@ export function EmailFrame({
       </Head>
       <Preview>{preview}</Preview>
       <Body style={{margin: 0, padding: 0, backgroundColor: PAPER, fontFamily: BODY_FONT}}>
-        <Container style={{width: '100%', maxWidth: '600px', margin: '0 auto', padding: '0 0 32px'}}>
+        <Container
+          style={{width: '100%', maxWidth: '600px', margin: '0 auto', padding: '0 0 32px'}}
+        >
           <Img
             src={`${siteUrl}/email/papel-picado.png`}
             alt={bannerAlt}
@@ -65,10 +77,14 @@ export function EmailFrame({
           </Section>
 
           <Section style={{padding: '20px 20px 0', textAlign: 'center'}}>
-            <Text style={{margin: '0 0 6px', fontSize: '12px', lineHeight: '18px', color: INK_SOFT}}>
+            <Text
+              style={{margin: '0 0 6px', fontSize: '12px', lineHeight: '18px', color: INK_SOFT}}
+            >
               {footerWhy}
             </Text>
-            <Text style={{margin: '0 0 6px', fontSize: '12px', lineHeight: '18px', color: INK_SOFT}}>
+            <Text
+              style={{margin: '0 0 6px', fontSize: '12px', lineHeight: '18px', color: INK_SOFT}}
+            >
               {footerRetention}
             </Text>
             <Text style={{margin: 0, fontSize: '12px', lineHeight: '18px'}}>

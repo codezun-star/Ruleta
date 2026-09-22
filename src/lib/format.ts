@@ -13,7 +13,9 @@ export function formatDate(iso: string, locale: string): string | null {
 }
 
 export function formatMoney(amount: number, currency: string, locale: string): string {
-  return new Intl.NumberFormat(locale, {style: 'currency', currency, maximumFractionDigits: 0}).format(
-    amount
-  );
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 0
+  }).format(amount);
 }

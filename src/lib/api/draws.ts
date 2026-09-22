@@ -41,14 +41,13 @@ export async function createDraw(
   }
   if (!response.ok) return {status: 'error'};
 
-  const data = (await response.json()) as Omit<
-    Extract<DrawResponse, {status: 'ok'}>,
-    'status'
-  >;
+  const data = (await response.json()) as Omit<Extract<DrawResponse, {status: 'ok'}>, 'status'>;
   return {status: 'ok', ...data};
 }
 
-export async function retryDeliveries(drawId: string): Promise<{sent: number; failed: number} | null> {
+export async function retryDeliveries(
+  drawId: string
+): Promise<{sent: number; failed: number} | null> {
   try {
     const response = await fetch(`/api/draws/${drawId}/retry`, {method: 'POST'});
     if (!response.ok) return null;

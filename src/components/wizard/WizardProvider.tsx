@@ -1,6 +1,13 @@
 'use client';
 
-import {createContext, useContext, useEffect, useReducer, type Dispatch, type ReactNode} from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  type Dispatch,
+  type ReactNode
+} from 'react';
 import {
   initialWizardState,
   wizardReducer,

@@ -1,14 +1,17 @@
 {
   "meta": {
-    "title": "Raffles and Secret Santa with a spinning wheel",
+    "title": "Online raffle and Secret Santa with a spinning wheel",
     "description": "Build your list, spin the wheel and let chance decide. Everyone gets their own result by email, and nobody can peek at the Secret Santa assignments.",
-    "ogAlt": "Festival poster showing a raffle wheel"
+    "ogAlt": "Festival poster showing a raffle wheel",
+    "keywords": "online raffle, secret santa generator, random name picker, wheel of names, gift exchange, prize draw, pick a winner at random",
+    "ogLine": "Free, no account. The server decides the winner, not the animation."
   },
   "nav": {
     "raffle": "Raffle",
     "secretSanta": "Secret Santa",
     "how": "How it works",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "faq": "FAQ"
   },
   "common": {
     "locale": {
@@ -380,6 +383,51 @@
         "title": "Contact",
         "body": "hola@ruleta.codezun.com"
       }
+    }
+  },
+  "faq": {
+    "eyebrow": "Frequently asked",
+    "title": "What people usually ask",
+    "lede": "Straight answers. If one is missing, write to us.",
+    "q1": {
+      "q": "How do you run a Secret Santa online?",
+      "a": "You type the names and emails of everyone taking part, set the suggested budget, the date and the place of the exchange, and spin. Each person gets an email telling them who they're buying for.\n\nNothing to install, no account. The minimum group is three people and the maximum is fifty."
+    },
+    "q2": {
+      "q": "Can the organiser see who got whom?",
+      "a": "No. That's the main difference from doing it with slips of paper: whoever hands them out always ends up seeing something.\n\nThe assignment is computed on the server and stored encrypted with AES-GCM. The key never leaves the server, so not even database access reveals it. Once every email has gone out, those rows are deleted: from then on the assignment exists only in each person's inbox. The organiser's screen only says whose turn it is, never who they're buying for."
+    },
+    "q3": {
+      "q": "Is the wheel draw actually random?",
+      "a": "Yes, and the animation has nothing to do with it. That's the usual trick with wheels on the web: the spin looks lovely but the result was written in advance, or the browser's physics picked it.\n\nHere the winner comes from a cryptographic generator (crypto.getRandomValues) and the animation is calculated afterwards to land exactly on that segment. Numbers that would fall outside the range are thrown away and drawn again, so no participant ends up with better odds because of a division remainder."
+    },
+    "q4": {
+      "q": "How many people can take part?",
+      "a": "Between 3 and 50 for Secret Santa, and between 2 and 50 for a simple raffle.\n\nThe minimum of three for Secret Santa isn't arbitrary: with two people the exchange is obvious and there's no secret left to keep."
+    },
+    "q5": {
+      "q": "Can you stop a couple from getting each other?",
+      "a": "Yes. In the details step you can add exclusions: pairs of people who shouldn't be matched. It works both ways, so excluding Ana from Kenji also excludes Kenji from Ana.\n\nIf the exclusions leave no possible draw, you're told before you spin, not after."
+    },
+    "q6": {
+      "q": "Why does one exclusion break a three-person draw?",
+      "a": "Because with three people there are only two valid arrangements, and each one uses one of the two directions of every pair.\n\nWith A, B and C the only possibilities are A→B→C→A and A→C→B→A. Exclude A from C and the first falls because it contains C→A, the second because it contains A→C. Nothing is left. From four people up there's room; with three, none."
+    },
+    "q7": {
+      "q": "Do I need an account?",
+      "a": "No. No sign-up, no password, no email verification to use it. You type the list and spin."
+    },
+    "q8": {
+      "q": "What happens to the participants' emails?",
+      "a": "They're deleted automatically 30 days after the draw. A scheduled job does it every day; it doesn't depend on anyone remembering.\n\nThey're not sold, not used for advertising, and not shared with anyone except the service that sends the emails."
+    },
+    "q9": {
+      "q": "Does it work without email?",
+      "a": "For a simple raffle, yes: you can choose to email nobody and read the result on screen, which is the practical option when everyone is in the room.\n\nFor Secret Santa email is required, because it's the only place the result can appear without the rest of the group seeing it."
+    },
+    "q10": {
+      "q": "What is a derangement and why does it matter here?",
+      "a": "A derangement is a permutation where no element stays in its original position. Applied to Secret Santa: an arrangement where nobody draws their own name.\n\nIt's the property any properly built Secret Santa has to satisfy, and the reason shuffling the list and pairing by position isn't enough: that way someone draws themselves once in every e times, which is nearly 37% of the time."
     }
   }
 }

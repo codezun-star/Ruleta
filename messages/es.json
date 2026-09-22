@@ -1,14 +1,17 @@
 {
   "meta": {
-    "title": "Sorteos y amigo secreto con ruleta",
+    "title": "Sorteo online y amigo secreto con ruleta",
     "description": "Arma tu lista, gira la ruleta y deja que el azar decida. Cada quien recibe su resultado por correo y nadie puede espiar las asignaciones del amigo secreto.",
-    "ogAlt": "Cartel de festival con una ruleta de sorteos"
+    "ogAlt": "Cartel de festival con una ruleta de sorteos",
+    "keywords": "sorteo online, amigo secreto, ruleta de nombres, sorteo aleatorio, intercambio de regalos, rifa online, generador de amigo secreto, elegir ganador al azar",
+    "ogLine": "Gratis, sin cuenta. El azar lo decide el servidor, no la animación."
   },
   "nav": {
     "raffle": "Sorteo",
     "secretSanta": "Amigo secreto",
     "how": "Cómo funciona",
-    "skipToContent": "Saltar al contenido"
+    "skipToContent": "Saltar al contenido",
+    "faq": "Preguntas"
   },
   "common": {
     "locale": {
@@ -380,6 +383,51 @@
         "title": "Contacto",
         "body": "hola@ruleta.codezun.com"
       }
+    }
+  },
+  "faq": {
+    "eyebrow": "Preguntas frecuentes",
+    "title": "Lo que suele preguntarse",
+    "lede": "Respuestas directas. Si falta alguna, escríbenos.",
+    "q1": {
+      "q": "¿Cómo se hace un amigo secreto por internet?",
+      "a": "Escribes los nombres y correos de quienes participan, pones el monto sugerido, la fecha y el lugar del intercambio, y giras. Cada persona recibe por correo a quién le regala.\n\nNo hace falta instalar nada ni crear cuenta. El grupo mínimo son tres personas y el máximo cincuenta."
+    },
+    "q2": {
+      "q": "¿Puede el organizador ver a quién le tocó cada quien?",
+      "a": "No. Es la diferencia principal con hacerlo con papelitos: quien reparte siempre acaba viendo algo.\n\nEl reparto se calcula en el servidor y se guarda cifrado con AES-GCM. La clave no sale del servidor, así que ni con acceso a la base de datos se puede leer. En cuanto salen todos los correos, esas filas se borran: a partir de ahí el reparto solo existe en el buzón de cada quien. La pantalla del organizador solo dice de quién es el turno, nunca a quién le regala."
+    },
+    "q3": {
+      "q": "¿El sorteo de la ruleta es realmente aleatorio?",
+      "a": "Sí, y la animación no tiene nada que ver. Es la trampa habitual de las ruletas en la web: el giro se ve bonito pero el resultado ya venía escrito, o lo decide la física del navegador.\n\nAquí el ganador sale de un generador criptográfico (crypto.getRandomValues) y la animación se calcula después para terminar exactamente en ese segmento. Además se descartan los números que caerían fuera del rango y se vuelve a tirar, para que ningún participante tenga más posibilidades que otro por un resto de división."
+    },
+    "q4": {
+      "q": "¿Cuántas personas pueden participar?",
+      "a": "Entre 3 y 50 en el amigo secreto, y entre 2 y 50 en el sorteo simple.\n\nEl mínimo de tres en el amigo secreto no es arbitrario: con dos personas el intercambio es obvio y no hay ningún secreto que guardar."
+    },
+    "q5": {
+      "q": "¿Se puede evitar que una pareja se regale entre sí?",
+      "a": "Sí. En el paso de detalles puedes añadir exclusiones: pares de personas que no deben tocarse. Funciona en los dos sentidos, así que excluir a Ana de Kenji también excluye a Kenji de Ana.\n\nSi las exclusiones dejan el sorteo sin salida, te avisa antes de girar, no después."
+    },
+    "q6": {
+      "q": "¿Por qué con tres personas una sola exclusión rompe el sorteo?",
+      "a": "Porque con tres personas solo existen dos repartos válidos, y cada uno usa una de las dos direcciones de cada pareja.\n\nCon A, B y C los únicos repartos posibles son A→B→C→A y A→C→B→A. Si excluyes a A de C, el primero se cae porque contiene C→A y el segundo porque contiene A→C. No queda ninguno. A partir de cuatro personas hay margen; con tres, ninguno."
+    },
+    "q7": {
+      "q": "¿Necesito crear una cuenta?",
+      "a": "No. No hay registro, ni contraseña, ni verificación por correo para usarlo. Escribes la lista y giras."
+    },
+    "q8": {
+      "q": "¿Qué pasa con los correos de los participantes?",
+      "a": "Se borran automáticamente a los 30 días del sorteo. Lo hace una tarea programada que corre todos los días, no depende de que nadie se acuerde.\n\nNo se venden, no se usan para publicidad y no se comparten con nadie salvo con el servicio que manda los correos."
+    },
+    "q9": {
+      "q": "¿Funciona sin correo electrónico?",
+      "a": "En el sorteo simple sí: puedes elegir que no se avise a nadie y ver el resultado en pantalla, que es lo práctico cuando estáis todos delante.\n\nEn el amigo secreto el correo es obligatorio, porque es el único sitio donde aparece el resultado sin que lo vea el resto."
+    },
+    "q10": {
+      "q": "¿Qué es un derangement y por qué importa aquí?",
+      "a": "Un derangement es una permutación en la que ningún elemento queda en su sitio original. Aplicado a un amigo secreto: un reparto en el que nadie se saca a sí mismo.\n\nEs la propiedad que tiene que cumplir cualquier sorteo de amigo secreto bien hecho, y la razón por la que no basta con barajar la lista y emparejar por posición: ahí alguien acaba tocándose a sí mismo una de cada e veces, es decir, casi el 37 % de las veces."
     }
   }
 }

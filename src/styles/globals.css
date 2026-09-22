@@ -136,7 +136,6 @@
   --shadow-hard-sm: 3px 3px 0 var(--shadow-color);
   --shadow-hard: 5px 5px 0 var(--shadow-color);
   --shadow-hard-lg: 8px 8px 0 var(--shadow-color);
-
 }
 
 @layer base {
@@ -149,6 +148,9 @@
   }
 
   body {
+    /* Ninguna de las tres familias necesita negrita ni cursiva sintética: si
+       algún día falta un peso, queremos verlo roto, no borroso. */
+    font-synthesis-weight: none;
     background-color: var(--paper);
     color: var(--ink);
     font-family: var(--font-sans);
@@ -228,14 +230,7 @@
 
   /* Etiqueta tipo sello de inspección: dos esquinas recortadas. */
   .clipped-tag {
-    clip-path: polygon(
-      7px 0,
-      100% 0,
-      100% calc(100% - 7px),
-      calc(100% - 7px) 100%,
-      0 100%,
-      0 7px
-    );
+    clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
   }
 }
 

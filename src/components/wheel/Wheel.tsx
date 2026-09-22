@@ -4,7 +4,13 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslations} from 'next-intl';
 import {BULB_COUNT, DESIGN, drawWheel} from './drawWheel';
 import {readWheelLabelFont, readWheelPalette, type WheelPalette} from './wheelPalette';
-import {createPointerSpring, planSpin, spinAngleAt, SPIN_DURATION_MS, type SpinPlan} from './spinPhysics';
+import {
+  createPointerSpring,
+  planSpin,
+  spinAngleAt,
+  SPIN_DURATION_MS,
+  type SpinPlan
+} from './spinPhysics';
 import {Confetti} from './confetti';
 import {playChime, playClack, playDrum, unlockAudio} from './sounds';
 import {WinnerSeal} from './WinnerSeal';

@@ -25,7 +25,15 @@ export type WizardState = {
 
 type ScalarFields = Pick<
   WizardState,
-  'prize' | 'winnerCount' | 'notify' | 'budget' | 'currency' | 'date' | 'place' | 'message' | 'organizerEmail'
+  | 'prize'
+  | 'winnerCount'
+  | 'notify'
+  | 'budget'
+  | 'currency'
+  | 'date'
+  | 'place'
+  | 'message'
+  | 'organizerEmail'
 >;
 
 export type WizardAction =
@@ -36,7 +44,9 @@ export type WizardAction =
   | {type: 'updateParticipant'; id: string; patch: Partial<Omit<Participant, 'id'>>}
   | {type: 'removeParticipant'; id: string}
   | {type: 'removeEmpty'}
-  | {[K in keyof ScalarFields]: {type: 'setField'; field: K; value: ScalarFields[K]}}[keyof ScalarFields]
+  | {
+      [K in keyof ScalarFields]: {type: 'setField'; field: K; value: ScalarFields[K]};
+    }[keyof ScalarFields]
   | {type: 'addExclusion'; pair: [string, string]}
   | {type: 'removeExclusion'; index: number}
   | {type: 'restore'; state: WizardState}

@@ -14,8 +14,13 @@ export function WizardSteps({current}: {current: 1 | 2 | 3}) {
         const done = number <= current;
         return (
           <li key={step} className="flex items-center">
-            {index > 0 ? <span aria-hidden="true" className="mx-3 hidden h-0.5 w-5 bg-ink sm:block sm:w-9" /> : null}
-            <span className="flex items-center gap-2.5" aria-current={number === current ? 'step' : undefined}>
+            {index > 0 ? (
+              <span aria-hidden="true" className="mx-3 hidden h-0.5 w-5 bg-ink sm:block sm:w-9" />
+            ) : null}
+            <span
+              className="flex items-center gap-2.5"
+              aria-current={number === current ? 'step' : undefined}
+            >
               <span
                 aria-hidden="true"
                 className={cn(

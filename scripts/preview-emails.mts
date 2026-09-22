@@ -38,7 +38,7 @@ const emails = {
     prize: 'Una caja de chocolates',
     winners: ['Marisol Cadena', 'Ana Robles']
   }),
-  'organizador': await renderOrganizerReceipt({
+  organizador: await renderOrganizerReceipt({
     locale: 'es',
     drawId,
     rows: [

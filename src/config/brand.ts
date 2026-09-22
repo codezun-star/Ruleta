@@ -22,7 +22,8 @@ function resolveSiteUrl(): string {
   const configured =
     env(process.env.NEXT_PUBLIC_SITE_URL) ??
     // En previews de Vercel el dominio lo pone la plataforma.
-    (env(process.env.VERCEL_PROJECT_PRODUCTION_URL) ?? env(process.env.VERCEL_URL));
+    env(process.env.VERCEL_PROJECT_PRODUCTION_URL) ??
+    env(process.env.VERCEL_URL);
 
   const candidate = configured ?? BRAND.domain;
   // Admite tanto "ruleta.codezun.com" como "https://ruleta.codezun.com/".
@@ -42,5 +43,4 @@ export const SITE_URL = resolveSiteUrl();
 export const EMAIL_FROM =
   env(process.env.EMAIL_FROM) ?? `${BRAND.name} <${BRAND.mailbox}@${BRAND.domain}>`;
 
-export const EMAIL_REPLY_TO =
-  env(process.env.EMAIL_REPLY_TO) ?? `${BRAND.mailbox}@${BRAND.domain}`;
+export const EMAIL_REPLY_TO = env(process.env.EMAIL_REPLY_TO) ?? `${BRAND.mailbox}@${BRAND.domain}`;

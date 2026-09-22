@@ -93,9 +93,10 @@ export function Wizard() {
   const [stage, setStage] = useState<Stage | null>(null);
   const [starting, setStarting] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [blocked, setBlocked] = useState<{reason: 'rateLimited' | 'captcha'; minutes?: number} | null>(
-    null
-  );
+  const [blocked, setBlocked] = useState<{
+    reason: 'rateLimited' | 'captcha';
+    minutes?: number;
+  } | null>(null);
   const onToken = useCallback((token: string | null) => setCaptchaToken(token), []);
 
   const people = namedParticipants(state);
@@ -199,7 +200,11 @@ export function Wizard() {
       >
         {state.step === 1 ? <ParticipantsStep /> : null}
         {state.step === 2 ? (
-          state.mode === 'raffle' ? <RaffleDetailsStep /> : <SecretSantaDetailsStep />
+          state.mode === 'raffle' ? (
+            <RaffleDetailsStep />
+          ) : (
+            <SecretSantaDetailsStep />
+          )
         ) : null}
         {state.step === 3 ? <ReviewStep /> : null}
       </div>
@@ -220,16 +225,15 @@ export function Wizard() {
 
       <div className="flex flex-wrap items-center gap-3">
         {state.step > 1 ? (
-          <StampButton
-            variant="ghost"
-            onClick={() => goTo((state.step - 1) as WizardStep)}
-          >
+          <StampButton variant="ghost" onClick={() => goTo((state.step - 1) as WizardStep)}>
             {t('back')}
           </StampButton>
         ) : null}
 
         {state.step < 3 ? (
-          <StampButton onClick={() => goTo((state.step + 1) as WizardStep)}>{t('next')}</StampButton>
+          <StampButton onClick={() => goTo((state.step + 1) as WizardStep)}>
+            {t('next')}
+          </StampButton>
         ) : (
           <StampButton onClick={start} disabled={starting}>
             {starting ? tDelivery('sending') : tReview('start')}

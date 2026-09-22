@@ -90,7 +90,10 @@ export function SecretSantaCeremony({
           </p>
           <ul className="mt-3 flex flex-col gap-2">
             {labels.slice(0, turn).map((name, index) => (
-              <li key={participants[index]?.id ?? name} className="flex flex-wrap items-center gap-3">
+              <li
+                key={participants[index]?.id ?? name}
+                className="flex flex-wrap items-center gap-3"
+              >
                 <Icon name="mail" size={22} className="shrink-0 text-matcha-deep" />
                 <span className="font-head text-lg font-black">{name}</span>
                 <span className="text-sm text-ink-2">{t('knows')}</span>

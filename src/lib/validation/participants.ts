@@ -71,7 +71,12 @@ export function validateParticipants(
     issues.push({index: null, field: 'list', key: 'tooFewParticipants', params: {min}});
   }
   if (participants.length > LIMITS.max) {
-    issues.push({index: null, field: 'list', key: 'tooManyParticipants', params: {max: LIMITS.max}});
+    issues.push({
+      index: null,
+      field: 'list',
+      key: 'tooManyParticipants',
+      params: {max: LIMITS.max}
+    });
   }
 
   return issues;

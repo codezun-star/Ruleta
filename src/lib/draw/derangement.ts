@@ -13,7 +13,7 @@ export type DerangementResult =
        */
       strategy: 'cycle' | 'matching';
     }
-  | {ok: false; reason: 'tooFew'; blocked: [] }
+  | {ok: false; reason: 'tooFew'; blocked: []}
   | {ok: false; reason: 'impossible'; blocked: string[]};
 
 type Random = (max: number) => number;
@@ -87,7 +87,10 @@ function findCycle(
       return allowed.get(last)?.has(start) ?? false;
     }
 
-    const candidates = shuffle([...(allowed.get(last) ?? [])].filter((id) => !used.has(id)), random);
+    const candidates = shuffle(
+      [...(allowed.get(last) ?? [])].filter((id) => !used.has(id)),
+      random
+    );
     // Warnsdorff: probar antes a quien menos salidas le quedan. Sin esto, un
     // grafo con pocas exclusiones ya obliga a retroceder muchísimo.
     candidates.sort((a, b) => remainingDegree(a) - remainingDegree(b));

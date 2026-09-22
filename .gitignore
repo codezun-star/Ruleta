@@ -12,3 +12,6 @@ coverage/
 playwright-report/
 test-results/
 .vercel
+test-results/
+playwright-report/
+email-preview/

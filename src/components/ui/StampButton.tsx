@@ -22,7 +22,9 @@ const SIZES: Record<Size, string> = {
  */
 function stampClasses(variant: Variant, size: Size, className?: string) {
   return cn(
-    'inline-flex items-center justify-center gap-2 border-2 border-ink font-display font-bold leading-none',
+    // Bevan solo tiene peso 400: pedir `font-bold` haría que el navegador lo
+    // engordase falsificando el trazo, y las letras salen emborronadas.
+    'inline-flex items-center justify-center gap-2 border-2 border-ink font-display leading-none',
     'shadow-hard-sm transition-[transform,box-shadow,background-color] duration-100 ease-out',
     'hover:-translate-x-px hover:-translate-y-px hover:shadow-hard',
     'active:translate-x-[3px] active:translate-y-[3px] active:shadow-none',
@@ -39,7 +41,13 @@ type ButtonProps = ComponentProps<'button'> & {
   children: ReactNode;
 };
 
-export function StampButton({variant = 'primary', size = 'md', className, children, ...rest}: ButtonProps) {
+export function StampButton({
+  variant = 'primary',
+  size = 'md',
+  className,
+  children,
+  ...rest
+}: ButtonProps) {
   return (
     <button type="button" className={stampClasses(variant, size, className)} {...rest}>
       {children}
@@ -53,7 +61,13 @@ type LinkProps = ComponentProps<typeof Link> & {
   children: ReactNode;
 };
 
-export function StampLink({variant = 'primary', size = 'md', className, children, ...rest}: LinkProps) {
+export function StampLink({
+  variant = 'primary',
+  size = 'md',
+  className,
+  children,
+  ...rest
+}: LinkProps) {
   return (
     <Link className={stampClasses(variant, size, className)} {...rest}>
       {children}

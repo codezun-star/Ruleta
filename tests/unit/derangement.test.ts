@@ -169,20 +169,26 @@ describe('assignSecretSanta', () => {
 describe('isValidDerangement', () => {
   it('rechaza que alguien se saque a sí mismo', () => {
     expect(
-      isValidDerangement(['a', 'b'], [
-        {giver: 'a', receiver: 'a'},
-        {giver: 'b', receiver: 'b'}
-      ])
+      isValidDerangement(
+        ['a', 'b'],
+        [
+          {giver: 'a', receiver: 'a'},
+          {giver: 'b', receiver: 'b'}
+        ]
+      )
     ).toBe(false);
   });
 
   it('rechaza que alguien reciba dos veces', () => {
     expect(
-      isValidDerangement(['a', 'b', 'c'], [
-        {giver: 'a', receiver: 'c'},
-        {giver: 'b', receiver: 'c'},
-        {giver: 'c', receiver: 'a'}
-      ])
+      isValidDerangement(
+        ['a', 'b', 'c'],
+        [
+          {giver: 'a', receiver: 'c'},
+          {giver: 'b', receiver: 'c'},
+          {giver: 'c', receiver: 'a'}
+        ]
+      )
     ).toBe(false);
   });
 

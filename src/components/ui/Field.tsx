@@ -22,7 +22,10 @@ export function Field({
 }) {
   return (
     <div className={cn('flex flex-col gap-1.5', className)}>
-      <label htmlFor={id} className="text-[0.7rem] font-bold tracking-[0.14em] text-ink-2 uppercase">
+      <label
+        htmlFor={id}
+        className="text-[0.7rem] font-bold tracking-[0.14em] text-ink-2 uppercase"
+      >
         {label}
       </label>
       {children}

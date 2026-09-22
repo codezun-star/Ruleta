@@ -6,13 +6,7 @@ import {StampButton} from '@/components/ui/StampButton';
 import {Tag} from '@/components/ui/Tag';
 import {retryDeliveries, type DeliverySummary} from '@/lib/api/draws';
 
-export function EmailStatus({
-  drawId,
-  initial
-}: {
-  drawId: string;
-  initial: DeliverySummary;
-}) {
+export function EmailStatus({drawId, initial}: {drawId: string; initial: DeliverySummary}) {
   const t = useTranslations('delivery');
   const [summary, setSummary] = useState(initial);
   const [retrying, setRetrying] = useState(false);

@@ -3,8 +3,7 @@
 import {useEffect, useRef} from 'react';
 import {useLocale} from 'next-intl';
 
-const SCRIPT_URL =
-  'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+const SCRIPT_URL = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
 
 type Turnstile = {
   render: (
