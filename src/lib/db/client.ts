@@ -1,6 +1,7 @@
 import {drizzle} from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
+import {sanitizeDatabaseUrl} from './url';
 
 /**
  * El sitio tiene que poder desplegarse antes de que exista la base de datos:
@@ -26,9 +27,9 @@ export function getDb() {
   if (!url) throw new NotConfiguredError('database');
 
   if (!database) {
-    // `prepare: false` porque los pooler de Supabase y Vercel en modo
+    // `prepare: false` porque los pooler de Supabase, Neon y Vercel en modo
     // transacción no admiten sentencias preparadas.
-    client = postgres(url, {prepare: false, max: 3});
+    client = postgres(sanitizeDatabaseUrl(url), {prepare: false, max: 3});
     database = drizzle(client, {schema});
   }
   return database;

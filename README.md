@@ -186,11 +186,11 @@ Se despliega **sin** base de datos ni Resend: si faltan, la API responde `503
 notConfigured` y el sorteo se hace en el navegador, diciéndolo en pantalla. En
 cuanto se configuran, el sorteo pasa al servidor sin tocar nada más.
 
-| Variable                                         | Para qué                                                           |
-| ------------------------------------------------ | ------------------------------------------------------------------ |
-| `DATABASE_URL`                                   | Postgres (Supabase o Vercel). `npm run db:migrate` crea las tablas |
-| `ASSIGNMENTS_ENCRYPTION_KEY`                     | 32 bytes en base64: `openssl rand -base64 32`                      |
-| `RESEND_API_KEY`, `EMAIL_FROM`, `EMAIL_REPLY_TO` | Envío. Pasos de DNS en [`docs/resend-dns.md`](docs/resend-dns.md)  |
+| Variable                                         | Para qué                                                                 |
+| ------------------------------------------------ | ------------------------------------------------------------------------ |
+| `DATABASE_URL`                                   | Postgres (Neon, Supabase o Vercel). `npm run db:migrate` crea las tablas |
+| `ASSIGNMENTS_ENCRYPTION_KEY`                     | 32 bytes en base64: `openssl rand -base64 32`                            |
+| `RESEND_API_KEY`, `EMAIL_FROM`, `EMAIL_REPLY_TO` | Envío. Pasos de DNS en [`docs/resend-dns.md`](docs/resend-dns.md)        |
 
 **El organizador nunca ve las asignaciones.** Se guardan cifradas con AES-GCM,
 la clave vive solo en el servidor, y las filas se borran en cuanto han salido
