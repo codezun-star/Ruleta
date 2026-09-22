@@ -8,6 +8,7 @@ import {RaffleWinnerEmail} from './RaffleWinnerEmail';
 import {RaffleParticipantEmail} from './RaffleParticipantEmail';
 import {OrganizerReceiptEmail} from './OrganizerReceiptEmail';
 import type {EmailBrand} from './types';
+import {localePath} from '@/i18n/paths';
 
 const MESSAGES = {es, en} as const;
 type Locale = keyof typeof MESSAGES;
@@ -21,10 +22,11 @@ function translator(locale: string) {
 
 type Common = {locale: string; drawId: string};
 
-function brandFor(t: ReturnType<typeof translator>, drawId: string): EmailBrand {
+function brandFor(t: ReturnType<typeof translator>, drawId: string, locale: string): EmailBrand {
   return {
     siteUrl: SITE_URL,
     domain: BRAND.domain,
+    privacyPath: localePath('/privacidad', locale),
     bannerAlt: t('common.bannerAlt'),
     sealAlt: t('common.sealAlt'),
     footerWhy: t('common.footerWhy', {domain: BRAND.domain}),
@@ -55,7 +57,7 @@ export async function renderSecretSanta(
   return toEmail(
     t('secretSanta.subject'),
     SecretSantaEmail({
-      brand: brandFor(t, options.drawId),
+      brand: brandFor(t, options.drawId, options.locale),
       greeting: t('secretSanta.greeting', {name: options.giverName}),
       intro: t('secretSanta.intro'),
       youGiveLabel: t('secretSanta.youGive'),
@@ -80,7 +82,7 @@ export async function renderRaffleWinner(
   return toEmail(
     t('raffleWinner.subject'),
     RaffleWinnerEmail({
-      brand: brandFor(t, options.drawId),
+      brand: brandFor(t, options.drawId, options.locale),
       greeting: t('raffleWinner.greeting', {name: options.winnerName}),
       headline: t('raffleWinner.headline'),
       intro: t('raffleWinner.intro'),
@@ -99,7 +101,7 @@ export async function renderRaffleParticipant(
   return toEmail(
     t('raffleParticipant.subject'),
     RaffleParticipantEmail({
-      brand: brandFor(t, options.drawId),
+      brand: brandFor(t, options.drawId, options.locale),
       greeting: t('raffleParticipant.greeting', {name: options.name}),
       headline: t('raffleParticipant.headline'),
       intro: t('raffleParticipant.intro'),
@@ -118,7 +120,7 @@ export async function renderOrganizerReceipt(
   return toEmail(
     t('organizer.subject'),
     OrganizerReceiptEmail({
-      brand: brandFor(t, options.drawId),
+      brand: brandFor(t, options.drawId, options.locale),
       headline: t('organizer.headline'),
       intro: t('organizer.intro'),
       rows: options.rows,

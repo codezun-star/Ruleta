@@ -16,6 +16,7 @@ export function SecretSantaEmail(props: SecretSantaEmailProps) {
     <EmailFrame
       preview={props.intro}
       siteUrl={brand.siteUrl}
+      privacyPath={brand.privacyPath}
       domain={brand.domain}
       bannerAlt={brand.bannerAlt}
       footerWhy={brand.footerWhy}

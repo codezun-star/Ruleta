@@ -1,6 +1,8 @@
 export type EmailBrand = {
   siteUrl: string;
   domain: string;
+  /** Ruta de privacidad ya resuelta al idioma del correo. */
+  privacyPath: string;
   /** Textos comunes del pie y las imágenes, ya traducidos. */
   bannerAlt: string;
   sealAlt: string;

@@ -29,6 +29,7 @@ export function EmailFrame({
   preview,
   siteUrl,
   domain,
+  privacyPath,
   bannerAlt,
   footerWhy,
   footerRetention,
@@ -38,6 +39,8 @@ export function EmailFrame({
   preview: string;
   siteUrl: string;
   domain: string;
+  /** Ya resuelta al idioma del correo: escrita a mano se quedaba en español. */
+  privacyPath: string;
   bannerAlt: string;
   footerWhy: string;
   footerRetention: string;
@@ -88,7 +91,7 @@ export function EmailFrame({
               {footerRetention}
             </Text>
             <Text style={{margin: 0, fontSize: '12px', lineHeight: '18px'}}>
-              <Link href={`${siteUrl}/es/privacidad`} style={{color: VERMILION}}>
+              <Link href={`${siteUrl}${privacyPath}`} style={{color: VERMILION}}>
                 {reportLabel}
               </Link>
               <span style={{color: INK_SOFT}}> · {domain}</span>
