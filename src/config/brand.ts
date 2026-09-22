@@ -4,10 +4,21 @@
  * del código donde el nombre esté escrito a mano.
  */
 export const BRAND = {
-  name: 'Kuji',
+  name: 'Tómbola',
+  /**
+   * Versión sin acentos ni mayúsculas. De aquí cuelgan las claves de
+   * almacenamiento y los prefijos, que no admiten un nombre con tilde y que
+   * si no se quedarían con el nombre viejo sin que nadie lo note.
+   */
+  slug: 'tombola',
   domain: 'ruleta.codezun.com',
   mailbox: 'hola'
 } as const;
+
+/** Clave con el prefijo de la marca, para todo lo que viva en el navegador. */
+export function storageKey(name: string): string {
+  return `${BRAND.slug}-${name}`;
+}
 
 /**
  * Una variable de entorno declarada pero vacía llega como `''`, no como

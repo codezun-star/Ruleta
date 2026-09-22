@@ -1,8 +1,9 @@
 'use client';
 
 import {useSyncExternalStore} from 'react';
+import {storageKey} from '@/config/brand';
 
-const STORAGE_KEY = 'kuji-sound';
+const STORAGE_KEY = storageKey('sound');
 
 let enabled = false;
 let hydrated = false;

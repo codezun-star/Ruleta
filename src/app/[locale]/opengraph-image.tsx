@@ -4,7 +4,7 @@ import {BRAND} from '@/config/brand';
 
 export const size = {width: 1200, height: 630};
 export const contentType = 'image/png';
-export const alt = 'Kuji';
+export const alt = BRAND.name;
 
 const PAPER = '#f1e6cf';
 const INK = '#1b2a41';

@@ -1,5 +1,6 @@
 import {Ratelimit} from '@upstash/ratelimit';
 import {Redis} from '@upstash/redis';
+import {BRAND} from '@/config/brand';
 
 /** Cinco sorteos por hora y por IP: de sobra para usarlo, poco para spamear. */
 const WINDOW = '1 h';
@@ -16,7 +17,7 @@ function getLimiter(): Ratelimit | null {
     limiter = new Ratelimit({
       redis: new Redis({url, token}),
       limiter: Ratelimit.slidingWindow(LIMIT, WINDOW),
-      prefix: 'kuji:draws',
+      prefix: `${BRAND.slug}:draws`,
       analytics: false
     });
   }

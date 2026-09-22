@@ -68,7 +68,7 @@ En Vercel → Settings → Environment Variables:
 
 ```
 RESEND_API_KEY=re_...
-EMAIL_FROM=Kuji <hola@ruleta.codezun.com>
+EMAIL_FROM=Tómbola <hola@ruleta.codezun.com>
 EMAIL_REPLY_TO=hola@ruleta.codezun.com
 ```
 

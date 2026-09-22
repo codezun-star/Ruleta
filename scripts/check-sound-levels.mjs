@@ -19,7 +19,7 @@ const BANDS = {
   campanilla: [-9, -2]
 };
 
-const out = join(mkdtempSync(join(tmpdir(), 'kuji-sound-')), 'sounds.mjs');
+const out = join(mkdtempSync(join(tmpdir(), 'tombola-sound-')), 'sounds.mjs');
 await build({
   entryPoints: ['src/components/wheel/sounds.ts'],
   bundle: true,

@@ -25,7 +25,8 @@
     },
     "sound": {
       "enable": "Activar sonido",
-      "disable": "Silenciar"
+      "disable": "Silenciar",
+      "label": "Sonido"
     }
   },
   "home": {
@@ -249,7 +250,7 @@
   "emails": {
     "common": {
       "bannerAlt": "Tira de papel picado",
-      "sealAlt": "Sello de Kuji",
+      "sealAlt": "Sello de Tómbola",
       "drawId": "ID de sorteo",
       "footerWhy": "Recibes este correo porque alguien te incluyó en un sorteo en {domain}.",
       "footerUnsubscribe": "Reportar este correo",

@@ -154,10 +154,27 @@ export function scheduleChime(ctx: BaseAudioContext, at: number): void {
   }
 }
 
-/** Hay que llamarlo dentro de un gesto del usuario para desbloquear el audio. */
+/**
+ * Hay que llamarlo dentro de un gesto del usuario. En iOS no basta con
+ * `resume()`: hasta que no se reproduce algo dentro del propio gesto, aunque
+ * sea un buffer mudo, el contexto se queda sordo.
+ */
 export function unlockAudio(): void {
-  ensureContext();
+  const ctx = ensureContext();
+  if (!ctx) return;
+
+  const silent = ctx.createBufferSource();
+  silent.buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+  silent.connect(ctx.destination);
+  silent.start(0);
 }
+
+/**
+ * Pequeña anticipación al programar. Si el contexto acaba de reanudarse,
+ * `currentTime` puede ir justo por detrás del reloj de audio y el primer
+ * sonido se pierde.
+ */
+const LOOKAHEAD = 0.01;
 
 export function playClack(intensity: number): void {
   const ctx = ensureContext();
@@ -165,15 +182,15 @@ export function playClack(intensity: number): void {
   const now = performance.now();
   if (now - lastClackAt < MIN_CLACK_GAP_MS) return;
   lastClackAt = now;
-  scheduleClack(ctx, ctx.currentTime, intensity);
+  scheduleClack(ctx, ctx.currentTime + LOOKAHEAD, intensity);
 }
 
 export function playDrum(): void {
   const ctx = ensureContext();
-  if (ctx) scheduleDrum(ctx, ctx.currentTime);
+  if (ctx) scheduleDrum(ctx, ctx.currentTime + LOOKAHEAD);
 }
 
 export function playChime(): void {
   const ctx = ensureContext();
-  if (ctx) scheduleChime(ctx, ctx.currentTime);
+  if (ctx) scheduleChime(ctx, ctx.currentTime + LOOKAHEAD);
 }

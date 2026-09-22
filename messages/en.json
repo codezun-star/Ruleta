@@ -25,7 +25,8 @@
     },
     "sound": {
       "enable": "Turn sound on",
-      "disable": "Mute"
+      "disable": "Mute",
+      "label": "Sound"
     }
   },
   "home": {
@@ -249,7 +250,7 @@
   "emails": {
     "common": {
       "bannerAlt": "Papel picado bunting",
-      "sealAlt": "Kuji seal",
+      "sealAlt": "Tómbola seal",
       "drawId": "Draw ID",
       "footerWhy": "You're getting this because someone added you to a draw on {domain}.",
       "footerUnsubscribe": "Report this email",

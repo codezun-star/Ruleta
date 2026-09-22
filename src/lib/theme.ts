@@ -1,4 +1,6 @@
-export const THEME_STORAGE_KEY = 'kuji-theme';
+import {storageKey} from '@/config/brand';
+
+export const THEME_STORAGE_KEY = storageKey('theme');
 
 export type Theme = 'light' | 'dark';
 

@@ -1,4 +1,4 @@
-# Kuji
+# Tómbola
 
 Sorteos y amigo secreto con una ruleta giratoria. Los resultados salen por
 correo a cada participante y, en el amigo secreto, ni el organizador puede ver

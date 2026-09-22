@@ -15,6 +15,7 @@ import {
   type WizardMode,
   type WizardState
 } from './wizardState';
+import {storageKey} from '@/config/brand';
 
 type WizardContextValue = {
   state: WizardState;
@@ -25,7 +26,7 @@ type WizardContextValue = {
 
 const WizardContext = createContext<WizardContextValue | null>(null);
 
-const storageKey = (mode: WizardMode) => `kuji-draft-${mode}`;
+const draftKey = (mode: WizardMode) => storageKey(`draft-${mode}`);
 
 export function WizardProvider({mode, children}: {mode: WizardMode; children: ReactNode}) {
   const [state, dispatch] = useReducer(wizardReducer, mode, initialWizardState);
@@ -35,7 +36,7 @@ export function WizardProvider({mode, children}: {mode: WizardMode; children: Re
   // leerlo durante el render descuadraría la hidratación.
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(storageKey(mode));
+      const raw = localStorage.getItem(draftKey(mode));
       if (!raw) return;
       const parsed = JSON.parse(raw) as WizardState;
       if (parsed?.mode !== mode || !Array.isArray(parsed.participants)) return;
@@ -48,7 +49,7 @@ export function WizardProvider({mode, children}: {mode: WizardMode; children: Re
 
   useEffect(() => {
     try {
-      localStorage.setItem(storageKey(mode), JSON.stringify(state));
+      localStorage.setItem(draftKey(mode), JSON.stringify(state));
     } catch {
       // Sin almacenamiento el borrador solo dura lo que dure la pestaña.
     }
@@ -65,7 +66,7 @@ export function useWizard(): WizardContextValue {
 
 export function clearWizardDraft(mode: WizardMode) {
   try {
-    localStorage.removeItem(storageKey(mode));
+    localStorage.removeItem(draftKey(mode));
   } catch {
     // Nada que limpiar.
   }
