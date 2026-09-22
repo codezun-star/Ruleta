@@ -166,7 +166,8 @@
     "messageTooLong": "El mensaje es demasiado largo.",
     "exclusionSamePerson": "No puedes excluir a alguien de sí mismo.",
     "exclusionDuplicate": "Esa pareja ya está excluida.",
-    "exclusionImpossible": "Con estas exclusiones el sorteo es imposible: {names} se queda sin nadie a quien regalar."
+    "exclusionImpossible": "Con estas exclusiones no hay ningún sorteo posible. Quita al menos una.",
+    "exclusionImpossibleThree": "Con tres personas, cualquier exclusión deja el sorteo sin salida: solo hay dos repartos posibles y los dos usan esa pareja."
   },
   "raffleForm": {
     "prize": "¿Qué se sortea?",
@@ -214,8 +215,7 @@
     "none": "Sin definir",
     "noEmail": "sin correo",
     "privacy": "Cuando gires, cada quien recibirá solo su propio resultado. Ni tú vas a poder ver quién le tocó a quién.",
-    "start": "Girar la ruleta",
-    "soon": "El sorteo del amigo secreto se activa en la fase siguiente, junto con el algoritmo que garantiza que nadie se saque a sí mismo."
+    "start": "Girar la ruleta"
   },
   "draw": {
     "round": "Ganador {current} de {total}",
@@ -225,5 +225,20 @@
     "id": "ID de sorteo",
     "idHint": "Guárdalo: sirve para demostrar que el sorteo fue el que fue.",
     "emailsSoon": "El envío de correos llega en la Fase 5. Por ahora el resultado vive en esta pantalla."
+  },
+  "ceremony": {
+    "turn": "Turno {current} de {total}",
+    "spinFor": "Le toca a {name}",
+    "ready": "Listos",
+    "sealed": "Sobre cerrado",
+    "finished": "Sorteo terminado",
+    "privacy": "Las asignaciones no se muestran en ninguna pantalla, ni siquiera en la tuya. Cada quien recibirá solo la suya.",
+    "clientNote": "Por ahora el reparto se calcula en tu navegador y no se guarda en ningún sitio. A partir de la Fase 5 lo calcula el servidor, se guarda cifrado y sale solo por correo.",
+    "restart": "Organizar otro intercambio",
+    "failed": "No se pudo repartir con estas exclusiones. Vuelve atrás y quita alguna.",
+    "nextTurn": "Siguiente turno",
+    "caption": "Le toca a",
+    "sealWord": "LISTO",
+    "knows": "ya sabe a quién le regala"
   }
 }

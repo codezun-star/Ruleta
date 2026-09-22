@@ -16,7 +16,7 @@ las asignaciones.
 | 1 | Setup, sistema de diseño, i18n, layout, landing | ✅ |
 | 2 | Ruleta: física, sonido, confeti, sello | ✅ |
 | 3 | Asistente de configuración y validaciones | ✅ |
-| 4 | Algoritmo de asignación y tests | ⏳ |
+| 4 | Algoritmo de asignación y tests | ✅ |
 | 5 | Base de datos y envío de correos | ⏳ |
 | 6 | Seguridad, rate limit, captcha, legales, cron | ⏳ |
 | 7 | Pulido, accesibilidad, SEO y despliegue | ⏳ |
@@ -37,6 +37,7 @@ Abre http://localhost:3000 — redirige a `/es` o `/en` según tu navegador.
 | `npm run build` | Compilación de producción |
 | `npm run start` | Sirve la compilación |
 | `npm run typecheck` | TypeScript sin emitir |
+| `npm test` | Tests unitarios (Vitest) |
 
 ## Cómo está montado
 
@@ -127,6 +128,32 @@ formato (correo mal escrito, duplicado) aparecen en cuanto hay algo escrito.
 
 El asistente guarda el borrador en `localStorage` por modo, y lo recupera
 después de montar —nunca durante el render— para no descuadrar la hidratación.
+
+### El reparto del amigo secreto
+
+`assignSecretSanta()` (`src/lib/draw/derangement.ts`) garantiza que nadie se
+saca a sí mismo, que cada quien da una vez y recibe una vez, y que se respetan
+las exclusiones. Funciona en dos tiempos:
+
+1. **Emparejamiento bipartito máximo** (Kuhn). Es lo único que permite
+   *afirmar con certeza* que un sorteo es imposible: si el máximo no empareja a
+   todos, no existe ninguna asignación válida.
+2. **Ciclo hamiltoniano aleatorio** con backtracking y heurística de Warnsdorff,
+   para que salga una sola cadena y nadie se devuelva el regalo. Si el
+   presupuesto de pasos se agota, se usa el emparejamiento, que ya sabemos que
+   existe.
+
+Sin exclusiones no hace falta buscar nada: barajar y encadenar es O(n), siempre
+válido y uniforme entre todos los ciclos posibles.
+
+> **Un caso que sorprende:** con tres personas, *cualquier* exclusión deja el
+> sorteo sin salida. Solo hay dos repartos posibles y los dos usan esa pareja.
+> Por eso el formulario comprueba la viabilidad con `checkFeasible()`, que corre
+> el mismo emparejamiento: mirar solo si a alguien le quedan cero candidatos se
+> queda corto.
+
+El organizador **nunca** ve las asignaciones: la ceremonia gira por cada
+participante y solo marca de quién es el turno.
 
 ### Accesibilidad
 

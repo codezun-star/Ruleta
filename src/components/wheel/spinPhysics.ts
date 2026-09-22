@@ -41,10 +41,9 @@ export function planSpin(
   const jitter = (random() - 0.5) * step * 0.6;
   const landing = mod360(-winner * step + jitter);
   const turns = MIN_TURNS + Math.floor(random() * EXTRA_TURNS);
-  const to =
-    currentRotation + turns * 360 + mod360(landing - mod360(currentRotation)) + OVERSHOOT_DEG;
+  const to = currentRotation + turns * 360 + mod360(landing - mod360(currentRotation));
 
-  return {from: currentRotation, to: to - OVERSHOOT_DEG};
+  return {from: currentRotation, to};
 }
 
 /**

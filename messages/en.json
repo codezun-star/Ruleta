@@ -166,7 +166,8 @@
     "messageTooLong": "That message is too long.",
     "exclusionSamePerson": "You can't exclude someone from themselves.",
     "exclusionDuplicate": "That pair is already excluded.",
-    "exclusionImpossible": "These exclusions make the draw impossible: {names} has nobody left to give to."
+    "exclusionImpossible": "These exclusions leave no possible draw. Remove at least one.",
+    "exclusionImpossibleThree": "With three people, any exclusion kills the draw: there are only two possible arrangements and both use that pair."
   },
   "raffleForm": {
     "prize": "What's being raffled?",
@@ -214,8 +215,7 @@
     "none": "Not set",
     "noEmail": "no email",
     "privacy": "Once you spin, each person only gets their own result. Not even you will see who got whom.",
-    "start": "Spin the wheel",
-    "soon": "The Secret Santa draw switches on in the next phase, along with the algorithm that guarantees nobody draws their own name."
+    "start": "Spin the wheel"
   },
   "draw": {
     "round": "Winner {current} of {total}",
@@ -225,5 +225,20 @@
     "id": "Draw ID",
     "idHint": "Keep it: it proves the draw was the draw.",
     "emailsSoon": "Sending emails lands in Phase 5. For now the result lives on this screen."
+  },
+  "ceremony": {
+    "turn": "Turn {current} of {total}",
+    "spinFor": "It's {name}'s turn",
+    "ready": "Done",
+    "sealed": "Sealed",
+    "finished": "Draw finished",
+    "privacy": "Assignments are never shown on any screen, not even yours. Each person only gets their own.",
+    "clientNote": "For now the draw is computed in your browser and stored nowhere. From Phase 5 the server computes it, stores it encrypted and sends it only by email.",
+    "restart": "Set up another exchange",
+    "failed": "These exclusions can't be satisfied. Go back and remove one.",
+    "nextTurn": "Next turn",
+    "caption": "It's the turn of",
+    "sealWord": "DONE",
+    "knows": "knows who they are buying for"
   }
 }

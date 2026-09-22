@@ -22,3 +22,19 @@ export function randomInt(max: number): number {
 
   return value % max;
 }
+
+/**
+ * Fisher-Yates con `randomInt`. Devuelve una copia: barajar en el sitio una
+ * lista que viene de React sería mutar estado ajeno.
+ */
+export function shuffle<T>(items: readonly T[], random: (max: number) => number = randomInt): T[] {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = random(i + 1);
+    const a = result[i] as T;
+    const b = result[j] as T;
+    result[i] = b;
+    result[j] = a;
+  }
+  return result;
+}

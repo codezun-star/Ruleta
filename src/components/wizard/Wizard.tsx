@@ -10,10 +10,12 @@ import {RaffleDetailsStep} from './RaffleDetailsStep';
 import {SecretSantaDetailsStep} from './SecretSantaDetailsStep';
 import {ReviewStep} from './ReviewStep';
 import {RaffleDraw} from './RaffleDraw';
+import {SecretSantaCeremony} from './SecretSantaCeremony';
 import {StampButton} from '@/components/ui/StampButton';
 import {LIMITS} from '@/lib/validation/limits';
 import {validateParticipants} from '@/lib/validation/participants';
-import {findOverConstrained, raffleSchema} from '@/lib/validation/draw';
+import {raffleSchema} from '@/lib/validation/draw';
+import {checkFeasible} from '@/lib/draw/derangement';
 import type {WizardState} from './wizardState';
 
 function organizerLooksValid(state: WizardState): boolean {
@@ -34,11 +36,11 @@ function stepIsComplete(state: WizardState): boolean {
     if (state.mode === 'raffle') return state.prize.trim() !== '';
     const budgetOk = state.budget.trim() === '' || Number(state.budget) > 0;
     const people = namedParticipants(state);
-    const stuck = findOverConstrained(
+    const feasible = checkFeasible(
       people.map((person) => person.id),
       state.exclusions
     );
-    return budgetOk && stuck.length === 0;
+    return budgetOk && feasible.ok;
   }
 
   return true;
@@ -53,15 +55,19 @@ export function Wizard() {
   const people = namedParticipants(state);
 
   if (drawing) {
-    return (
-      <RaffleDraw
+    const restart = () => {
+      clearWizardDraft(state.mode);
+      dispatch({type: 'reset'});
+      setDrawing(false);
+    };
+
+    return state.mode === 'raffle' ? (
+      <RaffleDraw participants={people} winnerCount={state.winnerCount} onRestart={restart} />
+    ) : (
+      <SecretSantaCeremony
         participants={people}
-        winnerCount={state.winnerCount}
-        onRestart={() => {
-          clearWizardDraft(state.mode);
-          dispatch({type: 'reset'});
-          setDrawing(false);
-        }}
+        exclusions={state.exclusions}
+        onRestart={restart}
       />
     );
   }
@@ -125,9 +131,9 @@ export function Wizard() {
 
         {state.step < 3 ? (
           <StampButton onClick={() => goTo((state.step + 1) as WizardStep)}>{t('next')}</StampButton>
-        ) : state.mode === 'raffle' ? (
+        ) : (
           <StampButton onClick={start}>{tReview('start')}</StampButton>
-        ) : null}
+        )}
       </div>
     </div>
   );

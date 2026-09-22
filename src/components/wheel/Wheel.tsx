@@ -32,7 +32,8 @@ export function Wheel({
    * puntero hasta ahí.
    */
   resolveWinner,
-  onResult
+  onResult,
+  copy
 }: {
   /** Referencia estable: al cambiar se reconstruye el bucle de la ruleta. */
   labels: string[];
@@ -40,6 +41,8 @@ export function Wheel({
   disabled?: boolean;
   resolveWinner?: () => Promise<number> | number;
   onResult?: (index: number) => void;
+  /** Para ceremonias donde nadie "gana": el amigo secreto solo pasa turno. */
+  copy?: {spin?: string; again?: string; caption?: string; seal?: string};
 }) {
   const t = useTranslations('wheel');
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -265,7 +268,7 @@ export function Wheel({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="relative w-full">
+      <div className="relative mx-auto w-full max-w-[460px]">
         <canvas
           ref={canvasRef}
           role="img"
@@ -281,12 +284,20 @@ export function Wheel({
       </div>
 
       <StampButton onClick={spin} disabled={disabled || status === 'spinning'}>
-        {status === 'spinning' ? t('spinning') : status === 'done' ? t('again') : t('spin')}
+        {status === 'spinning'
+          ? t('spinning')
+          : status === 'done'
+            ? (copy?.again ?? t('again'))
+            : (copy?.spin ?? t('spin'))}
       </StampButton>
 
       <div aria-live="polite" className="min-h-24 pt-3 text-center">
         {status === 'done' && winnerName ? (
-          <WinnerSeal name={winnerName} caption={t('caption')} sealWord={t('seal')} />
+          <WinnerSeal
+            name={winnerName}
+            caption={copy?.caption ?? t('caption')}
+            sealWord={copy?.seal ?? t('seal')}
+          />
         ) : null}
       </div>
     </div>

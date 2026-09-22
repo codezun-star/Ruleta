@@ -38,20 +38,3 @@ export const drawSchema = z.discriminatedUnion('mode', [raffleSchema, secretSant
 export type RaffleConfig = z.infer<typeof raffleSchema>;
 export type SecretSantaConfig = z.infer<typeof secretSantaSchema>;
 export type DrawConfig = z.infer<typeof drawSchema>;
-
-/**
- * Comprobación barata antes de llamar al algoritmo: si alguien queda sin
- * ningún destinatario posible, el sorteo es imposible y hay que decirlo ya.
- */
-export function findOverConstrained(
-  participantIds: string[],
-  exclusions: [string, string][]
-): string[] {
-  const blocked = new Map<string, Set<string>>();
-  for (const id of participantIds) blocked.set(id, new Set([id]));
-  for (const [a, b] of exclusions) {
-    blocked.get(a)?.add(b);
-    blocked.get(b)?.add(a);
-  }
-  return participantIds.filter((id) => (blocked.get(id)?.size ?? 0) >= participantIds.length);
-}

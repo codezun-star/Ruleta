@@ -5,18 +5,8 @@ import {useTranslations} from 'next-intl';
 import {Wheel} from '@/components/wheel/Wheel';
 import {StampButton} from '@/components/ui/StampButton';
 import {randomInt} from '@/lib/draw/random';
+import {randomTicketId} from '@/lib/draw/audit';
 import type {Participant} from '@/lib/validation/participants';
-
-/** Sin 0/O ni 1/I: un código que alguien pueda dictar por teléfono. */
-const TICKET_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-
-/** Identificador legible del sorteo. En la Fase 5 lo emitirá el servidor. */
-function makeDrawId(): string {
-  const bytes = new Uint8Array(7);
-  crypto.getRandomValues(bytes);
-  const code = Array.from(bytes, (byte) => TICKET_ALPHABET[byte % TICKET_ALPHABET.length]).join('');
-  return `${code.slice(0, 3)}-${code.slice(3)}`;
-}
 
 export function RaffleDraw({
   participants,
@@ -31,7 +21,7 @@ export function RaffleDraw({
   // Referencia estable: si cambiara en cada render, la ruleta se reconstruiría.
   const labels = useMemo(() => participants.map((person) => person.name), [participants]);
   const [won, setWon] = useState<number[]>([]);
-  const [drawId] = useState(makeDrawId);
+  const [drawId] = useState(randomTicketId);
 
   const total = Math.min(winnerCount, participants.length);
   const finished = won.length >= total;

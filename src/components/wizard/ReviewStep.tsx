@@ -78,11 +78,6 @@ export function ReviewStep() {
         </p>
       ) : null}
 
-      {state.mode === 'secretSanta' ? (
-        <p className="border-2 border-dashed border-vermilion-2 p-4 text-sm text-ink-2">
-          {t('soon')}
-        </p>
-      ) : null}
     </div>
   );
 }

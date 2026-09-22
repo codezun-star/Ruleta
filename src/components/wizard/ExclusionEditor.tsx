@@ -6,7 +6,7 @@ import {useWizard} from './WizardProvider';
 import {namedParticipants} from './wizardState';
 import {ErrorText, controlClass} from '@/components/ui/Field';
 import {StampButton} from '@/components/ui/StampButton';
-import {findOverConstrained} from '@/lib/validation/draw';
+import {checkFeasible} from '@/lib/draw/derangement';
 
 export function ExclusionEditor() {
   const t = useTranslations('secretSantaForm');
@@ -38,8 +38,9 @@ export function ExclusionEditor() {
     setRight('');
   };
 
-  // Si alguien se queda sin nadie a quien regalar, hay que avisar ya, no al girar.
-  const stuck = findOverConstrained(
+  // Se comprueba con el mismo emparejamiento que usa el algoritmo: mirar solo
+  // si a alguien le quedan cero candidatos se queda corto.
+  const feasible = checkFeasible(
     people.map((p) => p.id),
     state.exclusions
   );
@@ -110,8 +111,10 @@ export function ExclusionEditor() {
         </ul>
       )}
 
-      {stuck.length > 0 ? (
-        <ErrorText>{tv('exclusionImpossible', {names: stuck.map(nameOf).join(', ')})}</ErrorText>
+      {!feasible.ok && state.exclusions.length > 0 ? (
+        <ErrorText>
+          {people.length === 3 ? tv('exclusionImpossibleThree') : tv('exclusionImpossible')}
+        </ErrorText>
       ) : null}
     </div>
   );
