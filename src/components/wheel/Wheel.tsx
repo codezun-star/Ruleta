@@ -137,6 +137,19 @@ export function Wheel({
       });
     };
 
+    /**
+     * El sonido del resultado no puede vivir dentro del bucle: con movimiento
+     * reducido el giro se resuelve al instante y el bucle no llega a correr,
+     * así que quien tiene esa preferencia se quedaba sin ningún sonido.
+     */
+    const announceResult = () => {
+      if (!soundRef.current) return;
+      playDrum();
+      window.setTimeout(() => {
+        if (!disposed && soundRef.current) playChime();
+      }, CHIME_DELAY_MS);
+    };
+
     const stopLoop = () => {
       cancelAnimationFrame(frame);
       frame = 0;
@@ -177,12 +190,7 @@ export function Wheel({
           mode = 'rest';
           spring.reset();
           pointer = 0;
-          if (soundRef.current) {
-            playDrum();
-            window.setTimeout(() => {
-              if (!disposed && soundRef.current) playChime();
-            }, CHIME_DELAY_MS);
-          }
+          announceResult();
           finishRef.current(pendingWinner);
         }
       }
@@ -211,6 +219,9 @@ export function Wheel({
           highlight = nextWinner;
           mode = 'rest';
           paint();
+          // Sin clacs, porque no hay nada girando, pero el resultado sí se
+          // anuncia: reducir el movimiento no es pedir que no suene nada.
+          announceResult();
           finishRef.current(nextWinner);
           return;
         }

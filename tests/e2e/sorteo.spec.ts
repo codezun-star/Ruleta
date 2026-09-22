@@ -99,3 +99,47 @@ test('las tres páginas legales y las rutas en inglés responden', async ({page}
     await expect(page.locator('h1')).toHaveCount(1);
   }
 });
+
+/**
+ * Regresión: el tambor y la campanilla vivían dentro del bucle de animación,
+ * así que con movimiento reducido —que no lo ejecuta— no sonaba absolutamente
+ * nada. Es común en escritorio y raro en móvil, y por eso el fallo parecía
+ * cosa del PC.
+ */
+test.describe('sonido con movimiento reducido', () => {
+  test.use({reducedMotion: 'reduce'});
+
+  test('el resultado se anuncia también sin animación', async ({page}) => {
+    await page.addInitScript(() => {
+      const contador = {osciladores: 0};
+      (window as unknown as {__audio: typeof contador}).__audio = contador;
+      const Real = window.AudioContext;
+      window.AudioContext = class extends Real {
+        constructor(...args: ConstructorParameters<typeof AudioContext>) {
+          super(...args);
+          const crear = this.createOscillator.bind(this);
+          this.createOscillator = () => {
+            contador.osciladores++;
+            return crear();
+          };
+        }
+      } as typeof AudioContext;
+    });
+
+    await page.goto('/es');
+    await page.getByRole('button', {name: /sonido/i}).click();
+    await page.evaluate(() => {
+      (window as unknown as {__audio: {osciladores: number}}).__audio.osciladores = 0;
+    });
+
+    await page.getByRole('button', {name: 'Girar', exact: true}).click();
+    await expect(page.getByRole('button', {name: 'Girar otra vez'})).toBeVisible();
+    await page.waitForTimeout(600);
+
+    // Golpe de parada y campanilla: cuatro osciladores entre los dos.
+    const osciladores = await page.evaluate(
+      () => (window as unknown as {__audio: {osciladores: number}}).__audio.osciladores
+    );
+    expect(osciladores).toBeGreaterThan(0);
+  });
+});

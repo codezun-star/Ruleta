@@ -250,14 +250,22 @@ desde las mismas traducciones que la página**, así que no pueden contradecirla
 | Qué | Dónde |
 |---|---|
 | Algoritmo, azar, validación, cifrado, física | `tests/unit` · Vitest · 59 tests |
-| Flujo completo en escritorio y móvil | `tests/e2e` · Playwright · 4 specs × 2 |
+| Flujo completo en escritorio y móvil | `tests/e2e` · Playwright · 5 specs × 2 |
 | Nivel audible de cada sonido | `scripts/check-sound-levels.mjs` |
 | Accesibilidad | axe sobre 6 páginas × 2 temas, sin incumplimientos |
 
-El comprobador de sonido existe por un fallo real: los clacs salieron a
-**−44 dBFS**, es decir, inaudibles. El código se ejecutaba —44 llamadas por
-giro— y nada lo detectaba, porque "se ejecuta" y "se oye" no son lo mismo. Ahora
-se renderiza cada sonido en un `OfflineAudioContext` y se comprueba su pico.
+El sonido ha dado dos fallos y ninguno de los dos lo habría visto un test
+normal, porque en los dos el código se ejecutaba sin problemas:
+
+1. Los clacs salían a **−44 dBFS**, o sea inaudibles. De ahí
+   `scripts/check-sound-levels.mjs`, que renderiza cada sonido en un
+   `OfflineAudioContext` y comprueba su pico: *se ejecuta* y *se oye* no son
+   lo mismo.
+2. Con `prefers-reduced-motion` no sonaba **nada**. El tambor y la campanilla
+   vivían dentro del bucle de animación, y esa preferencia lo salta entero.
+   Parecía un fallo "de PC" porque en escritorio esa preferencia es común y en
+   móvil casi nadie la activa. Hay un test e2e que lo cubre, y se comprobó que
+   falla contra el código anterior.
 
 ### Accesibilidad
 
@@ -272,7 +280,8 @@ Contraste verificado sobre papel crema:
 | Índigo sobre matcha | 4.1:1 | Solo texto grande; matcha es color de superficie |
 
 `prefers-reduced-motion` salta el giro y el confeti: la ruleta va directa al
-resultado y este se anuncia igual por `aria-live`. El ganador se lee en texto,
+resultado y este se anuncia igual por `aria-live` **y con sonido**, porque
+pedir menos movimiento no es pedir menos información. El ganador se lee en texto,
 no solo por el color del segmento.
 
 ## Licencia
