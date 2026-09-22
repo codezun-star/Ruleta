@@ -13,6 +13,9 @@ export const routing = defineRouting({
     '/': '/',
     '/sorteo': {es: '/sorteo', en: '/raffle'},
     '/amigo-secreto': {es: '/amigo-secreto', en: '/secret-santa'},
+    '/decidir': {es: '/decidir', en: '/decide'},
+    '/turnos': {es: '/turnos', en: '/turn-order'},
+    '/equipos': {es: '/equipos', en: '/teams'},
     '/privacidad': {es: '/privacidad', en: '/privacy'},
     '/terminos': {es: '/terminos', en: '/terms'}
   }

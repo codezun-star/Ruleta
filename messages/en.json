@@ -11,7 +11,8 @@
     "secretSanta": "Secret Santa",
     "how": "How it works",
     "skipToContent": "Skip to content",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "games": "Games"
   },
   "common": {
     "locale": {
@@ -58,7 +59,9 @@
         "point2": "You can stop couples from getting each other",
         "point3": "The organiser never sees a single assignment",
         "cta": "Set up the exchange"
-      }
+      },
+      "quickTitle": "And three that take one screen",
+      "quickLede": "No emails, no steps: type the list and spin."
     },
     "how": {
       "eyebrow": "How it works",
@@ -430,5 +433,55 @@
       "q": "What is a derangement and why does it matter here?",
       "a": "A derangement is a permutation where no element stays in its original position. Applied to Secret Santa: an arrangement where nobody draws their own name.\n\nIt's the property any properly built Secret Santa has to satisfy, and the reason shuffling the list and pairing by position isn't enough: that way someone draws themselves once in every e times, which is nearly 37% of the time."
     }
+  },
+  "tools": {
+    "listLabel": "One per line",
+    "listHint": "Paste a whole list if you have one somewhere else.",
+    "count": "{count} on the list",
+    "tooFew": "You need at least {min}.",
+    "tooMany": "The limit is {max}.",
+    "reset": "Start over",
+    "edit": "Edit the list"
+  },
+  "decide": {
+    "title": "Decision wheel",
+    "heading": "Let the wheel decide",
+    "lede": "Type the options, spin, and the argument is over. Good for the restaurant, who pays, which film, or any tie that talking won't break.",
+    "placeholder": "Pizza\nSushi\nTacos\nAnything but salad",
+    "spin": "Spin",
+    "again": "Spin again",
+    "caption": "The wheel says",
+    "seal": "THIS!",
+    "cta": "Decide something"
+  },
+  "turns": {
+    "title": "Random turn order",
+    "heading": "Draw the order",
+    "lede": "Who starts, who presents first, whose turn comes when. They come out one at a time and nobody repeats.",
+    "placeholder": "Ana\nKenji\nMarisol\nDiego",
+    "spin": "Draw the first",
+    "again": "Draw the next",
+    "caption": "Turn {position}",
+    "seal": "No. {position}",
+    "order": "Here's the order",
+    "position": "Place {position}",
+    "finished": "Order complete",
+    "cta": "Draw turn order"
+  },
+  "teams": {
+    "title": "Random team generator",
+    "heading": "Build the teams",
+    "lede": "Splits people into even teams. Sizes never differ by more than one person, and who lands where is down to chance.",
+    "placeholder": "Ana\nKenji\nMarisol\nDiego\nYuki\nCamila",
+    "teamCount": "How many teams?",
+    "teamCountHint": "Between 2 and {max}.",
+    "spin": "Place the first",
+    "again": "Place the next",
+    "caption": "{name} goes to",
+    "seal": "IN!",
+    "result": "Here are the teams",
+    "teamLabel": "Team {number}",
+    "finished": "Teams ready",
+    "cta": "Build teams"
   }
 }

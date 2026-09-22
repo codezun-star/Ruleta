@@ -143,3 +143,52 @@ test.describe('sonido con movimiento reducido', () => {
     expect(osciladores).toBeGreaterThan(0);
   });
 });
+
+test.describe('modos rápidos', () => {
+  test.use({reducedMotion: 'reduce'});
+
+  test('la ruleta de decidir elige una de las opciones', async ({page}) => {
+    await page.goto('/es/decidir');
+    await page.locator('#opciones').fill('Pizza\nSushi\nTacos\nArepas');
+    await page.getByRole('button', {name: 'Girar', exact: true}).click();
+    await page.getByRole('button', {name: 'Girar', exact: true}).click();
+
+    const result = page.locator('[aria-live="polite"]').last();
+    await expect(result).toContainText(/Pizza|Sushi|Tacos|Arepas/);
+  });
+
+  test('el sorteo de turnos no repite a nadie', async ({page}) => {
+    await page.goto('/es/turnos');
+    await page.locator('#turnos').fill('Ana\nKenji\nMarisol\nDiego');
+    await page.getByRole('button', {name: 'Sacar el primero'}).click();
+    await page.getByRole('button', {name: 'Sacar el primero'}).click();
+    for (let turn = 0; turn < 3; turn++) {
+      await page.getByRole('button', {name: 'Sacar el siguiente'}).click();
+    }
+
+    await expect(page.getByText('Orden completo')).toBeVisible();
+    const names = await page.locator('ol li span.font-head').allInnerTexts();
+    const people = names.filter((name) => !/^\d+$/.test(name));
+    expect(people).toHaveLength(4);
+    expect(new Set(people).size).toBe(4);
+  });
+
+  test('los equipos quedan parejos', async ({page}) => {
+    await page.goto('/es/equipos');
+    await page.locator('#equipos').fill('Ana\nKenji\nMarisol\nDiego\nYuki\nCamila\nRubén');
+    await page.locator('#numero-equipos').fill('3');
+    await page.getByRole('button', {name: 'Repartir al primero'}).click();
+    await page.getByRole('button', {name: 'Repartir al primero'}).click();
+    for (let person = 0; person < 6; person++) {
+      await page.getByRole('button', {name: 'Repartir al siguiente'}).click();
+    }
+
+    await expect(page.getByText('Equipos listos')).toBeVisible();
+    const lists = await page.locator('.double-frame .border-2 ul').allInnerTexts();
+    const sizes = lists.map((list) => list.trim().split('\n').filter(Boolean).length);
+
+    expect(sizes.reduce((total, size) => total + size, 0)).toBe(7);
+    // Siete personas en tres equipos: 3/2/2, nunca 4/2/1.
+    expect(Math.max(...sizes) - Math.min(...sizes)).toBeLessThanOrEqual(1);
+  });
+});

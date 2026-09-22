@@ -11,7 +11,8 @@
     "secretSanta": "Amigo secreto",
     "how": "Cómo funciona",
     "skipToContent": "Saltar al contenido",
-    "faq": "Preguntas"
+    "faq": "Preguntas",
+    "games": "Juegos"
   },
   "common": {
     "locale": {
@@ -58,7 +59,9 @@
         "point2": "Puedes excluir parejas para que no se toquen",
         "point3": "El organizador no ve ninguna asignación",
         "cta": "Organizar el intercambio"
-      }
+      },
+      "quickTitle": "Y tres que se resuelven en una pantalla",
+      "quickLede": "Sin correos ni pasos: escribes la lista y giras."
     },
     "how": {
       "eyebrow": "Cómo funciona",
@@ -430,5 +433,55 @@
       "q": "¿Qué es un derangement y por qué importa aquí?",
       "a": "Un derangement es una permutación en la que ningún elemento queda en su sitio original. Aplicado a un amigo secreto: un reparto en el que nadie se saca a sí mismo.\n\nEs la propiedad que tiene que cumplir cualquier sorteo de amigo secreto bien hecho, y la razón por la que no basta con barajar la lista y emparejar por posición: ahí alguien acaba tocándose a sí mismo una de cada e veces, es decir, casi el 37 % de las veces."
     }
+  },
+  "tools": {
+    "listLabel": "Escribe uno por línea",
+    "listHint": "Pega una lista de golpe si la tienes en otro sitio.",
+    "count": "{count} en la lista",
+    "tooFew": "Necesitas al menos {min}.",
+    "tooMany": "El máximo son {max}.",
+    "reset": "Empezar de nuevo",
+    "edit": "Cambiar la lista"
+  },
+  "decide": {
+    "title": "Ruleta para decidir",
+    "heading": "Que decida la ruleta",
+    "lede": "Escribe las opciones, gira y acabas con la discusión. Sirve para el restaurante, quién paga, qué película o cualquier empate que no se resuelve hablando.",
+    "placeholder": "Pizza\nSushi\nTacos\nLo que sea menos ensalada",
+    "spin": "Girar",
+    "again": "Girar otra vez",
+    "caption": "La ruleta dice",
+    "seal": "¡ESA!",
+    "cta": "Decidir algo"
+  },
+  "turns": {
+    "title": "Sorteo de turnos",
+    "heading": "Sortea el orden",
+    "lede": "Quién empieza, quién expone primero, en qué orden le toca a cada quien. Sale uno a uno y nadie repite.",
+    "placeholder": "Ana\nKenji\nMarisol\nDiego",
+    "spin": "Sacar el primero",
+    "again": "Sacar el siguiente",
+    "caption": "Turno {position}",
+    "seal": "N.º {position}",
+    "order": "El orden queda así",
+    "position": "Puesto {position}",
+    "finished": "Orden completo",
+    "cta": "Sortear turnos"
+  },
+  "teams": {
+    "title": "Generador de equipos al azar",
+    "heading": "Arma los equipos",
+    "lede": "Reparte a la gente en equipos parejos. Los tamaños nunca se diferencian en más de una persona, y quién cae en cada equipo lo decide el azar.",
+    "placeholder": "Ana\nKenji\nMarisol\nDiego\nYuki\nCamila",
+    "teamCount": "¿Cuántos equipos?",
+    "teamCountHint": "Entre 2 y {max}.",
+    "spin": "Repartir al primero",
+    "again": "Repartir al siguiente",
+    "caption": "{name} va a",
+    "seal": "¡VA!",
+    "result": "Los equipos quedan así",
+    "teamLabel": "Equipo {number}",
+    "finished": "Equipos listos",
+    "cta": "Armar equipos"
   }
 }

@@ -1,10 +1,10 @@
-# Verificar `ruleta.codezun.com` en Resend
+# Verificar `tombola.codezun.com` en Resend
 
-Los correos salen de `hola@ruleta.codezun.com`. Para que Gmail, Outlook y Apple
+Los correos salen de `hola@tombola.codezun.com`. Para que Gmail, Outlook y Apple
 Mail no los manden a spam, ese dominio tiene que estar verificado con **SPF**,
 **DKIM** y **DMARC**.
 
-Usamos un **subdominio** (`ruleta.codezun.com`) a propósito: si algún día estos
+Usamos un **subdominio** (`tombola.codezun.com`) a propósito: si algún día estos
 correos se ganan mala reputación, no arrastran al correo del dominio principal.
 
 ---
@@ -12,7 +12,7 @@ correos se ganan mala reputación, no arrastran al correo del dominio principal.
 ## 1. Dar de alta el dominio en Resend
 
 1. Entra en [resend.com/domains](https://resend.com/domains) → **Add Domain**.
-2. Escribe `ruleta.codezun.com`.
+2. Escribe `tombola.codezun.com`.
 3. Elige la región más cercana a tus destinatarios. Para Latinoamérica,
    `us-east-1`. **No se puede cambiar después** sin volver a verificar.
 4. Resend te muestra tres o cuatro registros DNS. Son **tuyos**: la clave DKIM
@@ -24,16 +24,16 @@ correos se ganan mala reputación, no arrastran al correo del dominio principal.
 Los registros viven en la zona de **codezun.com**, no en una zona aparte.
 
 > **El error más común:** casi todos los paneles añaden la zona por su cuenta.
-> Si el panel dice `Nombre` y al guardar muestra `resend._domainkey.ruleta.codezun.com.codezun.com`,
+> Si el panel dice `Nombre` y al guardar muestra `resend._domainkey.tombola.codezun.com.codezun.com`,
 > es que escribiste el nombre completo donde esperaba el relativo. Escribe
-> `resend._domainkey.ruleta` y deja que él ponga el resto.
+> `resend._domainkey.tombola` y deja que él ponga el resto.
 
 | Tipo | Nombre (relativo a `codezun.com`) | Valor | Para qué |
 |---|---|---|---|
-| `MX` | `send.ruleta` | `feedback-smtp.<región>.amazonses.com` (prioridad `10`) | Rebotes y quejas |
-| `TXT` | `send.ruleta` | `v=spf1 include:amazonses.com ~all` | SPF |
-| `TXT` | `resend._domainkey.ruleta` | `p=MIGfMA0GCSq...` (larguísimo) | DKIM |
-| `TXT` | `_dmarc.ruleta` | `v=DMARC1; p=none; rua=mailto:dmarc@codezun.com` | DMARC |
+| `MX` | `send.tombola` | `feedback-smtp.<región>.amazonses.com` (prioridad `10`) | Rebotes y quejas |
+| `TXT` | `send.tombola` | `v=spf1 include:amazonses.com ~all` | SPF |
+| `TXT` | `resend._domainkey.tombola` | `p=MIGfMA0GCSq...` (larguísimo) | DKIM |
+| `TXT` | `_dmarc.tombola` | `v=DMARC1; p=none; rua=mailto:dmarc@codezun.com` | DMARC |
 
 Notas que ahorran una tarde:
 
@@ -41,7 +41,7 @@ Notas que ahorran una tarde:
   caracteres automáticamente; otros lo rechazan. Si el tuyo lo rechaza, pega el
   valor entre comillas o busca la opción "TXT largo".
 - **No pongas SPF dos veces.** Un dominio solo puede tener **un** registro SPF.
-  Si `send.ruleta` ya tuviera uno, combínalos en una sola línea en vez de crear
+  Si `send.tombola` ya tuviera uno, combínalos en una sola línea en vez de crear
   otro: dos registros SPF hacen fallar la verificación de los dos.
 - **DMARC empieza en `p=none`.** Así solo observas, sin que nada se rechace.
   Cuando lleves un par de semanas viendo informes limpios, súbelo a
@@ -53,10 +53,10 @@ En Resend, pulsa **Verify DNS Records**. Suele tardar entre unos minutos y una
 hora. Si sigue en rojo, comprueba desde tu terminal qué está publicado de verdad:
 
 ```bash
-dig +short TXT resend._domainkey.ruleta.codezun.com
-dig +short TXT send.ruleta.codezun.com
-dig +short TXT _dmarc.ruleta.codezun.com
-dig +short MX  send.ruleta.codezun.com
+dig +short TXT resend._domainkey.tombola.codezun.com
+dig +short TXT send.tombola.codezun.com
+dig +short TXT _dmarc.tombola.codezun.com
+dig +short MX  send.tombola.codezun.com
 ```
 
 Si `dig` no devuelve nada, el registro no está publicado todavía, da igual lo
@@ -68,8 +68,8 @@ En Vercel → Settings → Environment Variables:
 
 ```
 RESEND_API_KEY=re_...
-EMAIL_FROM=Tómbola <hola@ruleta.codezun.com>
-EMAIL_REPLY_TO=hola@ruleta.codezun.com
+EMAIL_FROM=Tómbola <hola@tombola.codezun.com>
+EMAIL_REPLY_TO=hola@tombola.codezun.com
 ```
 
 El nombre de la marca sale de `src/config/brand.ts`, así que si cambias el

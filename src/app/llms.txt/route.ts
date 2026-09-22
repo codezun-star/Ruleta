@@ -18,6 +18,9 @@ async function sectionFor(locale: string): Promise<string> {
   const faq = await getTranslations({locale, namespace: 'faq'});
   const how = await getTranslations({locale, namespace: 'home.how'});
   const modes = await getTranslations({locale, namespace: 'home.modes'});
+  const decide = await getTranslations({locale, namespace: 'decide'});
+  const turns = await getTranslations({locale, namespace: 'turns'});
+  const teams = await getTranslations({locale, namespace: 'teams'});
 
   const url = (href: Parameters<typeof getPathname>[0]['href']) =>
     `${SITE_URL}${getPathname({href, locale})}`;
@@ -43,6 +46,18 @@ async function sectionFor(locale: string): Promise<string> {
     '',
     modes('secretSanta.body'),
     '',
+    `### ${decide('title')}`,
+    '',
+    decide('lede'),
+    '',
+    `### ${turns('title')}`,
+    '',
+    turns('lede'),
+    '',
+    `### ${teams('title')}`,
+    '',
+    teams('lede'),
+    '',
     `### ${how('title')}`,
     '',
     steps,
@@ -55,6 +70,9 @@ async function sectionFor(locale: string): Promise<string> {
     '',
     `- ${modes('raffle.cta')}: ${url('/sorteo')}`,
     `- ${modes('secretSanta.cta')}: ${url('/amigo-secreto')}`,
+    `- ${decide('title')}: ${url('/decidir')}`,
+    `- ${turns('title')}: ${url('/turnos')}`,
+    `- ${teams('title')}: ${url('/equipos')}`,
     `- ${locale === 'es' ? 'Privacidad' : 'Privacy'}: ${url('/privacidad')}`,
     `- ${locale === 'es' ? 'Términos' : 'Terms'}: ${url('/terminos')}`
   ].join('\n');

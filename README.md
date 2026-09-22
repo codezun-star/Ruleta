@@ -4,7 +4,7 @@ Sorteos y amigo secreto con una ruleta giratoria. Los resultados salen por
 correo a cada participante y, en el amigo secreto, ni el organizador puede ver
 las asignaciones.
 
-**Producción:** https://ruleta.codezun.com · **Idiomas:** español (por defecto) e inglés
+**Producción:** https://tombola.codezun.com · **Idiomas:** español (por defecto) e inglés
 
 ---
 
@@ -70,6 +70,23 @@ color a mano.**
 El tema tiene tres estados: sistema (sin marcar), claro y oscuro. Un script
 síncrono en `<head>` fija `data-theme` antes del primer pintado para que no
 parpadee.
+
+### Los cinco modos
+
+Dos con ceremonia —lista, detalles y correos— y tres que se resuelven en una
+sola pantalla:
+
+| Modo | Ruta | Qué hace |
+|---|---|---|
+| Sorteo simple | `/sorteo` · `/raffle` | Uno o varios ganadores, sin repetir |
+| Amigo secreto | `/amigo-secreto` · `/secret-santa` | Reparto cifrado que el organizador no ve |
+| Decidir | `/decidir` · `/decide` | Ruleta con opciones libres, no personas |
+| Turnos | `/turnos` · `/turn-order` | Orden aleatorio, uno a uno |
+| Equipos | `/equipos` · `/teams` | Reparto parejo: los tamaños no difieren en más de uno |
+
+En los cinco **el resultado se calcula antes de girar** y la ruleta solo lo
+revela. En equipos eso además es lo único que garantiza que queden parejos:
+si cada vuelta decidiera de verdad, saldrían repartos de 4/2/1.
 
 ### Dirección visual
 
@@ -249,8 +266,8 @@ desde las mismas traducciones que la página**, así que no pueden contradecirla
 
 | Qué | Dónde |
 |---|---|
-| Algoritmo, azar, validación, cifrado, física | `tests/unit` · Vitest · 59 tests |
-| Flujo completo en escritorio y móvil | `tests/e2e` · Playwright · 5 specs × 2 |
+| Algoritmo, azar, equipos, validación, cifrado, física | `tests/unit` · Vitest · 67 tests |
+| Flujo completo en escritorio y móvil | `tests/e2e` · Playwright · 8 specs × 2 |
 | Nivel audible de cada sonido | `scripts/check-sound-levels.mjs` |
 | Accesibilidad | axe sobre 6 páginas × 2 temas, sin incumplimientos |
 

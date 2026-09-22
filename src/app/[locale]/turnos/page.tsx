@@ -1,0 +1,40 @@
+import type {Metadata} from 'next';
+import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {alternatesFor} from '@/lib/metadata';
+import {BreadcrumbData} from '@/components/seo/StructuredData';
+import {SectionHeading} from '@/components/ui/SectionHeading';
+import {TurnsTool} from '@/components/tools/TurnsTool';
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{locale: string}>;
+}): Promise<Metadata> {
+  const {locale} = await params;
+  const t = await getTranslations({locale, namespace: 'turns'});
+  return {
+    title: t('title'),
+    description: t('lede'),
+    alternates: alternatesFor('/turnos', locale)
+  };
+}
+
+export default async function TurnsPage({params}: {params: Promise<{locale: string}>}) {
+  const {locale} = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations({locale, namespace: 'turns'});
+
+  return (
+    <>
+      <BreadcrumbData locale={locale} href={'/turnos'} name={t('heading')} />
+      <section className="py-12 sm:py-16">
+        <div className="mx-auto w-full max-w-3xl px-5">
+          <SectionHeading as="h1" eyebrow={t('title')} title={t('heading')} lede={t('lede')} />
+          <div className="mt-8">
+            <TurnsTool />
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

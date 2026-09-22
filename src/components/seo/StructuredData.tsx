@@ -22,6 +22,9 @@ export async function StructuredData({locale}: {locale: string}) {
   const faq = await getTranslations({locale, namespace: 'faq'});
   const how = await getTranslations({locale, namespace: 'home.how'});
   const modes = await getTranslations({locale, namespace: 'home.modes'});
+  const decide = await getTranslations({locale, namespace: 'decide'});
+  const turns = await getTranslations({locale, namespace: 'turns'});
+  const teams = await getTranslations({locale, namespace: 'teams'});
 
   const home = absolute(getPathname({href: '/', locale}));
 
@@ -58,6 +61,9 @@ export async function StructuredData({locale}: {locale: string}) {
       featureList: [
         modes('raffle.title'),
         modes('secretSanta.title'),
+        decide('title'),
+        turns('title'),
+        teams('title'),
         modes('secretSanta.point1'),
         modes('secretSanta.point2'),
         modes('secretSanta.point3'),

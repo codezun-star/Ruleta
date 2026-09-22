@@ -11,7 +11,7 @@ export const BRAND = {
    * si no se quedarían con el nombre viejo sin que nadie lo note.
    */
   slug: 'tombola',
-  domain: 'ruleta.codezun.com',
+  domain: 'tombola.codezun.com',
   mailbox: 'hola'
 } as const;
 
@@ -37,7 +37,7 @@ function resolveSiteUrl(): string {
     env(process.env.VERCEL_URL);
 
   const candidate = configured ?? BRAND.domain;
-  // Admite tanto "ruleta.codezun.com" como "https://ruleta.codezun.com/".
+  // Admite tanto "tombola.codezun.com" como "https://tombola.codezun.com/".
   const absolute = /^https?:\/\//.test(candidate) ? candidate : `https://${candidate}`;
 
   try {

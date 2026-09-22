@@ -28,7 +28,7 @@ export function Header() {
             href="#modos"
             className="text-xs font-bold tracking-[0.12em] text-ink-2 uppercase hover:text-vermilion-2"
           >
-            {t('raffle')}
+            {t('games')}
           </a>
           <a
             href="#como-funciona"
