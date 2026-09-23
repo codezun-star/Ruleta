@@ -11,6 +11,7 @@ import {themeInitScript} from '@/lib/theme';
 import {Header} from '@/components/layout/Header';
 import {Footer} from '@/components/layout/Footer';
 import {TabBar} from '@/components/layout/TabBar';
+import {AdsLayer} from '@/components/ads/AdsLayer';
 import '@/styles/globals.css';
 
 export function generateStaticParams() {
@@ -107,7 +108,9 @@ export default async function LocaleLayout({
         {/* Fija el tema antes del primer pintado para que no parpadee. */}
         <script dangerouslySetInnerHTML={{__html: themeInitScript}} />
       </head>
-      <body className="pb-[calc(env(safe-area-inset-bottom,0px)+var(--tabbar-h))] md:pb-0">
+      {/* El pie reserva el hueco de todo lo que va fijo abajo: la barra de
+          pestañas en móvil y, cuando está puesto, el anuncio ancla. */}
+      <body className="pb-[calc(env(safe-area-inset-bottom,0px)+var(--tabbar-h)+var(--ad-anchor-h,0px))] md:pb-[var(--ad-anchor-h,0px)]">
         <div className="paper-grain" aria-hidden="true" />
         <a
           href="#contenido"
@@ -120,6 +123,7 @@ export default async function LocaleLayout({
           <main id="contenido">{children}</main>
           <Footer />
           <TabBar />
+          <AdsLayer />
         </NextIntlClientProvider>
       </body>
     </html>

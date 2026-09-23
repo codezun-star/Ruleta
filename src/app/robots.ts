@@ -18,11 +18,17 @@ const ANSWER_ENGINES = [
   'CCBot'
 ];
 
+/**
+ * `/ads/` no es contenido: es el documento que hospeda cada banner dentro de
+ * un iframe. Indexado sería una página en blanco con un anuncio.
+ */
+const DISALLOW = ['/api/', '/ads/'];
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      {userAgent: '*', allow: '/', disallow: ['/api/']},
-      ...ANSWER_ENGINES.map((userAgent) => ({userAgent, allow: '/', disallow: ['/api/']}))
+      {userAgent: '*', allow: '/', disallow: DISALLOW},
+      ...ANSWER_ENGINES.map((userAgent) => ({userAgent, allow: '/', disallow: DISALLOW}))
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL

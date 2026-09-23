@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex, nofollow, noarchive" />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+<title>Publicidad</title>
+<style>
+  html, body { margin: 0; padding: 0; overflow: hidden; background: transparent; }
+  body { display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+<!--
+  Host aislado de un banner de Adsterra.
+
+  POR QUÉ EXISTE ESTE ARCHIVO. Los banners de tipo iframe de Adsterra se
+  configuran con la variable GLOBAL `atOptions`, que su invoke.js lee al
+  ejecutarse. Con dos banners en la misma ventana el segundo pisa al primero
+  antes de que llegue a leerlo, y solo renderiza uno —o ninguno, con el tamaño
+  equivocado—. Cargando cada banner dentro de este documento, en su propio
+  iframe, cada unidad tiene su `window` y por tanto su `atOptions`.
+
+  POR QUÉ UN ARCHIVO Y NO `srcdoc`. Antes el marcado se inyectaba con `srcdoc`
+  y un `sandbox` sin `allow-same-origin`. Eso deja al anuncio en un origen
+  opaco: `localStorage` lanza al leerlo, las peticiones salen con `Origin:
+  null` y la red no reconoce el dominio de la zona. El marco se pintaba vacío.
+  Un archivo servido desde el propio dominio le da al script el origen real,
+  que es lo que la red espera.
+
+  Se invoca como /ads/banner.html?s=728x90 desde AdFrame. El tamaño se valida
+  contra UNITS: nunca se construye la URL del script con texto arbitrario de la
+  query string.
+
+  Las claves son las mismas que `src/config/ads.ts` y una prueba comprueba que
+  no se separen: aquí no se pueden importar, así que están escritas dos veces.
+-->
+<script>
+  (function () {
+    var UNITS = {
+      '728x90':  'b3cc6f1ea67e030bc0750c8f85c64ad7',
+      '468x60':  '9f899daf28c6bb4fccf7f7b3aba8a341',
+      '320x50':  '568d8d99d4e94b8319554b7ab4ead93f',
+      '300x250': '31bb45b342d6c7c2d0935b88b494104a',
+      '160x600': '41dfababba2d5066eab3cf79fb0349b6',
+      '160x300': '61eea303bccd8fcab8d556b25e0d461c'
+    };
+
+    var size = new URLSearchParams(location.search).get('s') || '';
+    var key = Object.prototype.hasOwnProperty.call(UNITS, size) ? UNITS[size] : null;
+    if (!key) return;
+
+    var wh = size.split('x');
+    window.atOptions = {
+      key: key,
+      format: 'iframe',
+      height: parseInt(wh[1], 10),
+      width: parseInt(wh[0], 10),
+      params: {}
+    };
+
+    // `document.write` durante el parseo inserta el script igual que el
+    // fragmento original de Adsterra: bloqueante y con `atOptions` ya escrito.
+    document.write('<scr' + 'ipt src="https://www.highrevenueformat.com/' + key + '/invoke.js"><\/scr' + 'ipt>');
+  })();
+</script>
+</body>
+</html>

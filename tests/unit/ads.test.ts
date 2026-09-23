@@ -1,9 +1,27 @@
+import {readFileSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
 import {afterEach, describe, expect, it, vi} from 'vitest';
-import {BANNERS, DIRECT_LINK, NATIVE, OVERLAY, adsAllowed, bannerSrc} from '@/config/ads';
+import {
+  BANNERS,
+  DIRECT_LINK,
+  HORIZONTAL,
+  NARROWEST,
+  NATIVE,
+  OVERLAY,
+  RAIL_MIN_HEIGHT,
+  RAIL_MIN_WIDTH,
+  adsAllowed,
+  bannerSrc
+} from '@/config/ads';
 import {BRAND} from '@/config/brand';
-import {AD_SANDBOX, adDocument, bannerMarkup, nativeMarkup} from '@/lib/adMarkup';
+import {AD_HOST, frameSrc, horizontalUnit, sizeOf} from '@/lib/adFrame';
 
 afterEach(() => vi.unstubAllGlobals());
+
+const HOST_FILE = readFileSync(
+  fileURLToPath(new URL('../../public/ads/banner.html', import.meta.url)),
+  'utf8'
+);
 
 describe('adsAllowed', () => {
   const at = (hostname: string) => {
@@ -13,6 +31,7 @@ describe('adsAllowed', () => {
 
   it('solo carga anuncios en el dominio de producción', () => {
     expect(at(BRAND.domain)).toBe(true);
+    expect(at(`www.${BRAND.domain}`)).toBe(true);
   });
 
   it('no los carga en desarrollo ni en las pruebas', () => {
@@ -32,6 +51,7 @@ describe('adsAllowed', () => {
   it('no los carga en un dominio parecido', () => {
     expect(at(`malo-${BRAND.domain}`)).toBe(false);
     expect(at(`${BRAND.domain}.malo.com`)).toBe(false);
+    expect(at(`wwww.${BRAND.domain}`)).toBe(false);
   });
 
   it('en el servidor no hay anuncios', () => {
@@ -57,15 +77,6 @@ describe('unidades', () => {
     expect(BANNERS.rectangle).toMatchObject({width: 300, height: 250});
   });
 
-  /**
-   * El par de la cabecera se elige por ancho de pantalla, así que el de móvil
-   * tiene que caber donde el de escritorio no.
-   */
-  it('el banner de móvil cabe en la pantalla más estrecha que se usa', () => {
-    expect(BANNERS.mobile.width).toBeLessThanOrEqual(320);
-    expect(BANNERS.mobile.width).toBeLessThan(BANNERS.leaderboard.width);
-  });
-
   it('todas las direcciones son https', () => {
     const urls = [
       bannerSrc(BANNERS.leaderboard.key),
@@ -75,58 +86,110 @@ describe('unidades', () => {
     ];
     for (const url of urls) expect(url.startsWith('https://')).toBe(true);
   });
+
+  /**
+   * El contenido más ancho del sitio mide 1152px. Sin sitio para las dos
+   * columnas de 160px y su aire, los rascacielos lo pisarían.
+   */
+  it('los rascacielos piden más ancho del que ocupa el contenido', () => {
+    const rails = BANNERS.skyscraper.width + BANNERS.halfSkyscraper.width;
+    expect(RAIL_MIN_WIDTH).toBeGreaterThan(1152 + rails);
+    expect(RAIL_MIN_HEIGHT).toBeGreaterThanOrEqual(BANNERS.skyscraper.height);
+  });
+});
+
+describe('la escalera de la cabecera', () => {
+  it('va de mayor a menor, que es el orden en que se prueba', () => {
+    const widths = HORIZONTAL.map((unit) => BANNERS[unit].width);
+    expect([...widths].sort((a, b) => b - a)).toEqual(widths);
+  });
+
+  it('el último recurso es el último de la escalera', () => {
+    expect(HORIZONTAL[HORIZONTAL.length - 1]).toBe(NARROWEST);
+  });
+
+  it('en escritorio cabe el grande', () => {
+    expect(horizontalUnit(1280)).toBe('leaderboard');
+  });
+
+  it('en una tableta estrecha baja al intermedio', () => {
+    expect(horizontalUnit(600)).toBe('banner');
+  });
+
+  it('en un teléfono baja al pequeño', () => {
+    expect(horizontalUnit(390)).toBe('mobile');
+  });
+
+  /**
+   * El formato tiene que caber con aire a los lados. Un banner de 728 en una
+   * ventana de 740 se sale o recorta el contenido.
+   */
+  it('nunca elige un formato más ancho que la pantalla', () => {
+    for (const width of [320, 360, 414, 480, 500, 700, 760, 1024, 1920]) {
+      expect(BANNERS[horizontalUnit(width)].width).toBeLessThanOrEqual(width);
+    }
+  });
+
+  it('en una pantalla imposible se queda con el más estrecho', () => {
+    expect(horizontalUnit(200)).toBe('mobile');
+  });
 });
 
 describe('el marco del anuncio', () => {
-  /**
-   * La propiedad que de verdad protege algo. El borrador del asistente vive en
-   * `localStorage` con los nombres y los correos de los participantes: con
-   * `allow-same-origin`, el script del anuncio los leería con una línea.
-   *
-   * Es una ausencia, y las ausencias se rompen sin que nadie lo note.
-   */
-  it('nunca da acceso al origen de la página', () => {
-    expect(AD_SANDBOX).not.toContain('allow-same-origin');
+  it('apunta al documento propio, no a un dominio de fuera', () => {
+    expect(frameSrc('300x250').startsWith(AD_HOST)).toBe(true);
   });
 
-  it('deja pulsar el anuncio, que si no es como no tenerlo', () => {
-    expect(AD_SANDBOX).toContain('allow-popups');
-    expect(AD_SANDBOX).toContain('allow-scripts');
+  it('pide el tamaño de la unidad', () => {
+    expect(sizeOf('leaderboard')).toBe('728x90');
+    expect(frameSrc(sizeOf('rectangle'))).toBe(`${AD_HOST}?s=300x250`);
   });
 
-  it('no permite navegar la pestaña entera sin tocar nada', () => {
-    expect(AD_SANDBOX).not.toContain('allow-top-navigation');
-  });
-
-  it('el documento del marco es completo y no hereda estilos', () => {
-    const html = adDocument('<b>x</b>');
-    expect(html.startsWith('<!doctype html>')).toBe(true);
-    expect(html).toContain('<b>x</b>');
-    expect(html).toContain('margin:0');
+  it('cada unidad pide un tamaño distinto', () => {
+    const sizes = (Object.keys(BANNERS) as (keyof typeof BANNERS)[]).map(sizeOf);
+    expect(new Set(sizes).size).toBe(sizes.length);
   });
 });
 
-describe('bannerMarkup', () => {
-  it('escribe atOptions antes de cargar el script que lo lee', () => {
-    const markup = bannerMarkup('rectangle');
-    expect(markup.indexOf('atOptions')).toBeLessThan(markup.indexOf('<script src='));
+/**
+ * `public/ads/banner.html` es un archivo estático: no puede importar de
+ * `config/ads.ts`, así que las claves están escritas dos veces. Esto es lo que
+ * impide que se separen sin que nadie lo note —y una clave que no coincida es
+ * un hueco que no rellena nada, o peor, que rellena la unidad equivocada—.
+ */
+describe('el documento que hospeda cada banner', () => {
+  const declared = new Map(
+    [...HOST_FILE.matchAll(/'(\d+x\d+)':\s*'([0-9a-f]{32})'/g)].map(([, size, key]) => [size, key])
+  );
+
+  it('declara exactamente las unidades de banner que existen', () => {
+    const sizes = (Object.keys(BANNERS) as (keyof typeof BANNERS)[]).map(sizeOf);
+    expect([...declared.keys()].sort()).toEqual([...sizes].sort());
   });
 
-  it('lleva la clave y las medidas de la unidad pedida', () => {
-    const markup = bannerMarkup('leaderboard');
-    expect(markup).toContain(BANNERS.leaderboard.key);
-    expect(markup).toContain('"width":728');
-    expect(markup).toContain('"height":90');
+  it('cada tamaño lleva la clave de su unidad', () => {
+    for (const name of Object.keys(BANNERS) as (keyof typeof BANNERS)[]) {
+      expect(declared.get(sizeOf(name))).toBe(BANNERS[name].key);
+    }
   });
 
-  it('cada unidad produce un marcado distinto', () => {
-    const all = (Object.keys(BANNERS) as (keyof typeof BANNERS)[]).map(bannerMarkup);
-    expect(new Set(all).size).toBe(all.length);
+  /**
+   * La URL del script se construye con la clave que sale del mapa, nunca con
+   * el texto de la query string: si el tamaño no está declarado, no se carga
+   * nada. Eso es lo que hace que un enlace a `/ads/banner.html?s=<lo que sea>`
+   * no pueda ejecutar código de terceros.
+   */
+  it('valida el tamaño contra su propio mapa antes de cargar nada', () => {
+    expect(HOST_FILE).toContain('hasOwnProperty.call(UNITS, size)');
+    expect(HOST_FILE).toContain('if (!key) return;');
   });
 
-  it('el nativo trae su contenedor y su script', () => {
-    const markup = nativeMarkup();
-    expect(markup).toContain(`container-${NATIVE.key}`);
-    expect(markup).toContain(NATIVE.src);
+  it('carga el script desde el mismo sitio que el resto de banners', () => {
+    const host = new URL(bannerSrc('x')).origin;
+    expect(HOST_FILE).toContain(host);
+  });
+
+  it('no deja que lo indexen: es un marco, no una página', () => {
+    expect(HOST_FILE).toContain('noindex');
   });
 });

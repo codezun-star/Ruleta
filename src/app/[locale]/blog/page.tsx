@@ -9,7 +9,7 @@ import {postsFor} from '@/content/posts';
 import {BreadcrumbData} from '@/components/seo/StructuredData';
 import {BlogListData} from '@/components/seo/BlogData';
 import {SectionHeading} from '@/components/ui/SectionHeading';
-import {AdLeaderboard} from '@/components/ads/AdBanner';
+import {AdBanner, AdLeaderboard} from '@/components/ads/AdBanner';
 import {AdNative} from '@/components/ads/AdNative';
 
 export function generateStaticParams() {
@@ -73,14 +73,16 @@ export default async function BlogIndex({params}: {params: Promise<{locale: stri
                   </h2>
                   <p className="max-w-[62ch] text-ink-2">{post.description}</p>
                 </Link>
-                {/* Cada tres artículos, no entre todos: una lista donde se
-                    alternan entrada y anuncio deja de leerse como una lista. */}
-                {index % 3 === 2 && index < posts.length - 1 ? <AdNative className="mb-7" /> : null}
+                {/* Uno solo, y a la altura del tercer artículo: el nativo
+                    lleva un contenedor con id fijo de la red, así que dos en
+                    la misma página dejan uno sin rellenar. Y una lista donde
+                    se alternan entrada y anuncio deja de leerse como lista. */}
+                {index === 2 && index < posts.length - 1 ? <AdNative className="mb-7" /> : null}
               </li>
             ))}
           </ul>
 
-          <AdNative className="mt-10" />
+          <AdBanner unit="rectangle" className="mt-10" />
         </div>
       </section>
     </>

@@ -508,6 +508,7 @@
     "teams": "Teams"
   },
   "ads": {
-    "label": "Advertisement"
+    "label": "Advertisement",
+    "close": "Close ad"
   }
 }

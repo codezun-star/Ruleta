@@ -4,6 +4,10 @@ import {BRAND} from './brand';
  * Unidades de Adsterra. Las claves no son secretas —viajan al navegador en
  * cualquier caso— así que viven aquí y no en variables de entorno: tenerlas a
  * la vista permite revisar de un vistazo qué formatos hay y dónde se usan.
+ *
+ * Las mismas claves están escritas en `public/ads/banner.html`, que es un
+ * archivo estático y no puede importar de aquí. `tests/unit/ads.test.ts`
+ * compara los dos sitios para que no se separen.
  */
 export const BANNERS = {
   /** Cabecera de escritorio. */
@@ -28,8 +32,42 @@ export function bannerSrc(key: string): string {
 }
 
 /**
+ * La escalera de formatos horizontales, de mayor a menor. La cabecera elige en
+ * tiempo de ejecución el más grande que quepa: 728 en escritorio, 468 en
+ * tabletas estrechas y 320 en un teléfono.
+ *
+ * El margen de 40px es el aire que el hueco necesita a los lados; sin él, un
+ * teléfono de 468px de ancho pediría el banner de 468 y se saldría.
+ */
+export const HORIZONTAL = [
+  'leaderboard',
+  'banner',
+  'mobile'
+] as const satisfies readonly BannerName[];
+export const HORIZONTAL_GUTTER = 40;
+
+/**
+ * Por debajo de 360px no cabe entero ni el más estrecho, y ahí se usa igual:
+ * un banner recortado por los lados se ve mejor que un hueco vacío.
+ */
+export const NARROWEST: BannerName = 'mobile';
+
+/**
+ * Los rascacielos laterales solo salen cuando sobra ancho de verdad. El
+ * contenido más ancho del sitio mide 1152px (`max-w-6xl`): con dos columnas de
+ * 160px más su aire hacen falta 1560px antes de que dejen de pisarlo. El
+ * mínimo de alto evita que en una pantalla apaisada y baja el rascacielos de
+ * 600px salga cortado por arriba y por abajo.
+ */
+export const RAIL_MIN_WIDTH = 1560;
+export const RAIL_MIN_HEIGHT = 720;
+
+/**
  * Banner nativo: se integra con el texto y es el formato que menos molesta,
  * así que es el que más se repite.
+ *
+ * El contenedor lleva un id fijo que impone la red, así que **solo puede haber
+ * uno por página**. Dos contenedores con el mismo id y la red rellena uno.
  */
 export const NATIVE = {
   key: '806f6a39527e80d0f59b790fbf261d4d',
@@ -66,8 +104,12 @@ export const DIRECT_LINK =
  * pruebas. Así además quedan fuera los despliegues de vista previa, que a las
  * redes de anuncios no les gustan, y las pruebas de punta a punta, que corren
  * contra 127.0.0.1 y se volverían inestables con red de terceros de por medio.
+ *
+ * `www.` cuenta como el mismo sitio: si algún día el dominio se sirve con
+ * prefijo, los anuncios no deben apagarse solos sin que nadie lo note.
  */
 export function adsAllowed(): boolean {
   if (typeof window === 'undefined') return false;
-  return window.location.hostname === BRAND.domain;
+  const host = window.location?.hostname ?? '';
+  return host === BRAND.domain || host === `www.${BRAND.domain}`;
 }

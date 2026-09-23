@@ -3,7 +3,7 @@
 import {useEffect, useState} from 'react';
 import {useTranslations} from 'next-intl';
 import {BANNERS, type BannerName} from '@/config/ads';
-import {bannerMarkup} from '@/lib/adMarkup';
+import {horizontalUnit, sizeOf} from '@/lib/adFrame';
 import {AdFrame} from './AdFrame';
 
 export function AdBanner({unit, className}: {unit: BannerName; className?: string}) {
@@ -12,7 +12,7 @@ export function AdBanner({unit, className}: {unit: BannerName; className?: strin
 
   return (
     <AdFrame
-      html={bannerMarkup(unit)}
+      size={sizeOf(unit)}
       width={width}
       height={height}
       label={t('label')}
@@ -21,19 +21,23 @@ export function AdBanner({unit, className}: {unit: BannerName; className?: strin
   );
 }
 
+/** El ancho de la ventana sin la barra de desplazamiento, que no es sitio útil. */
+export function viewportWidth(): number {
+  return document.documentElement.clientWidth || window.innerWidth || 0;
+}
+
 /**
- * El par cabecera/móvil. Se elige uno y solo se carga ese: pintar los dos y
- * esconder uno con CSS descarga dos anuncios y cobra por uno.
+ * La cabecera: 728, 468 o 320 según lo que quepa de verdad. Se elige uno y
+ * solo se carga ese —pintar los tres y esconder dos con CSS descarga tres
+ * anuncios y cobra por uno— y no se vuelve a elegir al redimensionar: cambiar
+ * el anuncio a media lectura molesta más que enseñar el formato que ya estaba,
+ * y para la red una segunda petición es un refresco que penaliza.
  */
 export function AdLeaderboard({className}: {className?: string}) {
-  const [wide, setWide] = useState<boolean | null>(null);
+  const [unit, setUnit] = useState<BannerName | null>(null);
 
-  useEffect(() => {
-    // Si alguien gira el teléfono no se recarga: cambiar el anuncio a media
-    // lectura molesta más que enseñar el formato que ya estaba.
-    setWide(window.matchMedia(`(min-width: ${BANNERS.leaderboard.width + 40}px)`).matches);
-  }, []);
+  useEffect(() => setUnit(horizontalUnit(viewportWidth())), []);
 
-  if (wide === null) return null;
-  return <AdBanner unit={wide ? 'leaderboard' : 'mobile'} className={className} />;
+  if (!unit) return null;
+  return <AdBanner unit={unit} className={className} />;
 }

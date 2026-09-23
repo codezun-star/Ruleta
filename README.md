@@ -232,6 +232,50 @@ Cabeceras: `nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`,
 y `object-src`. Falta `script-src`, que necesita nonces por petición porque
 Next inyecta scripts en línea propios: es una tarea aparte, no un olvido.
 
+La única ruta con cabeceras propias es `/ads/`, que baja a
+`X-Frame-Options: SAMEORIGIN` y `frame-ancestors 'self'`. Es el documento que
+hospeda cada banner y va dentro de un iframe de nuestras propias páginas:
+`DENY` no distingue entre otro sitio y este mismo, así que con la regla general
+el marco se quedaba en blanco.
+
+### Publicidad
+
+Adsterra, y solo en el dominio de producción: `adsAllowed()` mira el host en el
+navegador, no una variable de entorno, porque `NEXT_PUBLIC_*` se incrusta al
+compilar y el mismo compilado tiene que llevar anuncios en producción y no
+llevarlos en las vistas previas ni en las pruebas.
+
+| Pieza                        | Dónde vive                 | Qué hace                                                         |
+| ---------------------------- | -------------------------- | ---------------------------------------------------------------- |
+| `public/ads/banner.html`     | estático, fuera de Next    | Hospeda **un** banner. Recibe `?s=728x90` y valida el tamaño     |
+| `AdFrame`                    | `src/components/ads/`      | El iframe hacia ese archivo, diferido hasta acercarse a pantalla |
+| `AdBanner` / `AdLeaderboard` | `src/components/ads/`      | Una unidad concreta, o la escalera 728 → 468 → 320 por ancho     |
+| `AdNative`                   | `src/components/ads/`      | Rejilla nativa. Id de contenedor fijo: **uno por página**        |
+| `AdsLayer`                   | montado en el layout       | El ancla del pie y los dos rascacielos laterales                 |
+| `AdOverlay`                  | solo en artículos del blog | Social Bar y Popunder                                            |
+
+Cada banner va en su propio iframe porque Adsterra los configura con la
+variable **global** `atOptions`: dos en la misma ventana y el segundo pisa al
+primero antes de que su script llegue a leerlo. El archivo estático le da a
+cada unidad su propio `window`.
+
+Y va a un archivo del propio dominio, no a un `srcdoc` con `sandbox`. Con
+`sandbox` sin `allow-same-origin` el anuncio queda en un origen opaco:
+`localStorage` lanza al leerlo, las peticiones salen con `Origin: null` y la
+red no reconoce el dominio de la zona, así que el marco se pintaba vacío. El
+precio es que el script del anuncio comparte origen con la página; aislarlo de
+verdad pide servir `banner.html` desde otro dominio, no desde otra carpeta.
+
+El ancla del pie se monta **encima** de la barra de pestañas, nunca sobre ella,
+y el hueco de las dos lo reserva el `<body>` con `--ad-anchor-h`. Se puede
+cerrar y no vuelve en esa pestaña. Los rascacielos solo salen a partir de
+1560×720, que es cuando sobra sitio sin pisar el contenido de 1152px.
+
+Social Bar y Popunder son la excepción: no pueden vivir en un iframe —su
+trabajo es flotar y abrir ventanas— así que corren en nuestro origen y por eso
+están **solo en los artículos del blog**. Un popunder en mitad de un amigo
+secreto, con la lista a medio escribir, cuesta el sorteo entero.
+
 ### Rutas traducidas
 
 `/es/amigo-secreto` y `/en/secret-santa` son la misma página. Las rutas se

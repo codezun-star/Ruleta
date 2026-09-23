@@ -508,6 +508,7 @@
     "teams": "Equipos"
   },
   "ads": {
-    "label": "Publicidad"
+    "label": "Publicidad",
+    "close": "Cerrar anuncio"
   }
 }
