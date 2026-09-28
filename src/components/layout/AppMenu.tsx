@@ -304,11 +304,7 @@ export function AppMenu({hasBlog}: {hasBlog: boolean}) {
                   }}
                   className={ROW}
                 >
-                  <Icon
-                    name={sound ? 'sound' : 'mute'}
-                    size={22}
-                    className="shrink-0 text-ink-2"
-                  />
+                  <Icon name={sound ? 'sound' : 'mute'} size={22} className="shrink-0 text-ink-2" />
                   <span className="flex-1">{t('sound')}</span>
                   <SwitchMark on={sound} />
                 </button>
