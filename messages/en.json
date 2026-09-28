@@ -507,6 +507,28 @@
     "turns": "Turns",
     "teams": "Teams"
   },
+  "menu": {
+    "open": "Open menu",
+    "close": "Close menu",
+    "back": "Back",
+    "explore": "Explore",
+    "home": "Home",
+    "how": "How it works",
+    "faq": "FAQ",
+    "blog": "Guides",
+    "settings": "Settings",
+    "language": "Language",
+    "darkMode": "Night mode",
+    "sound": "Sound",
+    "app": "App",
+    "install": "Install {name}",
+    "installHint": "Opens from your home screen, without the browser bar.",
+    "installIos": "In Safari, tap the Share button and then “Add to Home Screen”.",
+    "legal": "Legal",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "retention": "Emails are deleted after 3 days; 10 at most."
+  },
   "ads": {
     "label": "Advertisement",
     "close": "Close ad"
