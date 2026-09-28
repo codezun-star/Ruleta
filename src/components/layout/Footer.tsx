@@ -9,7 +9,9 @@ export function Footer() {
   const hasBlog = postsFor(useLocale()).length > 0;
 
   return (
-    <footer className="border-t-2 border-ink bg-ink text-paper">
+    // Instalada en el móvil no hay pie: una app no lo tiene, y todo lo que
+    // lleva —guías, legales y el plazo de borrado— está también en el menú.
+    <footer className="border-t-2 border-ink bg-ink text-paper max-md:standalone:hidden">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-8">
         <p className="flex items-center gap-2.5 font-head text-lg font-black">
           <SealMark size={26} />

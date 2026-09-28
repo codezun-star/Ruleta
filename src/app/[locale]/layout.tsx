@@ -7,10 +7,12 @@ import {routing} from '@/i18n/routing';
 import {alternatesFor} from '@/lib/metadata';
 import {BRAND, SITE_URL} from '@/config/brand';
 import {fontVariables} from '@/lib/fonts';
-import {themeInitScript} from '@/lib/theme';
+import {THEME_COLORS, themeInitScript} from '@/lib/theme';
+import {installCaptureScript} from '@/lib/install';
 import {Header} from '@/components/layout/Header';
 import {Footer} from '@/components/layout/Footer';
 import {TabBar} from '@/components/layout/TabBar';
+import {ThemeColorSync} from '@/components/layout/ThemeToggle';
 import {AdsLayer} from '@/components/ads/AdsLayer';
 import '@/styles/globals.css';
 
@@ -34,8 +36,8 @@ export const viewport: Viewport = {
   maximumScale: 5,
   viewportFit: 'cover',
   themeColor: [
-    {media: '(prefers-color-scheme: light)', color: '#e7d9bc'},
-    {media: '(prefers-color-scheme: dark)', color: '#0d161f'}
+    {media: '(prefers-color-scheme: light)', color: THEME_COLORS.light},
+    {media: '(prefers-color-scheme: dark)', color: THEME_COLORS.dark}
   ]
 };
 
@@ -107,6 +109,8 @@ export default async function LocaleLayout({
       <head>
         {/* Fija el tema antes del primer pintado para que no parpadee. */}
         <script dangerouslySetInnerHTML={{__html: themeInitScript}} />
+        {/* Guarda el aviso de instalación, que llega antes de hidratar. */}
+        <script dangerouslySetInnerHTML={{__html: installCaptureScript}} />
       </head>
       {/* El pie reserva el hueco de todo lo que va fijo abajo: la barra de
           pestañas en móvil y, cuando está puesto, el anuncio ancla. */}
@@ -124,6 +128,7 @@ export default async function LocaleLayout({
           <Footer />
           <TabBar />
           <AdsLayer />
+          <ThemeColorSync />
         </NextIntlClientProvider>
       </body>
     </html>

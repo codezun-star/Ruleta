@@ -83,6 +83,46 @@ test.describe('disposición de móvil', () => {
     // El pie tiene que terminar por encima de donde empieza la barra.
     expect(footerBox!.y + footerBox!.height).toBeLessThanOrEqual(tabsBox!.y + 1);
   });
+
+  test('el menú se abre como hoja y cambia el tema', async ({page}) => {
+    await page.goto('/es/decidir');
+    await page.getByRole('button', {name: 'Abrir el menú'}).click();
+
+    const menu = page.getByRole('dialog', {name: 'Tómbola'});
+    await expect(menu).toBeVisible();
+
+    // La hoja sale pegada al borde de abajo, no centrada como una ventana.
+    const viewport = page.viewportSize()!;
+    await expect
+      .poll(async () => {
+        const box = await menu.boundingBox();
+        return box ? Math.round(box.y + box.height) : 0;
+      })
+      .toBe(viewport.height);
+
+    const night = menu.getByRole('switch', {name: 'Modo noche'});
+    const wasDark = (await night.getAttribute('aria-checked')) === 'true';
+    await night.click();
+    await expect(night).toHaveAttribute('aria-checked', String(!wasDark));
+    await expect(page.locator('html')).toHaveAttribute('data-theme', wasDark ? 'light' : 'dark');
+
+    await menu.getByRole('button', {name: 'Cerrar el menú'}).click();
+    await expect(menu).toBeHidden();
+  });
+
+  test('el menú se cierra al navegar y la flecha sube un nivel', async ({page}) => {
+    await page.goto('/es/decidir');
+    // Los modos son la raíz de la app: no llevan flecha de volver.
+    await expect(page.getByRole('link', {name: 'Volver', exact: true})).toHaveCount(0);
+
+    await page.getByRole('button', {name: 'Abrir el menú'}).click();
+    await page.getByRole('dialog').getByRole('link', {name: 'Guías'}).click();
+    await expect(page).toHaveURL('/es/blog');
+    await expect(page.getByRole('dialog')).toBeHidden();
+
+    await page.getByRole('link', {name: 'Volver', exact: true}).click();
+    await expect(page).toHaveURL('/es');
+  });
 });
 
 test('en escritorio no hay barra de pestañas', async ({browser, baseURL}) => {

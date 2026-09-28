@@ -4,12 +4,14 @@ import {useTranslations} from 'next-intl';
 import {Link, usePathname} from '@/i18n/navigation';
 import {Icon, type IconName} from '@/components/icons/Icons';
 import {cn} from '@/lib/cn';
+import {haptic} from '@/lib/haptics';
+import {prefersReducedMotion} from '@/lib/prefersReducedMotion';
 import type {StaticPathname} from '@/i18n/routing';
 
 /**
  * Las cinco pestañas. Son los cinco modos y no incluyen el blog: una barra de
  * pestañas es para lo que se hace a menudo, no para todo lo que existe. El
- * blog se llega desde el pie y desde la cabecera en escritorio.
+ * blog se llega desde el menú y desde la cabecera en escritorio.
  */
 const TABS = [
   {href: '/sorteo', icon: 'wheel', label: 'raffle'},
@@ -48,16 +50,34 @@ export function TabBar() {
               <Link
                 href={tab.href}
                 aria-current={active ? 'page' : undefined}
-                className={cn(
-                  'flex h-full flex-col items-center justify-center gap-0.5 transition-colors',
-                  // Sin `hover:` a propósito: en una pantalla táctil el estado
-                  // de hover se queda pegado tras el toque y parece un fallo.
-                  'active:bg-paper-3',
-                  active ? 'text-vermilion-2' : 'text-ink-2'
-                )}
+                onClick={(event) => {
+                  haptic('tap');
+                  if (!active) return;
+                  // Tocar la pestaña en la que ya estás sube al principio, como
+                  // en cualquier app, en vez de recargar la misma página.
+                  event.preventDefault();
+                  window.scrollTo({top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth'});
+                }}
+                className="group flex h-full flex-col items-center justify-center gap-1"
               >
-                <Icon name={tab.icon} size={22} />
-                <span className="text-[0.62rem] font-bold tracking-[0.06em] uppercase">
+                {/* La píldora marca la pestaña activa con forma y no solo con
+                    color, y se hunde al pulsar: es la respuesta al toque que
+                    en una web no hay. Sin `hover:` a propósito: en una
+                    pantalla táctil se queda pegado tras el toque. */}
+                <span
+                  className={cn(
+                    'flex h-7 w-13 items-center justify-center border-2 transition-[background-color,border-color,transform] duration-150 ease-out group-active:scale-90',
+                    active ? 'border-ink bg-mustard text-ink' : 'border-transparent text-ink-2'
+                  )}
+                >
+                  <Icon name={tab.icon} size={20} />
+                </span>
+                <span
+                  className={cn(
+                    'text-[0.62rem] leading-none font-bold tracking-[0.06em] uppercase',
+                    active ? 'text-ink' : 'text-ink-2'
+                  )}
+                >
                   {t(tab.label)}
                 </span>
               </Link>

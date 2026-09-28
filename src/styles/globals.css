@@ -111,6 +111,9 @@
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
+/* Abierta desde la pantalla de inicio, sin barra del navegador. */
+@custom-variant standalone (@media (display-mode: standalone));
+
 @theme inline {
   --color-paper: var(--paper);
   --color-paper-hi: var(--paper-hi);
@@ -265,6 +268,85 @@
   .clipped-tag {
     clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
   }
+
+  /*
+   * Hoja inferior del menú de móvil (`AppMenu`). Es un <dialog> modal: aquí
+   * solo se le quita el aspecto de ventana centrada y se pega al borde de
+   * abajo. La hoja de dentro lo ocupa entero, y por eso un toque que llega al
+   * propio <dialog> solo puede venir del fondo.
+   */
+  .app-sheet {
+    margin: auto 0 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - 2.5rem);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    overflow: visible;
+  }
+
+  .app-sheet[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /*
+   * El fondo va en un color fijo y no en una tinta: `::backdrop` no hereda las
+   * propiedades de `:root` en los navegadores de hace un par de años, y ahí
+   * `var()` lo dejaría transparente. Es el índigo de las sombras.
+   */
+  .app-sheet::backdrop {
+    background: rgb(5 8 14 / 0.5);
+    animation: sheet-fade 0.3s ease-out;
+    transition: opacity 0.22s;
+  }
+
+  .app-sheet[data-closing]::backdrop {
+    opacity: 0;
+  }
+
+  .app-sheet[open] .app-sheet-panel {
+    animation: sheet-up 0.32s cubic-bezier(0.2, 0.9, 0.3, 1);
+  }
+
+  @keyframes sheet-up {
+    from {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes sheet-fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  /* Con la hoja abierta la página de detrás no se desplaza. */
+  html:has(.app-sheet[open]) {
+    overflow: hidden;
+  }
+
+  /*
+   * Entrada de página tras navegar (`[locale]/template.tsx`). Solo en móvil,
+   * que es donde se espera que una pantalla nueva "llegue"; en escritorio el
+   * cambio seco es lo normal. `backwards` y no `both`: acabada la animación
+   * no queda ningún `transform`, que convertiría el contenedor en el origen
+   * de todo lo `fixed` que haya dentro.
+   */
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  @media (width < 48rem) {
+    .page-enter {
+      animation: page-enter 0.24s cubic-bezier(0.2, 0.8, 0.3, 1) backwards;
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -295,7 +377,7 @@
 
   /* Para el último bloque de una página, que si no queda debajo de la barra. */
   .mb-tabbar {
-    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--tabbar-height, 0px));
+    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--tabbar-h, 0px));
   }
 
   /*

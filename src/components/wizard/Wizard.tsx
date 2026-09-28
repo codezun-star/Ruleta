@@ -223,7 +223,13 @@ export function Wizard() {
         </ErrorText>
       ) : null}
 
-      <div className="flex flex-wrap items-center gap-3">
+      {/*
+        En móvil los botones van pegados encima de la barra de pestañas, como
+        la barra de acciones de una app: con una lista de veinte personas,
+        «Continuar» quedaba a varias pantallas de scroll. El desplazamiento
+        abajo es el mismo hueco que reserva el <body>.
+      */}
+      <div className="sticky bottom-[calc(env(safe-area-inset-bottom,0px)+var(--tabbar-h)+var(--ad-anchor-h,0px))] z-30 -mx-5 flex items-center gap-3 border-t-2 border-ink bg-paper px-5 py-3 md:static md:mx-0 md:flex-wrap md:border-t-0 md:bg-transparent md:p-0">
         {state.step > 1 ? (
           <StampButton variant="ghost" onClick={() => goTo((state.step - 1) as WizardStep)}>
             {t('back')}
@@ -231,11 +237,14 @@ export function Wizard() {
         ) : null}
 
         {state.step < 3 ? (
-          <StampButton onClick={() => goTo((state.step + 1) as WizardStep)}>
+          <StampButton
+            onClick={() => goTo((state.step + 1) as WizardStep)}
+            className="flex-1 md:flex-none"
+          >
             {t('next')}
           </StampButton>
         ) : (
-          <StampButton onClick={start} disabled={starting}>
+          <StampButton onClick={start} disabled={starting} className="flex-1 md:flex-none">
             {starting ? tDelivery('sending') : tReview('start')}
           </StampButton>
         )}
