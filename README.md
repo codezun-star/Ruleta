@@ -276,6 +276,32 @@ trabajo es flotar y abrir ventanas— así que corren en nuestro origen y por es
 están **solo en los artículos del blog**. Un popunder en mitad de un amigo
 secreto, con la lista a medio escribir, cuesta el sorteo entero.
 
+### Como app en el móvil
+
+Por debajo de `md` la web se comporta como una app instalada, y se puede
+instalar de verdad: el manifiesto trae los cinco modos como accesos directos al
+mantener pulsado el icono.
+
+- **Barra superior** (`Header`, `BackButton`): flecha que sube un nivel en
+  guías y legales, el sonido y el botón del menú.
+- **Menú** (`AppMenu`): hoja inferior con las secciones, idioma, tema, sonido,
+  instalar y legales.
+- **Barra de pestañas** (`TabBar`): los cinco modos; tocar la pestaña activa
+  sube al principio.
+- **Acciones del asistente** (`Wizard`): «Continuar» va pegado encima de las
+  pestañas, a un pulgar de distancia.
+- **Entrada de página** (`app/[locale]/template.tsx`): fundido corto al
+  navegar. La primera carga no se anima, para no retrasar el LCP.
+- **Instalar** (`lib/install.ts`): guarda `beforeinstallprompt` desde el
+  `<head>`, que llega antes de hidratar; en iOS explica los pasos.
+- **Barra de estado** (`ThemeColorSync`): pinta `theme-color` con el tema de
+  la app, no con el del sistema.
+
+El menú es un `<dialog>` modal y no un `<div>`: el foco, Escape, el gesto de
+atrás de Android y dejar inerte el resto de la página los pone el navegador.
+Se cierra también arrastrándolo hacia abajo desde el asa. Instalada, la app no
+enseña el pie: todo lo que lleva está en el menú.
+
 ### Rutas traducidas
 
 `/es/amigo-secreto` y `/en/secret-santa` son la misma página. Las rutas se
