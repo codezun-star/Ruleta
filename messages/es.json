@@ -507,6 +507,28 @@
     "turns": "Turnos",
     "teams": "Equipos"
   },
+  "menu": {
+    "open": "Abrir el menú",
+    "close": "Cerrar el menú",
+    "back": "Volver",
+    "explore": "Explorar",
+    "home": "Inicio",
+    "how": "Cómo funciona",
+    "faq": "Preguntas frecuentes",
+    "blog": "Guías",
+    "settings": "Ajustes",
+    "language": "Idioma",
+    "darkMode": "Modo noche",
+    "sound": "Sonido",
+    "app": "App",
+    "install": "Instalar {name}",
+    "installHint": "Se abre desde tu pantalla de inicio, sin barra del navegador.",
+    "installIos": "En Safari, toca el botón Compartir y luego «Añadir a pantalla de inicio».",
+    "legal": "Legal",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "retention": "Los correos se borran a los 3 días; 10 como máximo."
+  },
   "ads": {
     "label": "Publicidad",
     "close": "Cerrar anuncio"
