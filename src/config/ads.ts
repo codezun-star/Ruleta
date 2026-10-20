@@ -75,20 +75,18 @@ export const NATIVE = {
 } as const;
 
 /**
- * Los dos formatos que no son banners. Adsterra los entrega como un script
- * suelto sin nada que los identifique, y por su forma son Social Bar y
- * Popunder: el primero flota sobre la página, el segundo abre una ventana
- * detrás al primer clic.
+ * El único formato que no es un banner: el Social Bar, un script suelto que
+ * flota sobre la página. Solo se carga en los artículos del blog, que es donde
+ * alguien está leyendo y no en mitad de un sorteo.
  *
- * Por eso solo se cargan en los artículos del blog, que es donde alguien está
- * leyendo y no en mitad de un sorteo. Un popunder mientras se reparte un amigo
- * secreto cuesta el sorteo entero.
+ * **Sin popunder.** Hubo uno (`pl31465668…`), que abre una pestaña detrás al
+ * primer clic en cualquier parte de la página. Se quitó y no debe volver: es
+ * el formato que hundió la indexación en los otros sitios. Antes de pegar una
+ * URL nueva de la red, confirmar en su panel qué formato es.
  */
 export const OVERLAY = {
   socialBar:
-    'https://pl31465660.profitableratecpmnetwork.com/52/5c/dd/525cdd12776abed180526d57ab7cf7d5.js',
-  popunder:
-    'https://pl31465668.profitableratecpmnetwork.com/a4/22/d0/a422d0fa893721605f731b09a24414f3.js'
+    'https://pl31465660.profitableratecpmnetwork.com/52/5c/dd/525cdd12776abed180526d57ab7cf7d5.js'
 } as const;
 
 /** Enlace directo de Adsterra, por si algún día se monetiza un botón. */

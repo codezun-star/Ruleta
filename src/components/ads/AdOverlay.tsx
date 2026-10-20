@@ -4,15 +4,14 @@ import {useEffect} from 'react';
 import {OVERLAY, adsAllowed} from '@/config/ads';
 
 /**
- * Social Bar y Popunder. Estos **no** pueden vivir en un iframe: su trabajo es
- * flotar sobre la página y abrir ventanas, y aislados no harían ninguna de las
- * dos cosas. Eso significa que sí corren en nuestro origen, y por eso se
- * limitan a un sitio.
+ * Social Bar. **No** puede vivir en un iframe: su trabajo es flotar sobre la
+ * página, y aislado no se vería. Eso significa que sí corre en nuestro origen,
+ * y por eso se limita a un sitio.
  *
  * Solo en los artículos del blog. Nunca en la portada, nunca en los cinco
- * modos y nunca en las páginas legales: un popunder en mitad de un amigo
- * secreto —con la lista a medio escribir y el asistente abierto— cuesta el
- * sorteo entero y a esa persona no vuelve.
+ * modos y nunca en las páginas legales: algo flotando en mitad de un amigo
+ * secreto —con la lista a medio escribir y el asistente abierto— estorba
+ * justo cuando no puede estorbar.
  *
  * Se cargan al desmontar la página, no antes: quien entra a un artículo desde
  * un buscador tiene que poder leer el primer párrafo sin que le salte nada.

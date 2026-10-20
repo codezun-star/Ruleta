@@ -252,7 +252,7 @@ llevarlos en las vistas previas ni en las pruebas.
 | `AdBanner` / `AdLeaderboard` | `src/components/ads/`      | Una unidad concreta, o la escalera 728 → 468 → 320 por ancho     |
 | `AdNative`                   | `src/components/ads/`      | Rejilla nativa. Id de contenedor fijo: **uno por página**        |
 | `AdsLayer`                   | montado en el layout       | El ancla del pie y los dos rascacielos laterales                 |
-| `AdOverlay`                  | solo en artículos del blog | Social Bar y Popunder                                            |
+| `AdOverlay`                  | solo en artículos del blog | Social Bar                                                       |
 
 Cada banner va en su propio iframe porque Adsterra los configura con la
 variable **global** `atOptions`: dos en la misma ventana y el segundo pisa al
@@ -271,10 +271,13 @@ y el hueco de las dos lo reserva el `<body>` con `--ad-anchor-h`. Se puede
 cerrar y no vuelve en esa pestaña. Los rascacielos solo salen a partir de
 1560×720, que es cuando sobra sitio sin pisar el contenido de 1152px.
 
-Social Bar y Popunder son la excepción: no pueden vivir en un iframe —su
-trabajo es flotar y abrir ventanas— así que corren en nuestro origen y por eso
-están **solo en los artículos del blog**. Un popunder en mitad de un amigo
-secreto, con la lista a medio escribir, cuesta el sorteo entero.
+El Social Bar es la excepción: no puede vivir en un iframe —su trabajo es
+flotar sobre la página— así que corre en nuestro origen y por eso está **solo
+en los artículos del blog**.
+
+**Sin popunder.** Hubo uno, y se quitó: abre una pestaña detrás al primer clic
+en cualquier parte de la página, que es justo el formato que hundió la
+indexación en los otros sitios. No debe volver.
 
 ### Como app en el móvil
 

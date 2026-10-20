@@ -6,9 +6,8 @@ import {AdRails} from './AdRails';
  * pie y los dos rascacielos laterales. Se monta una sola vez, en el layout, y
  * por eso alcanza a todo el sitio.
  *
- * Los formatos que flotan sobre el contenido o abren ventanas —Social Bar y
- * Popunder— **no** están aquí a propósito: viven en `AdOverlay`, que solo se
- * usa en los artículos del blog.
+ * El Social Bar, que flota sobre el contenido, **no** está aquí a propósito:
+ * vive en `AdOverlay`, que solo se usa en los artículos del blog.
  */
 export function AdsLayer() {
   return (
